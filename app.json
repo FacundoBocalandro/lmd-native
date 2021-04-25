@@ -1,0 +1,12 @@
+{
+  "name": "lmd-native",
+  "displayName": "lmd-native",
+  "expo": {
+    "name": "lmd-native",
+    "slug": "lmd-native",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
