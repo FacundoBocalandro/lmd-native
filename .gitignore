@@ -52,3 +52,8 @@ buck-out/
 # Expo
 .expo/
 web-build/
+
+package-lock.json
+
+BasePackageList.java
+
