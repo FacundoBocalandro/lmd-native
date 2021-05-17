@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert} from "react-native";
 import {mainStyles} from "../../mainStyles";
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {useHistory} from 'react-router-dom';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError}) => {
+    const history = useHistory();
     const [form, setForm] = useState({
-        name: "",
+        firstName: "",
         lastName: "",
         dni: "",
         birthDate: "",
@@ -15,7 +19,7 @@ const RegisterScreen = () => {
     })
 
     const [errors, setErrors] = useState({
-        name: false,
+        firstName: false,
         lastName: false,
         dni: false,
         birthDate: false,
@@ -32,8 +36,8 @@ const RegisterScreen = () => {
         setForm({...form, [fieldName]: value})
     }
 
-    const validateName = (values) => {
-        return !!values.name
+    const validateFirstName = (values) => {
+        return !!values.firstName
     }
 
     const validateLastName = (values) => {
@@ -55,13 +59,12 @@ const RegisterScreen = () => {
     }
 
     const validateUsername = (values) => {
-        //TODO call api to check username
-        return !!values.username
+        return !!values.username && errors.username
     }
 
     const validatePassword = (values) => {
-        //TODO password rules
-        return !!values.password
+        return !!values.password && (new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"))
+            .test(values.password)
     }
 
     const validateConfirmPassword = (values) => {
@@ -69,7 +72,7 @@ const RegisterScreen = () => {
     }
 
     const rules = {
-        name: validateName,
+        firstName: validateFirstName,
         lastName: validateLastName,
         dni: validateDni,
         birthDate: validateBirthDate,
@@ -86,7 +89,8 @@ const RegisterScreen = () => {
         })
 
         if (!Object.values(newErrors).some(error => error)) {
-            //TODO submit form
+            const dateParts = form.birthDate.split("/");
+            registerUser({...form, birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0,10)}, () => history.push({pathname: '/', state: {registerSuccess: true}}), err => {Alert.alert("Error", err.message)})
         } else {
             setErrors(newErrors)
         }
@@ -94,6 +98,9 @@ const RegisterScreen = () => {
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => history.replace('/')}>
+                <FontAwesomeIcon icon={faArrowLeft} size={20}/>
+            </TouchableOpacity>
             <View>
                 <Text style={styles.header}>Registro de Paciente</Text>
             </View>
@@ -101,9 +108,9 @@ const RegisterScreen = () => {
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Nombre</Text>
                     <TextInput placeholder={"Nombre..."}
-                               style={errors.name ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.name}
-                               onChangeText={text => setField('name', text)}/>
+                               style={errors.firstName ? {...styles.input, ...styles.errorInput} : styles.input}
+                               value={form.firstName}
+                               onChangeText={text => setField('firstName', text)}/>
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Apellido</Text>
@@ -114,18 +121,20 @@ const RegisterScreen = () => {
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>DNI</Text>
-                    <TextInput placeholder={"DNI (Sin puntos/espacios)..."}
+                    <TextInput placeholder={"DNI..."}
                                style={errors.dni ? {...styles.input, ...styles.errorInput} : styles.input}
                                keyboardType={'numeric'}
                                value={form.dni}
                                onChangeText={text => setField('dni', text)}/>
+                    <Text>Sin puntos ni espacios.</Text>
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Fecha de Nacimiento</Text>
                     <TextInput style={errors.birthDate ? {...styles.input, ...styles.errorInput} : styles.input}
-                               placeholder={"DD/MM/AAAA"}
+                               placeholder={"Fecha de Nacimiento..."}
                                value={form.birthDate}
                                onChangeText={text => setField('birthDate', text)}/>
+                    <Text>Formato DD/MM/AAAA.</Text>
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Email</Text>
@@ -139,6 +148,14 @@ const RegisterScreen = () => {
                     <TextInput placeholder={"Nombre de Usuario..."}
                                style={errors.username ? {...styles.input, ...styles.errorInput} : styles.input}
                                value={form.username}
+                               onBlur={() => checkUsernameUsed(form.username,
+                                   (res) => {
+                                   if (res) {
+                                       setErrors({...errors, username: false})
+                                   } else {
+                                       setErrors({...errors, username: true})
+                                   }
+                                   }, () => {Alert.alert("Error", "¡Error verificando nombre de usuario!")})}
                                onChangeText={text => setField('username', text)}/>
                 </View>
                 <View style={styles.inputContainer}>
@@ -146,6 +163,7 @@ const RegisterScreen = () => {
                     <TextInput placeholder={"Contraseña..."}
                                style={errors.password ? {...styles.input, ...styles.errorInput} : styles.input}
                                value={form.password}
+                               secureTextEntry={true}
                                onChangeText={text => setField('password', text)}/>
                 </View>
                 <View style={styles.inputContainer}>
@@ -153,9 +171,11 @@ const RegisterScreen = () => {
                     <TextInput placeholder={"Contraseña..."}
                                style={errors.confirmPassword ? {...styles.input, ...styles.errorInput} : styles.input}
                                value={form.confirmPassword}
+                               secureTextEntry={true}
                                onChangeText={text => setField('confirmPassword', text)}/>
+                    <Text>8 letras o más, al menos una mayúscula, una minúscula, un número y un carácter especial.</Text>
                 </View>
-                <TouchableOpacity onPress={submitForm} style={styles.submitButton}>
+                <TouchableOpacity onPress={submitForm} style={checkUsernameUsedPending || checkUsernameUsedError ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton} disabled={checkUsernameUsedPending || checkUsernameUsedError}>
                     <Text style={styles.submitButtonText}>Registrarse</Text>
                 </TouchableOpacity>
             </ScrollView>
@@ -201,7 +221,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 20
+    },
+    buttonPending: {
+        opacity: .5,
     },
     submitButtonText: {
         color: '#FFF',

@@ -3,7 +3,7 @@ import axios from 'axios';
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;
 
-const baseUrl = "http://localhost:8080"
+const baseUrl = "http://10.0.2.2:8080/"
 
 const _request = async (url, method, data, config = {}) => {
     return httpClient({
