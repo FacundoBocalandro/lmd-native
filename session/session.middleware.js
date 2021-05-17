@@ -10,9 +10,11 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
             services.registerUser(action.user)
                 .then(res => {
                     if (action.callback) action.callback(res);
+                    dispatch(actions.session.registerUser.response(res));
                 })
                 .catch(err => {
-                    if (action.errorCallback) action.errorCallback(err)
+                    if (action.errorCallback) action.errorCallback(err);
+                    dispatch(actions.session.registerUser.error(err));
                 })
             break;
         case CHECK_USERNAME_USED_REQUEST:

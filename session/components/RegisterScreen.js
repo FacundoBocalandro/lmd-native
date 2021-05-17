@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
 
-const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError}) => {
+const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError, registerPending}) => {
     const history = useHistory();
     const [form, setForm] = useState({
         firstName: "",
@@ -59,7 +59,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
     }
 
     const validateUsername = (values) => {
-        return !!values.username && errors.username
+        return !!values.username && !errors.username
     }
 
     const validatePassword = (values) => {
@@ -94,6 +94,10 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         } else {
             setErrors(newErrors)
         }
+    }
+
+    const isPending = () => {
+        return checkUsernameUsedPending || checkUsernameUsedError || registerPending
     }
 
     return (
@@ -165,6 +169,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
                                value={form.password}
                                secureTextEntry={true}
                                onChangeText={text => setField('password', text)}/>
+                    <Text>8 letras o más, al menos una mayúscula, una minúscula, un número y un carácter especial.</Text>
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Repetir Contraseña</Text>
@@ -173,9 +178,8 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
                                value={form.confirmPassword}
                                secureTextEntry={true}
                                onChangeText={text => setField('confirmPassword', text)}/>
-                    <Text>8 letras o más, al menos una mayúscula, una minúscula, un número y un carácter especial.</Text>
                 </View>
-                <TouchableOpacity onPress={submitForm} style={checkUsernameUsedPending || checkUsernameUsedError ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton} disabled={checkUsernameUsedPending || checkUsernameUsedError}>
+                <TouchableOpacity onPress={submitForm} style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton} disabled={isPending()}>
                     <Text style={styles.submitButtonText}>Registrarse</Text>
                 </TouchableOpacity>
             </ScrollView>
