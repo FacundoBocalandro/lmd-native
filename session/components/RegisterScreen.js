@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert} from "react-native";
-import {mainStyles} from "../../mainStyles";
+import {ScrollView, StyleSheet, Text, TextInput, View, Alert} from "react-native";
+import {TouchableOpacity} from 'react-native-gesture-handler'
+import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
+
 
 const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError, registerPending}) => {
     const history = useHistory();
@@ -101,7 +103,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
     }
 
     return (
-        <View style={styles.container}>
+        <View style={{...styles.container, ...mainStylesheet.container}}>
             <TouchableOpacity onPress={() => history.replace('/')}>
                 <FontAwesomeIcon icon={faArrowLeft} size={20}/>
             </TouchableOpacity>
@@ -152,14 +154,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
                     <TextInput placeholder={"Nombre de Usuario..."}
                                style={errors.username ? {...styles.input, ...styles.errorInput} : styles.input}
                                value={form.username}
-                               onBlur={() => checkUsernameUsed(form.username,
-                                   (res) => {
-                                   if (res) {
-                                       setErrors({...errors, username: false})
-                                   } else {
-                                       setErrors({...errors, username: true})
-                                   }
-                                   }, () => {Alert.alert("Error", "¡Error verificando nombre de usuario!")})}
+                               onBlur={() => checkUsernameUsed(form.username, res => setErrors({...errors, username: !res}), () => {Alert.alert("Error", "¡Error verificando nombre de usuario!")})}
                                onChangeText={text => setField('username', text)}/>
                 </View>
                 <View style={styles.inputContainer}>
@@ -191,8 +186,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
     },
     header: {
         alignSelf: 'center',
@@ -217,6 +210,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,
+        height: .06*windowHeight
     },
     submitButton: {
         backgroundColor: mainStyles.secondary,
