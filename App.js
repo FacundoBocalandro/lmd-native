@@ -3,10 +3,8 @@ import {NativeRouter, Route} from "react-router-native";
 import store from "./store";
 import {Provider} from "react-redux";
 import RegisterScreen from "./session/containers/Register";
-import {Button, View} from "react-native";
-import {useHistory} from "react-router-dom";
 import StatusBar from "./common/components/StatusBar";
-import {mainStylesheet} from "./mainStyles";
+import LoginScreen from "./session/containers/Login";
 
 export default function App() {
 
@@ -14,19 +12,10 @@ export default function App() {
         <Provider store={store}>
             <StatusBar/>
                 <NativeRouter>
-                    <Route exact path={'/'} component={Login}/>
+                    <Route exact path={'/'} component={LoginScreen}/>
                     <Route exact path={'/register'} component={RegisterScreen}/>
+                    <Route exact path={'/login'} component={LoginScreen}/>
                 </NativeRouter>
         </Provider>
-    )
-}
-
-const Login = () => {
-
-    const history = useHistory();
-    return (
-        <View style={{...mainStylesheet.container}}>
-            <Button title={"Register"} onPress={() => history.push('/register')}/>
-        </View>
     )
 }
