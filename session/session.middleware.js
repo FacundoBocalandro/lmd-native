@@ -1,4 +1,4 @@
-import {CHECK_USERNAME_USED_REQUEST, LOGIN_USER_REQUEST, REGISTER_USER_REQUEST} from "./session.actions";
+import {CHECK_USERNAME_USED_REQUEST, LOGIN_REQUEST, REGISTER_USER_REQUEST} from "./session.actions";
 import {services} from "./session.services";
 import actions from "../actions";
 
@@ -28,15 +28,15 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
                     dispatch(actions.session.checkUsernameUsed.error(err));
                 })
             break;
-        case LOGIN_USER_REQUEST:
-            services.loginUser(action.user)
+        case LOGIN_REQUEST:
+            services.login(action.form)
                 .then(res => {
                     if (action.callback) action.callback(res)
-                    dispatch(actions.session.loginUser.response(res));
+                    dispatch(actions.session.login.response(res));
                 })
                 .catch(err => {
                     if (action.errorCallback) action.errorCallback(err);
-                    dispatch(actions.session.loginUser.error(err));
+                    dispatch(actions.session.login.error(err));
                 })
             break;
         default:

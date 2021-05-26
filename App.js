@@ -5,16 +5,17 @@ import {Provider} from "react-redux";
 import RegisterScreen from "./session/containers/Register";
 import StatusBar from "./common/components/StatusBar";
 import LoginScreen from "./session/containers/Login";
+import HomeScreen from "./session/containers/Home";
+import PrivateRoute from "./security/PrivateRoute";
 
 export default function App() {
-
     return (
         <Provider store={store}>
             <StatusBar/>
                 <NativeRouter>
                     <Route exact path={'/'} component={LoginScreen}/>
                     <Route exact path={'/register'} component={RegisterScreen}/>
-                    <Route exact path={'/login'} component={LoginScreen}/>
+                    <PrivateRoute exact path={'/home'} component={HomeScreen}/>
                 </NativeRouter>
         </Provider>
     )

@@ -5,15 +5,29 @@ import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const initialForm = {
+    username: "",
+    password: ""
+}
 
-const LoginScreen = ({loginUser, loginPending}) => {
+const LoginScreen = ({login, loginPending}) => {
 
     const history = useHistory();
-    const [form, setForm] = useState({
-        username: "",
-        password: ""
-    })
+    const [form, setForm] = useState({...initialForm})
+
+    const successCallback = (token) => {
+        AsyncStorage.setItem('token', token);
+        history.push("/home");
+    }
+
+    const errorCallback = (err) => {
+        setForm({...initialForm});
+        {
+            Alert.alert("¡Credenciales incorrectas!")
+        }
+    }
 
     const setField = (fieldName, value) => {
         setForm({...form, [fieldName]: value})
@@ -24,53 +38,55 @@ const LoginScreen = ({loginUser, loginPending}) => {
     }
 
     const submitLogin = () => {
-
-        loginUser({
-            ...form
-        }, () => history.push({pathname: '/', state: {loginSuccess: true}}), err => {
-            Alert.alert("Error", err.message)
-        })
+        if (!isPending()) {
+            login(form, successCallback, errorCallback)
+        }
     }
 
     return (
         <View style={{...styles.container, ...mainStylesheet.container}}>
-            <TouchableOpacity onPress={() => history.replace('/')}>
-                <FontAwesomeIcon icon={faArrowLeft} size={20}/>
-            </TouchableOpacity>
             <View>
                 <Text style={styles.header}>Libreta Médica</Text>
             </View>
-            <View>
-                <Text style={styles.subHeader}>Iniciar sesión</Text>
-            </View>
-            <ScrollView>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Nombre de usuario</Text>
-                    <TextInput placeholder={"Nombre..."}
-                               style={styles.input}
-                               value={form.username}
-                               onChangeText={text => setField('username', text)}/>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Contraseña</Text>
-                    <TextInput placeholder={"Contraseña..."}
-                               style={styles.input}
-                               value={form.password}
-                               secureTextEntry={true}
-                               onChangeText={text => setField('password', text)}/>
-                </View>
-                <TouchableOpacity onPress={submitLogin}
-                                  style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton}
-                                  disabled={isPending()}>
-                    <Text style={styles.submitButtonText}>Iniciar sesión</Text>
-
-                </TouchableOpacity>
+            <View style={styles.logInContainer}>
                 <View>
-                    <Text style={styles.registerText} onPress={() => history.push('/register')}>
-                        ¿Aun no tiene un usuario?
-                    </Text>
+                    <Text style={styles.subHeader}>Iniciar sesión</Text>
                 </View>
-            </ScrollView>
+                <ScrollView>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Nombre de usuario</Text>
+                        <TextInput placeholder={"Usuario..."}
+                                   style={styles.input}
+                                   value={form.username}
+                                   onChangeText={text => setField('username', text)}/>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Contraseña</Text>
+                        <TextInput placeholder={"Contraseña..."}
+                                   style={styles.input}
+                                   value={form.password}
+                                   secureTextEntry={true}
+                                   onChangeText={text => setField('password', text)}
+                                   onKeyUp={(event) => {
+                                       if (event.key === "Enter") {
+                                           submitLogin();
+                                       }
+                                   }}
+                        />
+                    </View>
+                    <TouchableOpacity onPress={submitLogin}
+                                      style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton} disabled={isPending()}
+                    >
+                        <Text style={styles.submitButtonText}>Iniciar sesión</Text>
+
+                    </TouchableOpacity>
+                    <View>
+                        <Text style={styles.registerText} onPress={() => history.push('/register')}>
+                            ¿Aun no tiene un usuario?
+                        </Text>
+                    </View>
+                </ScrollView>
+            </View>
         </View>
     )
 }
@@ -81,13 +97,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     header: {
-        alignSelf: 'center',
         color: mainStyles.secondary,
         fontSize: 40,
         fontWeight: 'bold',
-        width: '70%',
-        textAlign: 'center',
-        fontFamily: 'serif'
+        marginVertical: 60,
+        textAlign: 'center'
     },
     inputContainer: {
         marginTop: 10
@@ -125,17 +139,22 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(255,0,0,.5)",
     },
     registerText: {
-
+        textAlign: 'center',
+        color: mainStyles.darkBlue,
     },
     subHeader: {
+        margin: 15,
         alignSelf: 'center',
         color: mainStyles.secondary,
         fontSize: 35,
         fontWeight: 'bold',
-        width: '50%',
-        textAlign: 'center',
-        fontFamily: 'serif'
+        width: '100%',
+        textAlign: 'center'
+    },
+    logInContainer: {
+        textAlignVertical: 'center'
     }
+
 });
 
 

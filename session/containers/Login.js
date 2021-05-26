@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    loginUser: (user, callback, errorCallback) => dispatch(actions.session.loginUser.request(user, callback, errorCallback)),
+    login: (form, callback, errorCallback) => dispatch(actions.session.login.request(form, callback, errorCallback)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
