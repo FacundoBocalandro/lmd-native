@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
         color: mainStyles.secondary,
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'serif'
     },
     input: {
         backgroundColor: '#EBEBEB',
