@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View, Alert} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -24,9 +22,7 @@ const LoginScreen = ({login, loginPending}) => {
 
     const errorCallback = (err) => {
         setForm({...initialForm});
-        {
-            Alert.alert("¡Credenciales incorrectas!")
-        }
+        Alert.alert("¡Credenciales incorrectas!")
     }
 
     const setField = (fieldName, value) => {
@@ -45,7 +41,7 @@ const LoginScreen = ({login, loginPending}) => {
 
     return (
         <View style={{...styles.container, ...mainStylesheet.container}}>
-            <View>
+            <View style={styles.headerContainer}>
                 <Text style={styles.header}>Libreta Médica</Text>
             </View>
             <View style={styles.logInContainer}>
@@ -67,7 +63,7 @@ const LoginScreen = ({login, loginPending}) => {
                                    value={form.password}
                                    secureTextEntry={true}
                                    onChangeText={text => setField('password', text)}
-                                   onKeyUp={(event) => {
+                                   onKeyPress={(event) => {
                                        if (event.key === "Enter") {
                                            submitLogin();
                                        }
@@ -96,11 +92,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    headerContainer:{
+        paddingVertical: 60,
+        display: 'flex'
+    },
     header: {
         color: mainStyles.secondary,
         fontSize: 40,
         fontWeight: 'bold',
-        marginVertical: 60,
         textAlign: 'center'
     },
     inputContainer: {
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     input: {
-        backgroundColor: '#EBEBEB',
+        backgroundColor: mainStyles.inputBackground,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,
