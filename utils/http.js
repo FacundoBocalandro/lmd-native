@@ -1,9 +1,11 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;
 
-const baseUrl = "http://10.0.2.2:8080/"
+const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
     return httpClient({
@@ -24,3 +26,7 @@ export const post = (url, body, config = {}) => _request(url, "POST", body, conf
 export const put = (url, body, config = {}) => _request(url, "PUT", body, config);
 export const patch = (url, body, config = {}) => _request(url, "PATCH", body, config);
 export const deleteRequest = (url, body, config = {}) => _request(url, "DELETE", body, config);
+
+export const isAuthenticated = () => {
+    return AsyncStorage.getItem('token') !== null;
+}

@@ -3,30 +3,20 @@ import {NativeRouter, Route} from "react-router-native";
 import store from "./store";
 import {Provider} from "react-redux";
 import RegisterScreen from "./session/containers/Register";
-import {Button, View} from "react-native";
-import {useHistory} from "react-router-dom";
 import StatusBar from "./common/components/StatusBar";
-import {mainStylesheet} from "./mainStyles";
+import LoginScreen from "./session/containers/Login";
+import HomeScreen from "./session/containers/Home";
+import PrivateRoute from "./security/PrivateRoute";
 
 export default function App() {
-
     return (
         <Provider store={store}>
             <StatusBar/>
                 <NativeRouter>
-                    <Route exact path={'/'} component={Login}/>
+                    <Route exact path={'/'} component={LoginScreen}/>
                     <Route exact path={'/register'} component={RegisterScreen}/>
+                    <PrivateRoute exact path={'/home'} component={HomeScreen}/>
                 </NativeRouter>
         </Provider>
-    )
-}
-
-const Login = () => {
-
-    const history = useHistory();
-    return (
-        <View style={{...mainStylesheet.container}}>
-            <Button title={"Register"} onPress={() => history.push('/register')}/>
-        </View>
     )
 }

@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
         fontFamily: 'serif'
     },
     input: {
-        backgroundColor: '#EBEBEB',
+        backgroundColor: mainStyles.inputBackground,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,
