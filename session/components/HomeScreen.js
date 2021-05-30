@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         flex: 1,
-        backgroundColor: '#EBEBEB',
+        backgroundColor: mainStyles.background,
         paddingVertical: 20,
         alignContent: "space-between"
 
