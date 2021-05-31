@@ -17,7 +17,7 @@ const LoginScreen = ({login, loginPending}) => {
 
     const successCallback = (token) => {
         AsyncStorage.setItem('token', token);
-        history.push("/home");
+        history.push("/main/home");
     }
 
     const errorCallback = (err) => {
@@ -34,9 +34,10 @@ const LoginScreen = ({login, loginPending}) => {
     }
 
     const submitLogin = () => {
-        if (!isPending()) {
-            login(form, successCallback, errorCallback)
-        }
+        history.push('/main/home')
+        // if (!isPending()) {
+        //     login(form, successCallback, errorCallback)
+        // }
     }
 
     return (
