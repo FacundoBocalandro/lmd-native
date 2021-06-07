@@ -7,6 +7,7 @@ import StatusBar from "./common/components/StatusBar";
 import LoginScreen from "./session/containers/Login";
 import HomeScreen from "./session/containers/Home";
 import PrivateRoute from "./security/PrivateRoute";
+import GraphScreen from "./session/containers/Graph";
 
 export default function App() {
     return (
@@ -15,7 +16,7 @@ export default function App() {
                 <NativeRouter>
                     <Route exact path={'/'} component={LoginScreen}/>
                     <Route exact path={'/register'} component={RegisterScreen}/>
-                    <PrivateRoute exact path={'/home'} component={HomeScreen}/>
+                    <PrivateRoute exact path={'/home'} component={GraphScreen}/>
                 </NativeRouter>
         </Provider>
     )
