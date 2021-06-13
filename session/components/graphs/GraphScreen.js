@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {mainStyles, mainStylesheet, windowHeight} from "../../../mainStyles";
-import {StyleSheet, View, TouchableOpacity, SafeAreaView, TextInput, Dimensions} from "react-native";
+import {mainStyles, windowHeight, windowWidth, isLandscape} from "../../../mainStyles";
+import {StyleSheet, View, TouchableOpacity, KeyboardAvoidingView, TextInput} from "react-native";
 import WeightGraph from "./WeightGraph";
 import HeightGraph from "./HeightGraph";
 import PerimeterGraph from "./PermieterGraph";
-import {Text, Modal, Alert} from "react-native";
+import {Text, Modal} from "react-native";
 
 const initialFormState = {
     date: "",
@@ -18,16 +18,12 @@ const initialErrorState = {
     height: false,
     head: false,
 }
+
 const GraphScreen = () => {
     const [selectedTab, setSelectedTab] = useState(1)
     const [modalVisible, setModalVisible] = useState(false);
     const [form, setForm] = useState(initialFormState)
     const [errors, setErrors] = useState(initialErrorState)
-
-    const isLandscape = () => {
-        const dim = Dimensions.get('screen');
-        return dim.width >= dim.height;
-    };
 
     const setField = (fieldName, value) => {
         if (errors[fieldName]) {
@@ -48,15 +44,16 @@ const GraphScreen = () => {
     }
 
     const validateWeight = (values) => {
-        return values.weight > 0;
+        console.log(values.weight)
+        return values.weight > 0 || "";
     }
 
     const validateHeight = (values) => {
-        return values.height > 0;
+        return values.height > 0 || "";
     }
 
     const validateHead = (values) => {
-        return values.head > 0;
+        return values.head > 0 || "";
     }
 
     const rules = {
@@ -84,83 +81,91 @@ const GraphScreen = () => {
         }
     }
 
-
     return (
-        <SafeAreaView>
-            <View style={styles.container}>
-                <View style={styles.tabContainer}>
-                    <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 1 ? styles.selected : '']}
-                                      onPress={() => setSelectedTab(1)}>
-                        <Text style={styles.homeScreenTabText}>Peso</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 2 ? styles.selected : '']}
-                                      onPress={() => setSelectedTab(2)}>
-                        <Text style={styles.homeScreenTabText}>Estatura</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 3 ? styles.selected : '']}
-                                      onPress={() => setSelectedTab(3)}>
-                        <Text style={styles.homeScreenTabText}>Perímetro Cefálico</Text>
-                    </TouchableOpacity>
-                </View>
-                <View stle={styles.graphContainer}>
-                    {selectedTab === 1 && <WeightGraph/>}
-                    {selectedTab === 2 && <HeightGraph/>}
-                    {selectedTab === 3 && <PerimeterGraph/>}
-                </View>
-                <TouchableOpacity style={isLandscape() ? styles.newDataButtonLandscape : styles.newDataButtonPortrait}
-                                  onPress={() => setModalVisible(!modalVisible)}
-                ><Text style={styles.newDataButtonText}>+</Text></TouchableOpacity>
+        // <KeyboardAvoidingView
+        //     style={{ flex: 1 }}
+        //     behavior={(Platform.OS === 'ios') ? "padding" : null} enabled
+        //     keyboardVerticalOffset={Platform.select({ios: 80, android: 500})}>
+
+        <View style={styles.container}>
+            <View style={styles.tabContainer}>
+                <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 1 ? styles.selected : '']}
+                                  onPress={() => setSelectedTab(1)}>
+                    <Text style={styles.homeScreenTabText}>Peso</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 2 ? styles.selected : '']}
+                                  onPress={() => setSelectedTab(2)}>
+                    <Text style={styles.homeScreenTabText}>Estatura</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 3 ? styles.selected : '']}
+                                  onPress={() => setSelectedTab(3)}>
+                    <Text style={styles.homeScreenTabText}>Perímetro Cefálico</Text>
+                </TouchableOpacity>
             </View>
+            <View stle={styles.graphContainer}>
+                {selectedTab === 1 && <WeightGraph/>}
+                {selectedTab === 2 && <HeightGraph/>}
+                {selectedTab === 3 && <PerimeterGraph/>}
+            </View>
+            <TouchableOpacity style={isLandscape() ? styles.newDataButtonLandscape : styles.newDataButtonPortrait}
+                              onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.newDataButtonText}>+</Text>
+            </TouchableOpacity>
             <Modal animationType="slide"
                    transparent={true}
                    visible={modalVisible}
                    onRequestClose={() => {
-                       Alert.alert("Modal has been closed.");
                        setModalVisible(!modalVisible);
                    }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Fecha</Text>
-                        <TextInput placeholder={"DD/MM/AAAA"}
-                                   style={errors.date ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.date}
-                                   onChangeText={text => setField('date', text)}/>
-                        <Text style={styles.modalText}>Peso</Text>
-                        <TextInput placeholder={"kg"}
-                                   style={errors.weight ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.weight}
-                                   type="number"
-                                   onChangeText={text => setField('weight', text)}/>
-                        <Text style={styles.modalText}>Estatura</Text>
-                        <TextInput placeholder={"cm"}
-                                   style={errors.height ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.height}
-                                   type="number"
-                                   onChangeText={text => setField('height', text)}/>
-                        <Text style={styles.modalText}>Perímetro Cefálico</Text>
-                        <TextInput placeholder={"cm2"}
-                                   style={errors.head ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.head}
-                                   type="number"
-                                   onChangeText={text => setField('head', text)}/>
-                        <View style={styles.modalButtonContainer}>
-                            <TouchableOpacity
-                                style={[styles.button, styles.submitButton]}
-                                onPress={() => submitForm()}
-                            >
-                                <Text style={styles.textStyle}>Cargar datos</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.button, styles.cancelButton]}
-                                onPress={() => cancelForm()}
-                            >
-                                <Text style={styles.textStyle}>Cancelar</Text>
-                            </TouchableOpacity>
+                <KeyboardAvoidingView
+                    style={{flex: 1}}
+                    behavior={(Platform.OS === 'ios') ? "padding" : null} enabled
+                    keyboardVerticalOffset={Platform.select({ios: 80, android: 500})}>
+
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Fecha</Text>
+                            <TextInput placeholder={"DD/MM/AAAA"}
+                                       style={errors.date ? {...styles.input, ...styles.errorInput} : styles.input}
+                                       value={form.date}
+                                       onChangeText={text => setField('date', text)}/>
+                            <Text style={styles.modalText}>Peso</Text>
+                            <TextInput placeholder={"kg"}
+                                       style={errors.weight ? {...styles.input, ...styles.errorInput} : styles.input}
+                                       value={form.weight}
+                                       type="number"
+                                       onChangeText={text => setField('weight', text)}/>
+                            <Text style={styles.modalText}>Estatura</Text>
+                            <TextInput placeholder={"cm"}
+                                       style={errors.height ? {...styles.input, ...styles.errorInput} : styles.input}
+                                       value={form.height}
+                                       type="number"
+                                       onChangeText={text => setField('height', text)}/>
+                            <Text style={styles.modalText}>Perímetro Cefálico</Text>
+                            <TextInput placeholder={"cm2"}
+                                       style={errors.head ? {...styles.input, ...styles.errorInput} : styles.input}
+                                       value={form.head}
+                                       type="number"
+                                       onChangeText={text => setField('head', text)}/>
+                            <View style={styles.modalButtonContainer}>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.submitButton]}
+                                    onPress={() => submitForm()}
+                                >
+                                    <Text style={styles.textStyle}>Cargar datos</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.cancelButton]}
+                                    onPress={() => cancelForm()}
+                                >
+                                    <Text style={styles.textStyle}>Cancelar</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </Modal>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -173,8 +178,8 @@ const styles = StyleSheet.create({
     tabContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom:-30,
-        marginTop:5
+        marginBottom: -30,
+        marginTop: 5
     },
     homeScreenTab: {
         textAlign: 'center',
@@ -203,7 +208,7 @@ const styles = StyleSheet.create({
     },
     graphContainer: {
         marginHorizontal: 'auto',
-        marginTop:-10
+        marginTop: -10
     },
     newDataButtonPortrait: {
         alignSelf: 'flex-end',
@@ -217,7 +222,7 @@ const styles = StyleSheet.create({
     },
     newDataButtonLandscape: {
         position: 'absolute',
-        right:-15,
+        right: -15,
         top: -2,
         borderRadius: 50,
         backgroundColor: mainStyles.darkBlue,
@@ -236,11 +241,11 @@ const styles = StyleSheet.create({
         marginTop: 22
     },
     modalView: {
-        margin: 20,
+        marginHorizontal: 20,
+        marginBottom: 0,
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 25,
-        // alignItems: 'l',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -248,7 +253,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        // elevation: 5
     },
     modalButtonContainer: {
         flexDirection: 'row',
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginTop: 25,
         backgroundColor: mainStyles.darkBlue,
-        width: 160
+        width: windowWidth * 0.3
     },
     cancelButton: {
         borderRadius: 20,
@@ -268,7 +272,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginTop: 25,
         backgroundColor: mainStyles.primary,
-        width: 160
+        width: windowWidth * 0.3
     },
     textStyle: {
         color: "white",

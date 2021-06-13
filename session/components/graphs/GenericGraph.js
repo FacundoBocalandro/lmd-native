@@ -1,23 +1,17 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions} from "react-native";
+import {View} from "react-native";
 import {
     VictoryChart,
     VictoryAxis,
     VictoryLabel,
     VictoryLine,
-    VictoryTooltip,
-    createContainer,
+    VictoryZoomContainer,
     VictoryScatter} from "victory-native";
-import {windowHeight, windowWidth} from "../../../mainStyles";
+import {windowHeight, windowWidth, isLandscape} from "../../../mainStyles";
 
 const GraphScreen = ({percentileData, maxY, yStep, yLabel, data, colors}) => {
 
-    const isLandscape = () => {
-        const dim = Dimensions.get('screen');
-        return dim.width >= dim.height;
-    };
-
-    const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
+    // const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
     const commonLineProps = (percentile) => ({
         labelComponent: <VictoryLabel style={{fontSize: 8, fontWeight: 'bold'}} dy={-3}/>,
         labels: ({datum}) => datum.x === 18.5 ? percentile : ''
@@ -25,11 +19,11 @@ const GraphScreen = ({percentileData, maxY, yStep, yLabel, data, colors}) => {
 
     return (
         <View>
-            <VictoryChart containerComponent={<VictoryZoomVoronoiContainer
-                labels={({datum}) => `${Math.round(datum.x, 2)}, ${Math.round(datum.y, 2)}`}
-                labelComponent={<VictoryTooltip centerOffset={{ x: 5 }} style={{fontSize: 8}}/>}
-            />} width={isLandscape() ? (windowHeight * 0.9): windowWidth} height={isLandscape() ? (windowWidth*0.8) : (windowHeight*0.8)} minDomain={{x: 0}} maxDomain={{x: 19, y: maxY}}>
-
+            <VictoryChart containerComponent={
+                <VictoryZoomContainer zoomDomain={{x: [0, 19], y: [0, maxY]}}/>}
+                          width={isLandscape() ? (windowHeight * 0.9): windowWidth}
+                          height={isLandscape() ? (windowWidth*0.8) : (windowHeight*0.8)}
+                          minDomain={{x: 0}} maxDomain={{x: 19, y: maxY}}>
                 <VictoryAxis crossAxis
                              minDomain={0}
                              maxDomain={19}

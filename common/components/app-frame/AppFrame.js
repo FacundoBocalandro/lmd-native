@@ -12,21 +12,21 @@ const AppFrame = ({children}) => {
     const history = useHistory();
 
     const menuOptions = [
-        {text: "Inicio", icon: faHome, url:'/home'},
-        {text: "Lecturas", icon: faBook},
-        {text: "Inmunizaciones", icon: faHeartbeat},
-        {text: "Crecimiento", icon: faChartBar,url:'/graphScreen'},
-        {text: "Notas", icon: faEdit},
+        {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
+        {text: "Lecturas", icon: faBook, id:'readings'},
+        {text: "Inmunizaciones", icon: faHeartbeat, id:'vaccine'},
+        {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
+        {text: "Notas", icon: faEdit, id:'notes' },
     ]
 
     const menu = (
         <View style={styles.menu}>
             {menuOptions.map(option => (
-                <View style={styles.menuOption}>
-                    <TouchableHighlight style={styles.menuIconContainer}>
+                <View key={option.id} style={styles.menuOption} >
+                    <TouchableHighlight style={styles.menuIconContainer} onPress={() => history.replace(option.url)}>
                         <FontAwesomeIcon icon={option.icon} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
-                    <Text onPress={() => history.replace(option.url)}style={styles.menuText}>{option.text}</Text>
+                    <Text style={styles.menuText} onPress={() => history.replace(option.url)}>{option.text}</Text>
                 </View>
             ))}
         </View>
