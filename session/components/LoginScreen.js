@@ -17,7 +17,7 @@ const LoginScreen = ({login, loginPending}) => {
 
     const successCallback = (token) => {
         AsyncStorage.setItem('token', token);
-        history.push("/home");
+        history.push("/main/home");
     }
 
     const errorCallback = (err) => {
@@ -34,9 +34,10 @@ const LoginScreen = ({login, loginPending}) => {
     }
 
     const submitLogin = () => {
-        if (!isPending()) {
-            login(form, successCallback, errorCallback)
-        }
+        history.push('/main/home')
+        // if (!isPending()) {
+        //     login(form, successCallback, errorCallback)
+        // }
     }
 
     return (
@@ -76,11 +77,11 @@ const LoginScreen = ({login, loginPending}) => {
                         <Text style={styles.submitButtonText}>Iniciar sesión</Text>
 
                     </TouchableOpacity>
-                    <View>
-                        <Text style={styles.registerText} onPress={() => history.push('/register')}>
-                            ¿Aun no tiene un usuario?
+                    <TouchableOpacity onPress={() => history.push('/register')}>
+                        <Text style={styles.registerText}>
+                            ¿Aún no tiene un usuario?
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
         </View>
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
         display: 'flex'
     },
     header: {
-        color: mainStyles.secondary,
+        color: mainStyles.primary,
         fontSize: 40,
         fontWeight: 'bold',
         textAlign: 'center'
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     label: {
-        color: mainStyles.secondary,
+        color: mainStyles.primary,
         fontSize: 25,
         fontWeight: 'bold',
     },
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
         height: .06 * windowHeight
     },
     submitButton: {
-        backgroundColor: mainStyles.secondary,
+        backgroundColor: mainStyles.darkBlue,
         borderRadius: 30,
         padding: 10,
         display: 'flex',
@@ -139,11 +140,13 @@ const styles = StyleSheet.create({
     registerText: {
         textAlign: 'center',
         color: mainStyles.darkBlue,
+        fontSize: 20,
+        marginTop: 10
     },
     subHeader: {
         margin: 15,
         alignSelf: 'center',
-        color: mainStyles.secondary,
+        color: mainStyles.primary,
         fontSize: 35,
         fontWeight: 'bold',
         width: '100%',

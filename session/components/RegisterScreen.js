@@ -105,7 +105,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
     return (
         <View style={{...styles.container, ...mainStylesheet.container}}>
             <TouchableOpacity onPress={() => history.replace('/')}>
-                <FontAwesomeIcon icon={faArrowLeft} size={20}/>
+                <FontAwesomeIcon icon={faArrowLeft} size={25}/>
             </TouchableOpacity>
             <View>
                 <Text style={styles.header}>Registro de Paciente</Text>
@@ -186,10 +186,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        height: '100%'
     },
     header: {
         alignSelf: 'center',
-        color: mainStyles.secondary,
+        color: mainStyles.primary,
         fontSize: 40,
         fontWeight: 'bold',
         width: '70%',
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     label: {
-        color: mainStyles.secondary,
+        color: mainStyles.primary,
         fontSize: 25,
         fontWeight: 'bold',
         fontFamily: 'serif'
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
         height: .06*windowHeight
     },
     submitButton: {
-        backgroundColor: mainStyles.secondary,
+        backgroundColor: mainStyles.darkBlue,
         borderRadius: 30,
         padding: 10,
         display: 'flex',
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     errorInput: {
-        backgroundColor: "rgba(255,0,0,.5)",
+        backgroundColor: "rgba(255,0,0,.3)",
     }
 });
 
