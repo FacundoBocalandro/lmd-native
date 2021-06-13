@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: '70%',
         textAlign: 'center',
-        fontFamily: 'serif'
+        // fontFamily: 'serif'
     },
     inputContainer: {
         marginTop: 10
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         color: mainStyles.primary,
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'serif'
+        // fontFamily: 'serif'
     },
     input: {
         backgroundColor: mainStyles.inputBackground,

@@ -8,6 +8,7 @@ import LoginScreen from "./session/containers/Login";
 import HomeScreen from "./session/containers/Home";
 import PrivateRoute from "./security/PrivateRoute";
 import GraphScreen from "./session/containers/Graph";
+import HeightGraph from "./session/components/graphs/HeightGraph";
 
 export default function App() {
     return (
