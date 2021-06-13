@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: '70%',
         textAlign: 'center',
-        // fontFamily: 'serif'
     },
     inputContainer: {
         marginTop: 10

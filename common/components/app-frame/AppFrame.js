@@ -5,15 +5,17 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
+import {useHistory} from "react-router-dom";
 
 const AppFrame = ({children}) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const history = useHistory();
 
     const menuOptions = [
-        {text: "Inicio", icon: faHome},
+        {text: "Inicio", icon: faHome, url:'/home'},
         {text: "Lecturas", icon: faBook},
         {text: "Inmunizaciones", icon: faHeartbeat},
-        {text: "Crecimiento", icon: faChartBar},
+        {text: "Crecimiento", icon: faChartBar,url:'/graphScreen'},
         {text: "Notas", icon: faEdit},
     ]
 
@@ -24,7 +26,7 @@ const AppFrame = ({children}) => {
                     <TouchableHighlight style={styles.menuIconContainer}>
                         <FontAwesomeIcon icon={option.icon} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
-                    <Text style={styles.menuText}>{option.text}</Text>
+                    <Text onPress={() => history.replace(option.url)}style={styles.menuText}>{option.text}</Text>
                 </View>
             ))}
         </View>
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
     menuText: {
         marginLeft: 10,
         fontSize: 20,
-        fontFamily: 'serif',
         color: '#FFF'
     },
     barsIconContainer: {

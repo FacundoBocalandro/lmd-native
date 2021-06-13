@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
     tabContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        margin: 0
+        marginBottom:-30,
+        marginTop:5
     },
     homeScreenTab: {
         textAlign: 'center',
@@ -202,12 +203,12 @@ const styles = StyleSheet.create({
     },
     graphContainer: {
         marginHorizontal: 'auto',
-        marginTop:0
+        marginTop:-10
     },
     newDataButtonPortrait: {
         alignSelf: 'flex-end',
         position: 'absolute',
-        bottom: 80,
+        bottom: 125,
         left: 10,
         borderRadius: 50,
         backgroundColor: mainStyles.darkBlue,
