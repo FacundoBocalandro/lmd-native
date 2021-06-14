@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {mainStyles, windowHeight, windowWidth, isLandscape} from "../../../mainStyles";
+import {mainStyles, windowHeight, windowWidth, isLandscape} from "../../mainStyles";
 import {StyleSheet, View, TouchableOpacity, KeyboardAvoidingView, TextInput} from "react-native";
-import WeightGraph from "./WeightGraph";
-import HeightGraph from "./HeightGraph";
-import PerimeterGraph from "./PermieterGraph";
 import {Text, Modal} from "react-native";
+import WeightGraph from "../containers/WeightGraph";
+import PerimeterGraph from "../containers/PerimeterGraph";
+import HeightGraph from "../containers/HeightGraph";
 
 const initialFormState = {
     date: "",
@@ -72,7 +72,6 @@ const GraphScreen = () => {
         if (!Object.values(newErrors).some(error => error)) {
             setModalVisible(!modalVisible)
             const dateParts = form.date.split("/");
-            console.log("no hay errores")
             setErrors(initialErrorState);
             setForm(initialFormState);
             // sendData({...form, birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0,10)}, () => , err => {Alert.alert("Error", err.message)})
@@ -82,11 +81,6 @@ const GraphScreen = () => {
     }
 
     return (
-        // <KeyboardAvoidingView
-        //     style={{ flex: 1 }}
-        //     behavior={(Platform.OS === 'ios') ? "padding" : null} enabled
-        //     keyboardVerticalOffset={Platform.select({ios: 80, android: 500})}>
-
         <View style={styles.container}>
             <View style={styles.tabContainer}>
                 <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 1 ? styles.selected : '']}
@@ -103,9 +97,9 @@ const GraphScreen = () => {
                 </TouchableOpacity>
             </View>
             <View stle={styles.graphContainer}>
-                {selectedTab === 1 && <WeightGraph/>}
-                {selectedTab === 2 && <HeightGraph/>}
-                {selectedTab === 3 && <PerimeterGraph/>}
+                {selectedTab === 1 && <WeightGraph key={'weightGraph'} />}
+                {selectedTab === 2 && <HeightGraph key={'heightGraph'} />}
+                {selectedTab === 3 && <PerimeterGraph key={'perimeterGraph'} />}
             </View>
             <TouchableOpacity style={isLandscape() ? styles.newDataButtonLandscape : styles.newDataButtonPortrait}
                               onPress={() => setModalVisible(!modalVisible)}>

@@ -7,8 +7,8 @@ import MyStatusBar from "./common/components/status-bar/StatusBar";
 import LoginScreen from "./session/containers/Login";
 import PrivateRoute from "./security/PrivateRoute";
 import AppFrame from "./common/components/app-frame/AppFrame";
-import GraphScreen from "./session/containers/Graph";
-import HomeScreen from "./session/containers/Home";
+import GraphScreen from "./graph/containers/Graph";
+import HomeScreen from "./home/containers/Home";
 
 export default function App() {
     return (
