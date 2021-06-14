@@ -3,8 +3,11 @@ import {View, Text, StyleSheet} from "react-native";
 import {mainStyles} from "../../mainStyles";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Image } from 'react-native'
+import {useHistory} from "react-router-dom";
 
 const HomeScreen = ({logout}) => {
+    const history = useHistory();
+
     const [user] = useState({
         name: "Nicole Fox",
         age: 5,
@@ -29,10 +32,9 @@ const HomeScreen = ({logout}) => {
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonData}>Notas para la consulta</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/vaccine')}>
                     <Text style={styles.buttonData}>Mis vacunas</Text>
                 </TouchableOpacity>
-
             </View>
             <View style={styles.readingView}>
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>

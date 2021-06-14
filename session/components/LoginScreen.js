@@ -34,10 +34,9 @@ const LoginScreen = ({login, loginPending}) => {
     }
 
     const submitLogin = () => {
-        history.push('/main/home')
-        // if (!isPending()) {
-        //     login(form, successCallback, errorCallback)
-        // }
+        if (!isPending()) {
+            login(form, successCallback, errorCallback)
+        }
     }
 
     return (

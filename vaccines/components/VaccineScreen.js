@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, View, StyleSheet, TouchableOpacity, Modal, TextInput} from "react-native"
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
@@ -18,13 +18,19 @@ const initialErrorState = {
     head: false,
 }
 
-const VaccineScreen = () => {
+const VaccineScreen = ({allVaccines, usersVaccines, getUsersVaccines, getAllVaccines}) => {
+
+    useEffect(() => {
+        getUsersVaccines();
+        getAllVaccines();
+        console.log(allVaccines)
+    }, [])
 
     const [modalVisible, setModalVisible] = useState(false);
     const [form, setForm] = useState(initialFormState)
     const [errors, setErrors] = useState(initialErrorState)
 
-    const allVaccines = [
+    const vaccines = [
         {name: 'vaccine1', amount: 1, hasVaccine: true},
         {name: 'vaccine2', amount: 1, hasVaccine: true},
         {name: 'vaccine3', amount: 1, hasVaccine: false},
@@ -114,26 +120,31 @@ const VaccineScreen = () => {
         }
     }
 
+    const userHasVaccine = (vaccine) => {
+        return (usersVaccines.filter(v => v.vaccineDto.id === vaccine.id).length > 0);
+    }
+
     return (
         <View style={styles.pageContainer}>
             <Text style={styles.title}>Vacunas</Text>
             <DataTable style={styles.tableContainer}>
                 <ScrollView>
                     <View style={styles.scrollableTable}>
-                        {allVaccines.map(vaccine => (
+                        {allVaccines?.map(vaccine => (
                             <DataTable.Row style={styles.vaccineContainer}>
                                 <DataTable.Cell style={styles.vaccineNameContainer}>
                                     <View style={styles.vaccineDataContainer}>
                                         <Text style={styles.vaccineName}>{vaccine.name}</Text>
-                                        <Text style={styles.vaccineName}>({vaccine.amount})</Text>
                                     </View>
                                 </DataTable.Cell>
-                                <DataTable.Cell style={styles.iconContainer}><FontAwesomeIcon
-                                    icon={vaccine.hasVaccine ? faCheckCircle : faTimesCircle}
-                                    style={vaccine.hasVaccine ? styles.iconGreen : styles.iconRed}
+                                <DataTable.Cell style={styles.iconContainer}>
+                                    <FontAwesomeIcon
+                                    icon={userHasVaccine(vaccine) ? faCheckCircle : faTimesCircle}
+                                    style={userHasVaccine(vaccine) ? styles.iconGreen : styles.iconRed}
                                     size={30}
                                     onPress={() => setModalVisible(!modalVisible)}
-                                /></DataTable.Cell>
+                                    />
+                                </DataTable.Cell>
                             </DataTable.Row>
 
                         ))}
