@@ -11,7 +11,7 @@ export const mainStyles = {
     primary: '#649CCD',
     secondary: '#FAA645',
     darkBlue: '#133D8D',
-    inputBackground: '#EBEBEB'
+    background: '#EBEBEB'
 }
 
 export const mainStylesheet = StyleSheet.create({
