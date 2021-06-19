@@ -11,9 +11,10 @@ import {
     Alert
 } from "react-native"
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles, windowHeight, windowWidth} from "../../mainStyles";
 import {DataTable} from 'react-native-paper'
+import {useHistory} from "react-router-dom";
 
 const initialFormState = {
     date: "",
@@ -24,13 +25,14 @@ const initialErrorState = {
 
 
 const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccines, addAppliedVaccine, loading}) => {
+    const history = useHistory();
 
     useEffect(() => {
         if (!allVaccines) getAllVaccines();
         getUserVaccines();
     }, [])
 
-    const appliedVaccineIds = userVaccines.filter(vaccine => vaccine.hasBeenApplied).map(vaccine => vaccine.vaccineDto.id);
+    const appliedVaccineIds = userVaccines?.filter(vaccine => vaccine.hasBeenApplied).map(vaccine => vaccine.vaccineDto.id);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [form, setForm] = useState(initialFormState)
@@ -90,7 +92,7 @@ const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccin
     }
 
     const successCallBack = () => {
-        console.log("success callback")
+        getUserVaccines();
         setErrors(initialErrorState);
         setForm(initialFormState);
         setCurrentVaccine(undefined);
@@ -98,6 +100,10 @@ const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccin
 
     const errorCallback = () => {
         Alert.alert("Hubo un error cargando la vacuna. Por favor intentelo nuevamente");
+    }
+
+    const openVaccineInfo = (vaccine)  => {
+        history.push('/main/vaccine/info', vaccine)
     }
 
     return userVaccines ? (
@@ -111,7 +117,7 @@ const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccin
                             <View style={styles.scrollableTable}>
                                 {allVaccines?.map(vaccine => (
                                     <DataTable.Row style={styles.vaccineContainer}>
-                                        <DataTable.Cell style={styles.vaccineNameContainer}>
+                                        <DataTable.Cell style={styles.vaccineNameContainer} onPress={() => openVaccineInfo(vaccine)}>
                                             <View style={styles.vaccineDataContainer}>
                                                 <Text style={styles.vaccineName}>{vaccine.name}</Text>
                                             </View>
@@ -193,12 +199,9 @@ const styles = StyleSheet.create({
         borderColor: mainStyles.darkBlue,
         height: 'auto',
         width: windowWidth * 0.9,
-        // justifyContent: 'center',
-        // alignItems: 'left',
         paddingHorizontal: 0
     },
     vaccineNameContainer: {
-        justifyContent: 'center',
         backgroundColor: mainStyles.primary,
         margin: 0,
         padding: 10,

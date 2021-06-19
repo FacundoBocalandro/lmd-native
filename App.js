@@ -9,6 +9,7 @@ import HomeScreen from "./session/containers/Home";
 import PrivateRoute from "./security/PrivateRoute";
 import AppFrame from "./common/components/app-frame/AppFrame";
 import VaccineScreen from "./vaccines/containers/Vaccine";
+import VaccineInformation from "./vaccines/containers/VaccineInformation";
 
 export default function App() {
     return (
@@ -23,6 +24,7 @@ export default function App() {
                             <AppFrame key={'app-frame'}>
                                 <PrivateRoute exact path={`${url}/home`} component={HomeScreen}/>
                                 <PrivateRoute exact path={`${url}/vaccine`} component={VaccineScreen}/>
+                                <PrivateRoute exact path={`${url}/vaccine/info`} component={VaccineInformation}/>
                             </AppFrame>
                         </Switch>
                     ])}/>
