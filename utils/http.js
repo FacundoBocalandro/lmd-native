@@ -8,7 +8,7 @@ httpClient.defaults.timeout = 1200000;
 const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
-    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${getToken()}`} : config.headers;
+    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${await getToken()}`} : config.headers;
 
     return httpClient({
         url: baseUrl + url,
@@ -19,7 +19,11 @@ const _request = async (url, method, data, config = {}) => {
         if (res.status === 200 || res.status === 201 || res.status === 204) return res.data;
         else throw (res.data);
     }).catch(errorResponse => {
-        throw (errorResponse.response || {status: 500})
+        // JWT expired: logout
+        if (!config.noAuth && errorResponse.response?.status === 403) {
+
+        }
+        else throw (errorResponse.response || {status: 500})
     })
 }
 
@@ -33,6 +37,10 @@ export const isAuthenticated = () => {
     return AsyncStorage.getItem('token') !== null;
 }
 
-export const getToken = () => {
-    return AsyncStorage.getItem('token');
+export const getToken = async () => {
+    // const token = await AsyncStorage.getItem('token');
+    // console.log('token: ' + token);
+    // console.log('token from getToken :' + AsyncStorage.getItem('token'));
+    // console.log(AsyncStorage.getItem('token'))
+    return await AsyncStorage.getItem('token');
 }

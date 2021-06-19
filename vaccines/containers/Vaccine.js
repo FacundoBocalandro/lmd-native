@@ -3,13 +3,14 @@ import actions from '../../actions'
 import VaccineScreen from "../components/VaccineScreen";
 
 const mapStateToProps = state => ({
-    allVaccines: state.vaccine.allVaccines,
-    usersVaccines: state.vaccine.usersVaccines
+    allVaccines: state.vaccines.allVaccines,
+    userVaccines: state.vaccines.userVaccines
 })
 
 const mapDispatchToProps = dispatch => ({
-    getUsersVaccines: () => dispatch(actions.vaccine.getUsersVaccines.request()),
-    getAllVaccines: () => dispatch(actions.vaccine.getAllVaccines.request()),
+    getUserVaccines: () => dispatch(actions.vaccines.getUserVaccines.request()),
+    getAllVaccines: () => dispatch(actions.vaccines.getAllVaccines.request()),
+    addAppliedVaccine: (vaccineData, callback, errorCallback) => dispatch(actions.vaccines.addAppliedVaccine.request(vaccineData, callback, errorCallback))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(VaccineScreen);

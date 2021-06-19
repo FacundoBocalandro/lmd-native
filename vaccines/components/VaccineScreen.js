@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, View, StyleSheet, TouchableOpacity, Modal, TextInput} from "react-native"
+import {
+    ScrollView,
+    Text,
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    Modal,
+    TextInput,
+    ActivityIndicator,
+    Alert
+} from "react-native"
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles, windowHeight, windowWidth} from "../../mainStyles";
@@ -7,63 +17,32 @@ import {DataTable} from 'react-native-paper'
 
 const initialFormState = {
     date: "",
-    weight: "",
-    height: "",
-    head: "",
 }
 const initialErrorState = {
     date: false,
-    weight: false,
-    height: false,
-    head: false,
 }
 
-const VaccineScreen = ({allVaccines, usersVaccines, getUsersVaccines, getAllVaccines}) => {
+
+const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccines, addAppliedVaccine, loading}) => {
 
     useEffect(() => {
-        getUsersVaccines();
-        getAllVaccines();
-        console.log(allVaccines)
+        if (!allVaccines) getAllVaccines();
+        getUserVaccines();
     }, [])
+
+    const appliedVaccineIds = userVaccines.filter(vaccine => vaccine.hasBeenApplied).map(vaccine => vaccine.vaccineDto.id);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [form, setForm] = useState(initialFormState)
     const [errors, setErrors] = useState(initialErrorState)
+    const [currentVaccine, setCurrentVaccine] = useState()
 
-    const vaccines = [
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine2', amount: 1, hasVaccine: true},
-        {name: 'vaccine3', amount: 1, hasVaccine: false},
-        {name: 'vaccine4', amount: 1, hasVaccine: true},
-        {name: 'vaccine5', amount: 1, hasVaccine: false},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine2', amount: 1, hasVaccine: true},
-        {name: 'vaccine3', amount: 1, hasVaccine: false},
-        {name: 'vaccine4', amount: 1, hasVaccine: true},
-        {name: 'vaccine5', amount: 1, hasVaccine: false},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine2', amount: 1, hasVaccine: true},
-        {name: 'vaccine3', amount: 1, hasVaccine: false},
-        {name: 'vaccine4', amount: 1, hasVaccine: true},
-        {name: 'vaccine5', amount: 1, hasVaccine: false},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine2', amount: 1, hasVaccine: true},
-        {name: 'vaccine3', amount: 1, hasVaccine: false},
-        {name: 'vaccine4', amount: 1, hasVaccine: true},
-        {name: 'vaccine5', amount: 1, hasVaccine: false},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine2', amount: 1, hasVaccine: true},
-        {name: 'vaccine3', amount: 1, hasVaccine: false},
-        {name: 'vaccine4', amount: 1, hasVaccine: true},
-        {name: 'vaccine5', amount: 1, hasVaccine: false},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-        {name: 'vaccine2', amount: 1, hasVaccine: true},
-        {name: 'vaccine3', amount: 1, hasVaccine: false},
-        {name: 'vaccine4', amount: 1, hasVaccine: true},
-        {name: 'vaccine5', amount: 1, hasVaccine: false},
-        {name: 'vaccine1', amount: 1, hasVaccine: true},
-    ]
+    const openModal = (vaccine) => {
+        if (!userHasVaccine(vaccine.id)) {
+            setCurrentVaccine(vaccine);
+            setModalVisible(!modalVisible);
+        }
+    }
 
     const setField = (fieldName, value) => {
         if (errors[fieldName]) {
@@ -73,6 +52,7 @@ const VaccineScreen = ({allVaccines, usersVaccines, getUsersVaccines, getAllVacc
     }
 
     const cancelForm = () => {
+        setCurrentVaccine(undefined)
         setForm(initialFormState);
         setErrors(initialErrorState)
         setModalVisible(!modalVisible);
@@ -83,23 +63,8 @@ const VaccineScreen = ({allVaccines, usersVaccines, getUsersVaccines, getAllVacc
             .test(values.date)
     }
 
-    const validateWeight = (values) => {
-        return values.weight > 0;
-    }
-
-    const validateHeight = (values) => {
-        return values.height > 0;
-    }
-
-    const validateHead = (values) => {
-        return values.head > 0;
-    }
-
     const rules = {
         date: validateDate,
-        weight: validateWeight,
-        height: validateHeight,
-        head: validateHead,
     }
 
     const submitForm = () => {
@@ -111,98 +76,94 @@ const VaccineScreen = ({allVaccines, usersVaccines, getUsersVaccines, getAllVacc
         if (!Object.values(newErrors).some(error => error)) {
             setModalVisible(!modalVisible)
             const dateParts = form.date.split("/");
-            console.log("no hay errores")
-            setErrors(initialErrorState);
-            setForm(initialFormState);
-            // sendData({...form, birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0,10)}, () => , err => {Alert.alert("Error", err.message)})
+            addAppliedVaccine({
+                appliedDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0, 10),
+                vaccineId: currentVaccine.id
+            }, successCallBack, errorCallback)
         } else {
             setErrors(newErrors)
         }
     }
 
-    const userHasVaccine = (vaccine) => {
-        return (usersVaccines.filter(v => v.vaccineDto.id === vaccine.id).length > 0);
+    const userHasVaccine = (vaccineId) => {
+        return appliedVaccineIds.includes(vaccineId);
     }
 
-    return (
-        <View style={styles.pageContainer}>
-            <Text style={styles.title}>Vacunas</Text>
-            <DataTable style={styles.tableContainer}>
-                <ScrollView>
-                    <View style={styles.scrollableTable}>
-                        {allVaccines?.map(vaccine => (
-                            <DataTable.Row style={styles.vaccineContainer}>
-                                <DataTable.Cell style={styles.vaccineNameContainer}>
-                                    <View style={styles.vaccineDataContainer}>
-                                        <Text style={styles.vaccineName}>{vaccine.name}</Text>
-                                    </View>
-                                </DataTable.Cell>
-                                <DataTable.Cell style={styles.iconContainer}>
-                                    <FontAwesomeIcon
-                                    icon={userHasVaccine(vaccine) ? faCheckCircle : faTimesCircle}
-                                    style={userHasVaccine(vaccine) ? styles.iconGreen : styles.iconRed}
-                                    size={30}
-                                    onPress={() => setModalVisible(!modalVisible)}
-                                    />
-                                </DataTable.Cell>
-                            </DataTable.Row>
+    const successCallBack = () => {
+        console.log("success callback")
+        setErrors(initialErrorState);
+        setForm(initialFormState);
+        setCurrentVaccine(undefined);
+    }
 
-                        ))}
-                    </View>
-                </ScrollView>
-            </DataTable>
-            <Modal animationType="slide"
-                   transparent={true}
-                   visible={modalVisible}
-                   onRequestClose={() => {
-                       Alert.alert("Modal has been closed.");
-                       setModalVisible(!modalVisible);
-                   }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Fecha</Text>
-                        <TextInput placeholder={"DD/MM/AAAA"}
-                                   style={errors.date ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.date}
-                                   onChangeText={text => setField('date', text)}/>
-                        <Text style={styles.modalText}>Peso</Text>
-                        <TextInput placeholder={"kg"}
-                                   style={errors.weight ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.weight}
-                                   type="number"
-                                   onChangeText={text => setField('weight', text)}/>
-                        <Text style={styles.modalText}>Estatura</Text>
-                        <TextInput placeholder={"cm"}
-                                   style={errors.height ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.height}
-                                   type="number"
-                                   onChangeText={text => setField('height', text)}/>
-                        <Text style={styles.modalText}>Perímetro Cefálico</Text>
-                        <TextInput placeholder={"cm2"}
-                                   style={errors.head ? {...styles.input, ...styles.errorInput} : styles.input}
-                                   value={form.head}
-                                   type="number"
-                                   onChangeText={text => setField('head', text)}/>
-                        <View style={styles.modalButtonContainer}>
-                            <TouchableOpacity
-                                style={[styles.button, styles.submitButton]}
-                                onPress={() => submitForm()}
-                            >
-                                <Text style={styles.textStyle}>Cargar datos</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.button, styles.cancelButton]}
-                                onPress={() => cancelForm()}
-                            >
-                                <Text style={styles.textStyle}>Cancelar</Text>
-                            </TouchableOpacity>
+    const errorCallback = () => {
+        Alert.alert("Hubo un error cargando la vacuna. Por favor intentelo nuevamente");
+    }
+
+    return userVaccines ? (
+        <View>
+            {loading ?
+                <ActivityIndicator/> :
+                <View style={styles.pageContainer}>
+                    <Text style={styles.title}>Vacunas</Text>
+                    <DataTable style={styles.tableContainer}>
+                        <ScrollView>
+                            <View style={styles.scrollableTable}>
+                                {allVaccines?.map(vaccine => (
+                                    <DataTable.Row style={styles.vaccineContainer}>
+                                        <DataTable.Cell style={styles.vaccineNameContainer}>
+                                            <View style={styles.vaccineDataContainer}>
+                                                <Text style={styles.vaccineName}>{vaccine.name}</Text>
+                                            </View>
+                                        </DataTable.Cell>
+                                        <DataTable.Cell style={styles.iconContainer} onPress={() => openModal(vaccine)}>
+                                            <FontAwesomeIcon
+                                                icon={faCheckCircle}
+                                                style={userHasVaccine(vaccine.id) ? styles.iconGreen : styles.iconRed}
+                                                size={30}
+                                            />
+                                        </DataTable.Cell>
+                                    </DataTable.Row>
+                                ))}
+                            </View>
+                        </ScrollView>
+                    </DataTable>
+                    <Modal animationType="slide"
+                           transparent={true}
+                           visible={modalVisible}
+                           onRequestClose={() => {
+                               setModalVisible(!modalVisible);
+                           }}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalTitle}>{currentVaccine?.name}</Text>
+                                <Text style={styles.modalText}>Fecha</Text>
+                                <TextInput placeholder={"DD/MM/AAAA"}
+                                           style={errors.date ? [styles.input, styles.errorInput] : styles.input}
+                                           value={form.date}
+                                           onChangeText={text => setField('date', text)}/>
+                                <View style={styles.modalButtonContainer}>
+                                    <TouchableOpacity
+                                        style={[styles.button, styles.submitButton]}
+                                        onPress={() => submitForm()}
+                                    >
+                                        <Text style={styles.textStyle}>Cargar datos</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[styles.button, styles.cancelButton]}
+                                        onPress={() => cancelForm()}
+                                    >
+                                        <Text style={styles.textStyle}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
                         </View>
-                    </View>
+                    </Modal>
                 </View>
-            </Modal>
-        </View>
 
-    )
+            }
+        </View>
+    ) : null
 }
 
 const styles = StyleSheet.create({
@@ -230,17 +191,18 @@ const styles = StyleSheet.create({
     vaccineContainer: {
         borderWidth: 3,
         borderColor: mainStyles.darkBlue,
-        height: 65,
+        height: 'auto',
         width: windowWidth * 0.9,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'left',
         paddingHorizontal: 0
     },
     vaccineNameContainer: {
         justifyContent: 'center',
         backgroundColor: mainStyles.primary,
         margin: 0,
-        padding: 10
+        padding: 10,
+        flex: 3
     },
     vaccineDataContainer: {
         flexDirection: 'column',
@@ -249,14 +211,15 @@ const styles = StyleSheet.create({
     vaccineName: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'white',
+        flexWrap: 'wrap'
     },
     iconContainer: {
         justifyContent: 'center',
         alignItems: 'center',
     },
     iconRed: {
-        color: mainStyles.inputBackground,
+        color: '#EBEBEB',
     },
     iconGreen: {
         color: 'green'
@@ -273,7 +236,7 @@ const styles = StyleSheet.create({
     },
     newDataButtonLandscape: {
         position: 'absolute',
-        right:-15,
+        right: -15,
         top: -2,
         borderRadius: 50,
         backgroundColor: mainStyles.darkBlue,
@@ -305,6 +268,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         // elevation: 5
+    },
+    modalTitle: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     modalButtonContainer: {
         flexDirection: 'row',
@@ -340,7 +308,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: mainStyles.inputBackground,
+        borderColor: mainStyles.background,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,

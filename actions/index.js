@@ -1,9 +1,9 @@
 import sessionActions from "../session/session.actions";
-import vaccineActions from "../vaccines/vaccine.actions";
+import vaccinesActions from "../vaccines/vaccines.actions";
 
 const actions = {
     session: sessionActions,
-    vaccine: vaccineActions,
+    vaccines: vaccinesActions,
 }
 
 export default actions;
