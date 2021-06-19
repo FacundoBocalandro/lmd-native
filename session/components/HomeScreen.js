@@ -1,22 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from "react-native";
 import {mainStyles} from "../../mainStyles";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Image } from 'react-native'
 
-const HomeScreen = ({logout}) => {
-    const [user] = useState({
-        name: "Nicole Fox",
-        age: 5,
-        dni: 41640283
+const HomeScreen = ({user, getUserData}) => {
+
+    useEffect(() => {
+        if (!user)getUserData();
     })
 
-    return (
+    return user ? (
         <View style={{...styles.container, ...mainStyles.container}}>
             <View style={styles.userProfile}>
                 <View style={styles.userData}>
-                    <Text style={styles.userName}> {user.name}</Text>
-                    <Text style={styles.userInfo}> {user.age} años - {user.dni} </Text>
+                    <Text style={styles.userName}> {user.firstName} {user.lastName}</Text>
+                    <Text style={styles.userInfo}> {user.age} - {user.dni} </Text>
                 </View>
                 <View style={styles.userImage}>
                     <Image source={require('../../assets/avatar.png')} style={styles.image}/>
@@ -38,7 +37,7 @@ const HomeScreen = ({logout}) => {
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
             </View>
         </View>
-    )
+    ) : null;
 }
 
 const styles = StyleSheet.create({

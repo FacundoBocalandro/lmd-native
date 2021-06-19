@@ -7,10 +7,10 @@ export const CHECK_USERNAME_USED_ERROR = "CHECK_USERNAME_USED_ERROR";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_RESPONSE = "LOGIN_RESPONSE";
 export const LOGIN_ERROR = "LOGIN_ERROR";
-export const LOGOUT = 'LOGOUT'
-
-
-
+export const LOGOUT = 'LOGOUT';
+export const GET_USER_DATA_REQUEST = 'GET_USER_DATA_REQUEST'
+export const GET_USER_DATA_RESPONSE = 'GET_USER_DATA_RESPONSE'
+export const GET_USER_DATA_ERROR = 'GET_USER_DATA_ERROR'
 
 const sessionActions = {
     registerUser: {
@@ -27,6 +27,11 @@ const sessionActions = {
         request: (form, callback, errorCallback) => ({type: LOGIN_REQUEST, form, callback, errorCallback}),
         response: (res) => ({type: LOGIN_RESPONSE, res}),
         error: (err) => ({type: LOGIN_ERROR, err}),
+    },
+    getUserData: {
+        request: () => ({type: GET_USER_DATA_REQUEST}),
+        response: (res) => ({type: GET_USER_DATA_RESPONSE, res}),
+        error: (err) => ({type: GET_USER_DATA_ERROR, err}),
     },
     logout: () => ({type: LOGOUT})
 }
