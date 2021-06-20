@@ -11,6 +11,7 @@ const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHist
     useEffect(() => {
         if (!averageHeightData) getAverageHeightData();
         getUserHeightHistory();
+        console.log(userHeightHistory)
     }, [])
 
     return (
@@ -33,9 +34,7 @@ const styles = StyleSheet.create({
     activityMonitor: {
         flex: 1,
         justifyContent: "center",
-        flexDirection: "row",
-        // justifyContent: "space-around",
-        padding: 10
+        paddingTop: windowHeight * 0.3
     }
 })
 

@@ -7,19 +7,17 @@ import PerimeterGraph from "../containers/PerimeterGraph";
 import HeightGraph from "../containers/HeightGraph";
 
 const initialFormState = {
-    date: "",
     weight: "",
     height: "",
     head: "",
 }
 const initialErrorState = {
-    date: false,
     weight: false,
     height: false,
     head: false,
 }
 
-const GraphScreen = () => {
+const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
     const [selectedTab, setSelectedTab] = useState(1)
     const [modalVisible, setModalVisible] = useState(false);
     const [form, setForm] = useState(initialFormState)
@@ -38,11 +36,6 @@ const GraphScreen = () => {
         setModalVisible(!modalVisible);
     }
 
-    const validateDate = (values) => {
-        return !!values.date && (new RegExp("^(?:31([/\\-.])(?:0?[13578]|1[02])\\1|(?:29|30)([/\\-.])(?:0?[13-9]|1[0-2])\\2)(?:1[6-9]|[2-9]\\d)?\\d{2}$|^29([/\\-.])0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))$|^(?:0?[1-9]|1\\d|2[0-8])([/\\-.])(?:0?[1-9]|1[0-2])\\4(?:1[6-9]|[2-9]\\d)?\\d{2}$"))
-            .test(values.date)
-    }
-
     const validateWeight = (values) => {
         return values.weight > 0 || "";
     }
@@ -56,7 +49,6 @@ const GraphScreen = () => {
     }
 
     const rules = {
-        date: validateDate,
         weight: validateWeight,
         height: validateHeight,
         head: validateHead,
@@ -69,11 +61,15 @@ const GraphScreen = () => {
         })
 
         if (!Object.values(newErrors).some(error => error)) {
+            console.log(form)
+            console.log(form.weight)
+            if (form.weight !== "") addWeightData({weight: form.weight})
+            if (form.head !== "") addHeadData({perimeter: form.head})
+            if (form.height !== "") addHeightData({height: form.height})
+
             setModalVisible(!modalVisible)
-            const dateParts = form.date.split("/");
             setErrors(initialErrorState);
             setForm(initialFormState);
-            // sendData({...form, birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0,10)}, () => , err => {Alert.alert("Error", err.message)})
         } else {
             setErrors(newErrors)
         }
@@ -117,11 +113,6 @@ const GraphScreen = () => {
 
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Fecha</Text>
-                            <TextInput placeholder={"DD/MM/AAAA"}
-                                       style={errors.date ? {...styles.input, ...styles.errorInput} : styles.input}
-                                       value={form.date}
-                                       onChangeText={text => setField('date', text)}/>
                             <Text style={styles.modalText}>Peso</Text>
                             <TextInput placeholder={"kg"}
                                        style={errors.weight ? {...styles.input, ...styles.errorInput} : styles.input}

@@ -16,6 +16,15 @@ export const GET_USER_PERIMETER_HISTORY_ERROR = "GET_USER_PERIMETER_HISTORY_ERRO
 export const GET_USER_HEIGHT_HISTORY_REQUEST = "GET_USER_HEIGHT_HISTORY_REQUEST";
 export const GET_USER_HEIGHT_HISTORY_RESPONSE = "GET_USER_HEIGHT_HISTORY_RESPONSE";
 export const GET_USER_HEIGHT_HISTORY_ERROR = "GET_USER_HEIGHT_HISTORY_ERROR";
+export const ADD_WEIGHT_DATA_REQUEST = "ADD_WEIGHT_DATA_REQUEST";
+export const ADD_WEIGHT_DATA_RESPONSE = "ADD_WEIGHT_DATA_RESPONSE";
+export const ADD_WEIGHT_DATA_ERROR = "ADD_WEIGHT_DATA_ERROR";
+export const ADD_HEIGHT_DATA_REQUEST = "ADD_HEIGHT_DATA_REQUEST";
+export const ADD_HEIGHT_DATA_RESPONSE = "ADD_HEIGHT_DATA_RESPONSE";
+export const ADD_HEIGHT_DATA_ERROR = "ADD_HEIGHT_DATA_ERROR";
+export const ADD_HEAD_DATA_REQUEST = "ADD_HEAD_DATA_REQUEST";
+export const ADD_HEAD_DATA_RESPONSE = "ADD_HEAD_DATA_RESPONSE";
+export const ADD_HEAD_DATA_ERROR = "ADD_HEAD_DATA_ERROR";
 
 const graphActions = {
     /**
@@ -68,6 +77,21 @@ const graphActions = {
         request: () => ({type: GET_USER_HEIGHT_HISTORY_REQUEST}),
         response: (history) => ({type: GET_USER_HEIGHT_HISTORY_RESPONSE, history}),
         error: (err) => ({type: GET_USER_HEIGHT_HISTORY_ERROR, err}),
+    },
+    addWeightData: {
+        request: (data) => ({type: ADD_WEIGHT_DATA_REQUEST, data}),
+        response: (res) => ({type: ADD_WEIGHT_DATA_RESPONSE, res}),
+        error: (err) => ({type: ADD_WEIGHT_DATA_ERROR, err}),
+    },
+    addHeadData: {
+        request: (data) => ({type: ADD_HEAD_DATA_REQUEST, data}),
+        response: (res) => ({type: ADD_HEAD_DATA_RESPONSE, res}),
+        error: (err) => ({type: ADD_HEAD_DATA_ERROR, err}),
+    },
+    addHeightData: {
+        request: (data) => ({type: ADD_HEIGHT_DATA_REQUEST, data}),
+        response: (res) => ({type: ADD_HEIGHT_DATA_RESPONSE, res}),
+        error: (err) => ({type: ADD_HEIGHT_DATA_ERROR, err}),
     },
 }
 

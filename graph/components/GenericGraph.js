@@ -19,8 +19,8 @@ const GraphScreen = ({percentileData, maxY, minY = 0, yStep, yLabel, data, color
     }
 
     return (
-        <VictoryChart containerComponent={
-            <VictoryZoomContainer zoomDomain={{x: [0, 19], y: [0, maxY]}}/>}
+        <VictoryChart
+                      containerComponent={<VictoryZoomContainer zoomDomain={{x: [0, 19], y: [0, maxY]}}/>}
                       width={isLandscape() ? (windowHeight * 0.9): windowWidth}
                       height={isLandscape() ? (windowWidth*0.8) : (windowHeight*0.8)}
                       minDomain={{x: 0}} maxDomain={{x: 19, y: maxY}}>

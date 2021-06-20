@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 
 import GenericGraph from "./GenericGraph";
 import {ActivityIndicator, StyleSheet, View} from "react-native";
-import {mainStyles} from "../../mainStyles";
+import {mainStyles, windowHeight} from "../../mainStyles";
 
 const data = Array(36).fill().map((value, index) => ({x: (19 / 228) * index + 8, y: 43 + 0.15 * index}))
 
@@ -32,9 +32,7 @@ const styles = StyleSheet.create({
     activityMonitor: {
         flex: 1,
         justifyContent: "center",
-        flexDirection: "row",
-        // justifyContent: "space-around",
-        padding: 10
+        paddingTop: windowHeight * 0.3
     }
 })
 
