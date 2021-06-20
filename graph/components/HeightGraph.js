@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
-import {View} from "react-native";
-
+import {StyleSheet, View} from "react-native";
 import GenericGraph from "./GenericGraph";
-import DelayedRendering from "../../common/components/delayed-rendering/DelayedRendering";
+import {ActivityIndicator} from "react-native";
+import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 
 const data = Array(36).fill().map((value, index) => ({x: (19 / 228) * index + 8, y: 100 + 0.5 * index ^ 2}))
 
@@ -14,7 +14,7 @@ const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHist
     }, [])
 
     return (
-        <DelayedRendering>
+        <View style={averageHeightData ? '' : styles.activityMonitor}>
             {averageHeightData ?
         <GenericGraph percentileData={averageHeightData}
                       maxY={190}
@@ -23,10 +23,20 @@ const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHist
                       yLabel={"Estatura (cm)"}
                       data={data}
                       colors={{grid: '#649CCD', stroke: 'red'}}
-        /> : null
+        /> : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
         }
-        </DelayedRendering>
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    activityMonitor: {
+        flex: 1,
+        justifyContent: "center",
+        flexDirection: "row",
+        // justifyContent: "space-around",
+        padding: 10
+    }
+})
 
 export default HeightGraph;
