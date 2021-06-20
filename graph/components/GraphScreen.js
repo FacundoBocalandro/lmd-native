@@ -61,8 +61,6 @@ const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
         })
 
         if (!Object.values(newErrors).some(error => error)) {
-            console.log(form)
-            console.log(form.weight)
             if (form.weight !== "") addWeightData({weight: form.weight})
             if (form.head !== "") addHeadData({perimeter: form.head})
             if (form.height !== "") addHeightData({height: form.height})

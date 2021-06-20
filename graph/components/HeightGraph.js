@@ -11,7 +11,6 @@ const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHist
     useEffect(() => {
         if (!averageHeightData) getAverageHeightData();
         getUserHeightHistory();
-        console.log(userHeightHistory)
     }, [])
 
     return (
