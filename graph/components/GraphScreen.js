@@ -44,7 +44,6 @@ const GraphScreen = () => {
     }
 
     const validateWeight = (values) => {
-        console.log(values.weight)
         return values.weight > 0 || "";
     }
 

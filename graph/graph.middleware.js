@@ -9,25 +9,23 @@ import {
 import actions from "../actions";
 import {services} from "./graph.services";
 import {adapt3PercentileData, adapt7PercentileData} from "../utils/averageData";
-import {SEX} from "../constants/PersonalData"
 
 const graphMiddleware = ({dispatch, getState}) => next => action => {
     next(action);
     switch (action.type) {
         case GET_AVERAGE_WEIGHT_DATA_REQUEST:
-            services.getAverageWeightData(getState().home.personalData.sex === SEX.MALE)
+            services.getAverageWeightData(true)
                 .then(res => {
-                    console.log("respo" + res)
                     dispatch(actions.graph.getAverageWeightData.response(adapt7PercentileData(res.weights)))})
                 .catch(err => dispatch(actions.graph.getAverageWeightData.error(err)))
             break;
         case GET_AVERAGE_PERIMETER_DATA_REQUEST:
-            services.getAveragePerimeterData(getState().home.personalData.sex === SEX.MALE)
+            services.getAveragePerimeterData(true)
                 .then(res => dispatch(actions.graph.getAveragePerimeterData.response(adapt3PercentileData(res.perimeters))))
                 .catch(err => dispatch(actions.graph.getAveragePerimeterData.error(err)))
             break;
         case GET_AVERAGE_HEIGHT_DATA_REQUEST:
-            services.getAverageHeightData(getState().home.personalData.sex === SEX.MALE)
+            services.getAverageHeightData(true)
                 .then(res => dispatch(actions.graph.getAverageHeightData.response(adapt7PercentileData(res.heights))))
                 .catch(err => dispatch(actions.graph.getAverageHeightData.error(err)))
             break;

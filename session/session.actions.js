@@ -7,10 +7,8 @@ export const CHECK_USERNAME_USED_ERROR = "CHECK_USERNAME_USED_ERROR";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_RESPONSE = "LOGIN_RESPONSE";
 export const LOGIN_ERROR = "LOGIN_ERROR";
-export const LOGOUT = 'LOGOUT';
-export const GET_USER_DATA_REQUEST = 'GET_USER_DATA_REQUEST'
-export const GET_USER_DATA_RESPONSE = 'GET_USER_DATA_RESPONSE'
-export const GET_USER_DATA_ERROR = 'GET_USER_DATA_ERROR'
+export const LOGOUT = "LOGOUT";
+
 
 const sessionActions = {
     registerUser: {
@@ -24,16 +22,35 @@ const sessionActions = {
         error: (err) => ({type: CHECK_USERNAME_USED_ERROR, err}),
     },
     login: {
+        /**
+         * Request user login. Form contains username and password.
+         * Callback is called if login is successful.
+         * Error Callback is called if login is unsuccessful.
+         * @param form
+         * @param callback
+         * @param errorCallback
+         * @returns {{errorCallback, form, callback, type: string}}
+         */
         request: (form, callback, errorCallback) => ({type: LOGIN_REQUEST, form, callback, errorCallback}),
+        /**
+         * Login response. returns token.
+         * @param res
+         * @returns {{res, type: string}}
+         */
         response: (res) => ({type: LOGIN_RESPONSE, res}),
+        /**
+         * Login error. returns error status and message.
+         * @param err
+         * @returns {{err, type: string}}
+         */
         error: (err) => ({type: LOGIN_ERROR, err}),
     },
-    getUserData: {
-        request: () => ({type: GET_USER_DATA_REQUEST}),
-        response: (res) => ({type: GET_USER_DATA_RESPONSE, res}),
-        error: (err) => ({type: GET_USER_DATA_ERROR, err}),
-    },
+    /**
+     * Restart redux store
+     * @returns {{type: string}}
+     */
     logout: () => ({type: LOGOUT})
 }
 
 export default sessionActions;
+

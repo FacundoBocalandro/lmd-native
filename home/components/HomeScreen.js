@@ -6,12 +6,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {getAvatar} from "../../utils/avatars";
 import {useHistory} from "react-router-dom";
 
-
-const HomeScreen = ({personalData, getPersonalData,user, getUserData}) => {
+const HomeScreen = ({user, getUserData}) => {
+    const history = useHistory();
 
     useEffect(() => {
         if (!user)getUserData();
-        getPersonalData();
     })
 
     return user ? (
@@ -23,7 +22,6 @@ const HomeScreen = ({personalData, getPersonalData,user, getUserData}) => {
                 </View>
                 <View style={styles.userImage}>
                     <FontAwesomeIcon icon={getAvatar(user.avatar)} style={styles.avatar} size={80}/>
-                    {/*<Image source={require('../../assets/avatar.png')} style={styles.image}/>*/}
                 </View>
             </View>
             <View style={styles.buttonContainer}>

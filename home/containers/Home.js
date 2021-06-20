@@ -3,13 +3,11 @@ import {connect} from "react-redux";
 import actions from '../../actions'
 
 const mapStateToProps = state => ({
-    personalData: state.home.personalData
-    user: state.session.user
+    user: state.home.user
 })
 
 const mapDispatchToProps = dispatch => ({
-    getPersonalData: () => dispatch(actions.home.getPersonalData.request()),
-    getUserData: () => dispatch(actions.session.getUserData.request())
+    getUserData: () => dispatch(actions.home.getUserData.request())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

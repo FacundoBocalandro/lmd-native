@@ -15,7 +15,7 @@ const LoginScreen = ({login, loginPending}) => {
     const history = useHistory();
     const [form, setForm] = useState({...initialForm})
 
-    const successCallback = (token) => {
+    const successCallback =  (token) => {
         AsyncStorage.setItem('token', token);
         history.push("/main/home");
     }
@@ -34,10 +34,9 @@ const LoginScreen = ({login, loginPending}) => {
     }
 
     const submitLogin = () => {
-        history.push('/main/home')
-        // if (!isPending()) {
-        //     login(form, successCallback, errorCallback)
-        // }
+        if (!isPending()) {
+            login(form, successCallback, errorCallback)
+        }
     }
 
     return (

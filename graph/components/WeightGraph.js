@@ -10,7 +10,6 @@ const data = Array(36).fill().map((value, index) => ({x: (19 / 228) * index + 8,
 const WeightGraph = ({getAverageWeightData, averageWeightData, getUserWeightHistory, userWeightHistory}) => {
     useEffect(() => {
         if (!averageWeightData) {
-            console.log("getting average data")
             getAverageWeightData()
             ;}
         getUserWeightHistory();
