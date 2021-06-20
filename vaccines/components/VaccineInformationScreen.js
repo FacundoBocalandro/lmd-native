@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
-    ScrollView,
     Text,
     View,
     StyleSheet,
@@ -14,10 +13,6 @@ import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 const VaccineInformationScreen = (historyData) => {
     const history = useHistory();
     const vaccine = historyData.location.state;
-    useEffect(() => {
-        console.log('vaccine is');
-        console.log(historyData.location.state)
-    })
 
     return (
         <View>
