@@ -7,22 +7,22 @@ import {getAvatar} from "../../utils/avatars";
 import {useHistory} from "react-router-dom";
 
 
-const HomeScreen = ({personalData, getPersonalData}) => {
-    const history = useHistory();
+const HomeScreen = ({personalData, getPersonalData,user, getUserData}) => {
 
     useEffect(() => {
+        if (!user)getUserData();
         getPersonalData();
-    }, [])
+    })
 
-    return (
+    return user ? (
         <View style={{...styles.container, ...mainStyles.container}}>
             <View style={styles.userProfile}>
                 <View style={styles.userData}>
-                    <Text style={styles.userName}> {personalData.fullName}</Text>
-                    <Text style={styles.userInfo}> {personalData.age} años - {personalData.dni} </Text>
+                    <Text style={styles.userName}> {user.firstName} {user.lastName}</Text>
+                    <Text style={styles.userInfo}> {user.age} - {user.dni} </Text>
                 </View>
                 <View style={styles.userImage}>
-                    <FontAwesomeIcon icon={getAvatar(personalData.avatar)} style={styles.avatar} size={80}/>
+                    <FontAwesomeIcon icon={getAvatar(user.avatar)} style={styles.avatar} size={80}/>
                     {/*<Image source={require('../../assets/avatar.png')} style={styles.image}/>*/}
                 </View>
             </View>
@@ -42,7 +42,7 @@ const HomeScreen = ({personalData, getPersonalData}) => {
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
             </View>
         </View>
-    )
+    ) : null;
 }
 
 const styles = StyleSheet.create({
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         flex: 1,
+        backgroundColor: mainStyles.background,
         paddingVertical: 20,
         alignContent: "space-between"
 

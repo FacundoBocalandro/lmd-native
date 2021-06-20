@@ -7,7 +7,8 @@ httpClient.defaults.timeout = 1200000;
 const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
-    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${getToken()}`} : config.headers;
+    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${await getToken()}`} : config.headers;
+
     return httpClient({
         url: baseUrl + url,
         method,
@@ -35,6 +36,6 @@ export const isAuthenticated = () => {
     return AsyncStorage.getItem('token') !== null;
 }
 
-const getToken = () => {
-    return AsyncStorage.getItem('token')
+export const getToken = async () => {
+    return await AsyncStorage.getItem('token');
 }
