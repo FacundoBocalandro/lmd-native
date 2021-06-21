@@ -9,7 +9,7 @@ export const services = {
     getUserHeightHistory: () => get('data/height/list'),
     addWeightData: (data) => post('data/weight/create', data),
     addHeightData: (data) => post('data/height/create', data),
-    addHeadData: (data) => post('data/head/create', data)
+    addHeadData: (data) => post('data/perimeter/create', data)
 
 
 }

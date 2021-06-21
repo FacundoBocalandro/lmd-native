@@ -5,8 +5,6 @@ import GenericGraph from "./GenericGraph";
 import DelayedRendering from "../../common/components/delayed-rendering/DelayedRendering";
 import {mainStyles, windowHeight} from "../../mainStyles";
 
-const data = Array(36).fill().map((value, index) => ({x: (19 / 228) * index + 8, y: 30 + 0.3 * index ^ 2}))
-
 
 const WeightGraph = ({getAverageWeightData, averageWeightData, getUserWeightHistory, userWeightHistory}) => {
     useEffect(() => {
@@ -17,12 +15,12 @@ const WeightGraph = ({getAverageWeightData, averageWeightData, getUserWeightHist
     return (
         <View style={averageWeightData ? '' : styles.activityMonitor}>
             {
-            averageWeightData ?
+            averageWeightData && userWeightHistory ?
             <GenericGraph percentileData={averageWeightData}
                           maxY={90}
                           yStep={5}
                           yLabel={"Peso (kg)"}
-                          data={data}
+                          data={userWeightHistory}
                           colors={{grid: '#649CCD', stroke: 'red'}}/>
                 : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
 

@@ -10,41 +10,42 @@ import {
 } from "./graph.action";
 import actions from "../actions";
 import {services} from "./graph.services";
-import {adapt3PercentileData, adapt7PercentileData} from "../utils/averageData";
+import {adapt3PercentileData, adapt7PercentileData, adaptUserHistoryData} from "../utils/averageData";
+import {GENDERS} from "../constants/PersonalData";
 
 const graphMiddleware = ({dispatch, getState}) => next => action => {
     next(action);
     switch (action.type) {
         case GET_AVERAGE_WEIGHT_DATA_REQUEST:
-            services.getAverageWeightData(true)
+            services.getAverageWeightData(getState().home.user.gender === GENDERS.MALE)
                 .then(res => {
                     dispatch(actions.graph.getAverageWeightData.response(adapt7PercentileData(res.weights)))
                 })
                 .catch(err => dispatch(actions.graph.getAverageWeightData.error(err)))
             break;
         case GET_AVERAGE_PERIMETER_DATA_REQUEST:
-            services.getAveragePerimeterData(true)
+            services.getAveragePerimeterData(getState().home.user.gender === GENDERS.MALE)
                 .then(res => dispatch(actions.graph.getAveragePerimeterData.response(adapt3PercentileData(res.perimeters))))
                 .catch(err => dispatch(actions.graph.getAveragePerimeterData.error(err)))
             break;
         case GET_AVERAGE_HEIGHT_DATA_REQUEST:
-            services.getAverageHeightData(true)
+            services.getAverageHeightData(getState().home.user.gender === GENDERS.MALE)
                 .then(res => dispatch(actions.graph.getAverageHeightData.response(adapt7PercentileData(res.heights))))
                 .catch(err => dispatch(actions.graph.getAverageHeightData.error(err)))
             break;
         case GET_USER_WEIGHT_HISTORY_REQUEST:
             services.getUserWeightHistory()
-                .then(res => dispatch(actions.graph.getUserWeightHistory.response(res)))
+                .then(res => dispatch(actions.graph.getUserWeightHistory.response(adaptUserHistoryData(res, 'weight', getState().home.user.birthDate))))
                 .catch(err => dispatch(actions.graph.getUserWeightHistory.error(err)));
             break;
         case GET_USER_PERIMETER_HISTORY_REQUEST:
             services.getUserPerimeterHistory()
-                .then(res => dispatch(actions.graph.getUserPerimeterHistory.response(res)))
+                .then(res => dispatch(actions.graph.getUserPerimeterHistory.response(adaptUserHistoryData(res, 'perimeter', getState().home.user.birthDate))))
                 .catch(err => dispatch(actions.graph.getUserPerimeterHistory.error(err)));
             break;
         case GET_USER_HEIGHT_HISTORY_REQUEST:
             services.getUserHeightHistory()
-                .then(res => dispatch(actions.graph.getUserHeightHistory.response(res)))
+                .then(res => dispatch(actions.graph.getUserHeightHistory.response(adaptUserHistoryData(res, 'height',getState().home.user.birthDate))))
                 .catch(err => dispatch(actions.graph.getUserHeightHistory.error(err)));
             break;
         case ADD_WEIGHT_DATA_REQUEST:

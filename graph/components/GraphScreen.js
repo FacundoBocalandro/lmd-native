@@ -64,7 +64,6 @@ const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
             if (form.weight !== "") addWeightData({weight: form.weight})
             if (form.head !== "") addHeadData({perimeter: form.head})
             if (form.height !== "") addHeightData({height: form.height})
-
             setModalVisible(!modalVisible)
             setErrors(initialErrorState);
             setForm(initialFormState);

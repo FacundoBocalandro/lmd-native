@@ -4,8 +4,6 @@ import GenericGraph from "./GenericGraph";
 import {ActivityIndicator} from "react-native";
 import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 
-const data = Array(36).fill().map((value, index) => ({x: (19 / 228) * index + 8, y: 100 + 0.5 * index ^ 2}))
-
 const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHistory, userHeightHistory}) => {
 
     useEffect(() => {
@@ -15,13 +13,13 @@ const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHist
 
     return (
         <View style={averageHeightData ? '' : styles.activityMonitor}>
-            {averageHeightData ?
+            {averageHeightData && userHeightHistory ?
         <GenericGraph percentileData={averageHeightData}
                       maxY={190}
                       minY={40}
                       yStep={10}
                       yLabel={"Estatura (cm)"}
-                      data={data}
+                      data={userHeightHistory}
                       colors={{grid: '#649CCD', stroke: 'red'}}
         /> : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
         }

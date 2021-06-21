@@ -4,8 +4,6 @@ import GenericGraph from "./GenericGraph";
 import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {mainStyles, windowHeight} from "../../mainStyles";
 
-const data = Array(36).fill().map((value, index) => ({x: (19 / 228) * index + 8, y: 43 + 0.15 * index}))
-
 const PerimeterGraph =  ({getAveragePerimeterData, averagePerimeterData, getUserPerimeterHistory, userPerimeterHistory})=> {
 
         useEffect(() => {
@@ -14,13 +12,13 @@ const PerimeterGraph =  ({getAveragePerimeterData, averagePerimeterData, getUser
     }, [])
     return (
         <View style={averagePerimeterData ? '' : styles.activityMonitor}>
-            {averagePerimeterData ?
+            {averagePerimeterData && userPerimeterHistory ?
                 <GenericGraph percentileData={averagePerimeterData}
                               maxY={60}
                               minY={28}
                               yStep={2}
                               yLabel={"Perímetro Cefálico (cm)"}
-                              data={data}
+                              data={userPerimeterHistory}
                               colors={{grid: '#649CCD', stroke: 'red'}}/>
                 : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
             }
