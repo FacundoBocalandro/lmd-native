@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    headerContainer:{
-        paddingVertical: 60,
+    headerContainer: {
+        paddingVertical: windowHeight * 0.05,
         display: 'flex'
     },
     header: {

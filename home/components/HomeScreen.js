@@ -1,32 +1,31 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from "react-native";
 import {mainStyles} from "../../mainStyles";
 import {TouchableOpacity} from 'react-native-gesture-handler'
-import { Image } from 'react-native'
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {getAvatar} from "../../utils/avatars";
 import {useHistory} from "react-router-dom";
 
-const HomeScreen = ({logout}) => {
+const HomeScreen = ({user, getUserData}) => {
     const history = useHistory();
 
-    const [user] = useState({
-        name: "Nicole Fox",
-        age: 5,
-        dni: 41640283
+    useEffect(() => {
+        if (!user)getUserData();
     })
 
-    return (
+    return user ? (
         <View style={{...styles.container, ...mainStyles.container}}>
             <View style={styles.userProfile}>
                 <View style={styles.userData}>
-                    <Text style={styles.userName}> {user.name}</Text>
-                    <Text style={styles.userInfo}> {user.age} años - {user.dni} </Text>
+                    <Text style={styles.userName}> {user.firstName} {user.lastName}</Text>
+                    <Text style={styles.userInfo}> {user.age} - {user.dni} </Text>
                 </View>
                 <View style={styles.userImage}>
-                    <Image source={require('../../assets/avatar.png')} style={styles.image}/>
+                    <FontAwesomeIcon icon={getAvatar(user.avatar)} style={styles.avatar} size={80}/>
                 </View>
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/graphScreen')} >
                     <Text style={styles.buttonData}>Datos de crecimiento</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button}>
@@ -40,7 +39,7 @@ const HomeScreen = ({logout}) => {
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
             </View>
         </View>
-    )
+    ) : null;
 }
 
 const styles = StyleSheet.create({
@@ -76,9 +75,11 @@ const styles = StyleSheet.create({
     userImage: {
         borderRadius: 50,
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: mainStyles.darkBlue,
         width: 100,
-        height: 100
+        height: 100,
+        justifyContent: 'center',
+        padding: 10
     },
     button: {
         backgroundColor: mainStyles.primary,
@@ -103,11 +104,12 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginVertical: 40
     },
-    image: {
-        width: '100%',
-        height: undefined,
+    avatar: {
+        width: 100,
+        height: 100,
         borderRadius: 50,
-        aspectRatio: 1
+        aspectRatio: 1,
+        color: mainStyles.darkBlue
     }
 })
 

@@ -31,7 +31,7 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
         case LOGIN_REQUEST:
             services.login(action.form)
                 .then(res => {
-                    if (action.callback) action.callback(res)
+                    if (action.callback) action.callback(res);
                     dispatch(actions.session.login.response(res));
                 })
                 .catch(err => {
