@@ -5,26 +5,28 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
+import {useHistory} from "react-router-dom";
 
 const AppFrame = ({children}) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const history = useHistory();
 
     const menuOptions = [
-        {text: "Inicio", icon: faHome},
-        {text: "Lecturas", icon: faBook},
-        {text: "Inmunizaciones", icon: faHeartbeat},
-        {text: "Crecimiento", icon: faChartBar},
-        {text: "Notas", icon: faEdit},
+        {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
+        {text: "Lecturas", icon: faBook, id:'readings'},
+        {text: "Inmunizaciones", icon: faHeartbeat, id:'vaccine'},
+        {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
+        {text: "Notas", icon: faEdit, id:'notes' },
     ]
 
     const menu = (
         <View style={styles.menu}>
             {menuOptions.map(option => (
-                <View style={styles.menuOption}>
-                    <TouchableHighlight style={styles.menuIconContainer}>
+                <View key={option.id} style={styles.menuOption} >
+                    <TouchableHighlight style={styles.menuIconContainer} onPress={() => history.replace(option.url)}>
                         <FontAwesomeIcon icon={option.icon} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
-                    <Text style={styles.menuText}>{option.text}</Text>
+                    <Text style={styles.menuText} onPress={() => history.replace(option.url)}>{option.text}</Text>
                 </View>
             ))}
         </View>
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
     menuText: {
         marginLeft: 10,
         fontSize: 20,
-        fontFamily: 'serif',
         color: '#FFF'
     },
     barsIconContainer: {

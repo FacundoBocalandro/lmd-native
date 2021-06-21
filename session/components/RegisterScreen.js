@@ -5,6 +5,7 @@ import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 
 const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError, registerPending}) => {
@@ -92,7 +93,12 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
 
         if (!Object.values(newErrors).some(error => error)) {
             const dateParts = form.birthDate.split("/");
-            registerUser({...form, birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0,10)}, () => history.push({pathname: '/', state: {registerSuccess: true}}), err => {Alert.alert("Error", err.message)})
+            registerUser({
+                ...form,
+                birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0, 10)
+            }, () => history.push({pathname: '/', state: {registerSuccess: true}}), err => {
+                Alert.alert("Error", err.message)
+            })
         } else {
             setErrors(newErrors)
         }
@@ -103,82 +109,97 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
     }
 
     return (
-        <View style={{...styles.container, ...mainStylesheet.container}}>
-            <TouchableOpacity onPress={() => history.replace('/')}>
-                <FontAwesomeIcon icon={faArrowLeft} size={25}/>
-            </TouchableOpacity>
-            <View>
-                <Text style={styles.header}>Registro de Paciente</Text>
-            </View>
-            <ScrollView>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Nombre</Text>
-                    <TextInput placeholder={"Nombre..."}
-                               style={errors.firstName ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.firstName}
-                               onChangeText={text => setField('firstName', text)}/>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Apellido</Text>
-                    <TextInput placeholder={"Apellido..."}
-                               style={errors.lastName ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.lastName}
-                               onChangeText={text => setField('lastName', text)}/>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>DNI</Text>
-                    <TextInput placeholder={"DNI..."}
-                               style={errors.dni ? {...styles.input, ...styles.errorInput} : styles.input}
-                               keyboardType={'numeric'}
-                               value={form.dni}
-                               onChangeText={text => setField('dni', text)}/>
-                    <Text>Sin puntos ni espacios.</Text>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Fecha de Nacimiento</Text>
-                    <TextInput style={errors.birthDate ? {...styles.input, ...styles.errorInput} : styles.input}
-                               placeholder={"Fecha de Nacimiento..."}
-                               value={form.birthDate}
-                               onChangeText={text => setField('birthDate', text)}/>
-                    <Text>Formato DD/MM/AAAA.</Text>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput placeholder={"Email..."}
-                               style={errors.email ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.email}
-                               onChangeText={text => setField('email', text)}/>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Nombre de Usuario</Text>
-                    <TextInput placeholder={"Nombre de Usuario..."}
-                               style={errors.username ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.username}
-                               onBlur={() => checkUsernameUsed(form.username, res => setErrors({...errors, username: !res}), () => {Alert.alert("Error", "¡Error verificando nombre de usuario!")})}
-                               onChangeText={text => setField('username', text)}/>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Contraseña</Text>
-                    <TextInput placeholder={"Contraseña..."}
-                               style={errors.password ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.password}
-                               secureTextEntry={true}
-                               onChangeText={text => setField('password', text)}/>
-                    <Text>8 letras o más, al menos una mayúscula, una minúscula, un número y un carácter especial.</Text>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Repetir Contraseña</Text>
-                    <TextInput placeholder={"Contraseña..."}
-                               style={errors.confirmPassword ? {...styles.input, ...styles.errorInput} : styles.input}
-                               value={form.confirmPassword}
-                               secureTextEntry={true}
-                               onChangeText={text => setField('confirmPassword', text)}/>
-                </View>
-                <TouchableOpacity onPress={submitForm} style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton} disabled={isPending()}>
-                    <Text style={styles.submitButtonText}>Registrarse</Text>
+        <KeyboardAwareScrollView
+            style={{backgroundColor: '#fff'}}
+            resetScrollToCoords={{x: 0, y: 0}}
+            contentContainerStyle={styles.container}
+            scrollEnabled={false}
+        >
+            <View style={{...styles.container, ...mainStylesheet.container}}>
+                <TouchableOpacity onPress={() => history.replace('/')}>
+                    <FontAwesomeIcon icon={faArrowLeft} size={25}/>
                 </TouchableOpacity>
-            </ScrollView>
-        </View>
+                <View>
+                    <Text style={styles.header}>Registro de Paciente</Text>
+                </View>
+                <ScrollView>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Nombre</Text>
+                        <TextInput placeholder={"Nombre..."}
+                                   style={errors.firstName ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   value={form.firstName}
+                                   onChangeText={text => setField('firstName', text)}/>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Apellido</Text>
+                        <TextInput placeholder={"Apellido..."}
+                                   style={errors.lastName ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   value={form.lastName}
+                                   onChangeText={text => setField('lastName', text)}/>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>DNI</Text>
+                        <TextInput placeholder={"DNI..."}
+                                   style={errors.dni ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   keyboardType={'numeric'}
+                                   value={form.dni}
+                                   onChangeText={text => setField('dni', text)}/>
+                        <Text>Sin puntos ni espacios.</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Fecha de Nacimiento</Text>
+                        <TextInput style={errors.birthDate ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   placeholder={"Fecha de Nacimiento..."}
+                                   value={form.birthDate}
+                                   onChangeText={text => setField('birthDate', text)}/>
+                        <Text>Formato DD/MM/AAAA.</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput placeholder={"Email..."}
+                                   style={errors.email ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   value={form.email}
+                                   onChangeText={text => setField('email', text)}/>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Nombre de Usuario</Text>
+                        <TextInput placeholder={"Nombre de Usuario..."}
+                                   style={errors.username ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   value={form.username}
+                                   onBlur={() => checkUsernameUsed(form.username, res => setErrors({
+                                       ...errors,
+                                       username: !res
+                                   }), () => {
+                                       Alert.alert("Error", "¡Error verificando nombre de usuario!")
+                                   })}
+                                   onChangeText={text => setField('username', text)}/>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Contraseña</Text>
+                        <TextInput placeholder={"Contraseña..."}
+                                   style={errors.password ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   value={form.password}
+                                   secureTextEntry={true}
+                                   onChangeText={text => setField('password', text)}/>
+                        <Text>8 letras o más, al menos una mayúscula, una minúscula, un número y un carácter
+                            especial.</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Repetir Contraseña</Text>
+                        <TextInput placeholder={"Contraseña..."}
+                                   style={errors.confirmPassword ? {...styles.input, ...styles.errorInput} : styles.input}
+                                   value={form.confirmPassword}
+                                   secureTextEntry={true}
+                                   onChangeText={text => setField('confirmPassword', text)}/>
+                    </View>
+                    <TouchableOpacity onPress={submitForm}
+                                      style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton}
+                                      disabled={isPending()}>
+                        <Text style={styles.submitButtonText}>Registrarse</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </View>
+        </KeyboardAwareScrollView>
     )
 }
 
@@ -195,7 +216,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: '70%',
         textAlign: 'center',
-        fontFamily: 'serif'
     },
     inputContainer: {
         marginTop: 10
@@ -204,7 +224,7 @@ const styles = StyleSheet.create({
         color: mainStyles.primary,
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily: 'serif'
+        // fontFamily: 'serif'
     },
     input: {
         backgroundColor: mainStyles.background,
