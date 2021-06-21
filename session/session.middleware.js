@@ -1,4 +1,9 @@
-import {CHECK_USERNAME_USED_REQUEST, LOGIN_REQUEST, REGISTER_USER_REQUEST} from "./session.actions";
+import {
+    CHECK_USERNAME_USED_REQUEST,
+    GET_USER_DATA_ERROR, GET_USER_DATA_REQUEST,
+    LOGIN_REQUEST,
+    REGISTER_USER_REQUEST
+} from "./session.actions";
 import {services} from "./session.services";
 import actions from "../actions";
 
@@ -38,6 +43,11 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
                     if (action.errorCallback) action.errorCallback(err);
                     dispatch(actions.session.login.error(err));
                 })
+            break;
+        case GET_USER_DATA_REQUEST:
+            services.getUserData()
+                .then(res => dispatch(actions.session.getUserData.response(res)))
+                .catch(err => dispatch(actions.session.getUserData.error(err)));
             break;
         default:
             break;
