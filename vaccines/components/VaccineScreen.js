@@ -262,7 +262,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 25,
-        // alignItems: 'l',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -270,7 +269,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        // elevation: 5
     },
     modalTitle: {
         textAlign: 'center',

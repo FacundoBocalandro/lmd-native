@@ -17,8 +17,6 @@ const LoginScreen = ({login, loginPending}) => {
 
     const successCallback = (token) => {
         AsyncStorage.setItem('token', token);
-        console.log(token);
-        console.log(AsyncStorage.getItem('token'))
         history.push("/main/home");
     }
 
