@@ -19,10 +19,10 @@ const _request = async (url, method, data, config = {}) => {
         else throw (res.data);
     }).catch(errorResponse => {
         // JWT expired: logout
-        // if (errorResponse.response?.status === 403) {
-        //     AsyncStorage.removeItem('token');
-        // }
-        // else throw (errorResponse.response || {status: 500})
+        if (!config.noAuth && errorResponse.response?.status === 403) {
+            AsyncStorage.removeItem('token');
+        }
+        else throw (errorResponse.response || {status: 500})
     })
 }
 
