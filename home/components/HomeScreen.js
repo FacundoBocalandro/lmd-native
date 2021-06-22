@@ -31,10 +31,9 @@ const HomeScreen = ({user, getUserData}) => {
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonData}>Notas para la consulta</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/vaccine')}>
                     <Text style={styles.buttonData}>Mis vacunas</Text>
                 </TouchableOpacity>
-
             </View>
             <View style={styles.readingView}>
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         flex: 1,
-        backgroundColor: mainStyles.background,
         paddingVertical: 20,
         alignContent: "space-between"
 

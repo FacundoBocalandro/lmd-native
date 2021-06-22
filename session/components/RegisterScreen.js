@@ -224,7 +224,6 @@ const styles = StyleSheet.create({
         color: mainStyles.primary,
         fontSize: 25,
         fontWeight: 'bold',
-        // fontFamily: 'serif'
     },
     input: {
         backgroundColor: mainStyles.background,
