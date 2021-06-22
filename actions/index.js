@@ -6,7 +6,7 @@ import vaccinesActions from "../vaccines/vaccines.actions";
 const actions = {
     session: sessionActions,
     graph: graphActions,
-    home: homeActions
+    home: homeActions,
     vaccines: vaccinesActions,
 }
 

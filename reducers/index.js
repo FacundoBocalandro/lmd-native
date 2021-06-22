@@ -8,7 +8,7 @@ import vaccinesReducer from "../vaccines/vaccinesReducer";
 const appReducer = combineReducers({
     session: sessionReducer,
     home: homeReducer,
-    graph: graphReducer
+    graph: graphReducer,
     vaccines: vaccinesReducer
 })
 

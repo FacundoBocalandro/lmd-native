@@ -14,7 +14,7 @@ const AppFrame = ({children}) => {
     const menuOptions = [
         {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
         {text: "Lecturas", icon: faBook, id:'readings'},
-        {text: "Inmunizaciones", icon: faHeartbeat, id:'vaccine'},
+        {text: "Inmunizaciones", icon: faHeartbeat, url:'/main/vaccine', id:'vaccine'},
         {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
         {text: "Notas", icon: faEdit, id:'notes' },
     ]

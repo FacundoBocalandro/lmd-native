@@ -116,7 +116,7 @@ const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccin
                         <ScrollView>
                             <View style={styles.scrollableTable}>
                                 {allVaccines?.map(vaccine => (
-                                    <DataTable.Row style={styles.vaccineContainer}>
+                                    <DataTable.Row style={styles.vaccineContainer} key={vaccine.id}>
                                         <DataTable.Cell style={styles.vaccineNameContainer} onPress={() => openVaccineInfo(vaccine)}>
                                             <View style={styles.vaccineDataContainer}>
                                                 <Text style={styles.vaccineName}>{vaccine.name}</Text>

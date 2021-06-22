@@ -21,14 +21,15 @@ export default function App() {
                     <Route exact path={'/'} component={LoginScreen}/>
                     <Route exact path={'/register'} component={RegisterScreen}/>
                     <PrivateRoute path='/main' component={({match: {url}}) => ([
-                        <Switch>
-                            <AppFrame key={'app-frame'}>
-                                <PrivateRoute exact path={`${url}/home`} component={HomeScreen}/>
-                                <PrivateRoute key={'graphScreen'} exact path={`${url}/graphScreen`} component={GraphScreen}/>
-                                <PrivateRoute exact path={`${url}/vaccine`} component={VaccineScreen}/>
-                                <PrivateRoute exact path={`${url}/vaccine/info`} component={VaccineInformation}/>
-                            </AppFrame>
-                        </Switch>
+                        <AppFrame key={'app-frame'}>
+                            <Switch style={{width: '100%', height: '100%'}}>
+                                <PrivateRoute key={'home'} exact path={`${url}/home`} component={HomeScreen}/>
+                                <PrivateRoute key={'graphScreen'} exact path={`${url}/graphScreen`}
+                                              component={GraphScreen}/>
+                                <PrivateRoute key={'vaccineScreen'} exact path={`${url}/vaccine`} component={VaccineScreen}/>
+                                <PrivateRoute key={'specificVaccineDataScreen'} exact path={`${url}/vaccine/info`} component={VaccineInformation}/>
+                            </Switch>
+                        </AppFrame>
                     ])}/>
                 </Switch>
             </NativeRouter>
