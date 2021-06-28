@@ -18,6 +18,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         email: "",
         username: "",
         password: "",
+        gender: "FEMALE",
         confirmPassword: ""
     })
 

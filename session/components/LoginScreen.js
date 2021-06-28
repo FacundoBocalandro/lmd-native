@@ -15,8 +15,18 @@ const LoginScreen = ({login, loginPending}) => {
     const history = useHistory();
     const [form, setForm] = useState({...initialForm})
 
-    const successCallback = (token) => {
-        AsyncStorage.setItem('token', token);
+    const successCallback = async (token) => {
+        console.log("primero " + await AsyncStorage.getAllKeys());
+        const tokens = Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+        let lastToken = 0;
+        tokens.forEach(tokenString => {
+            console.log("token string" + tokenString)
+            const tokenNumber = tokenString.split('-')[1]
+            if (tokenNumber > lastToken) lastToken = parseFloat(tokenNumber);
+        })
+        await AsyncStorage.setItem(`token-${lastToken + 1}`, token);
+        await AsyncStorage.setItem('selected-user', `${lastToken + 1}`)
+        console.log(await AsyncStorage.getAllKeys());
         history.push("/main/home");
     }
 

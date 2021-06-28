@@ -17,10 +17,11 @@ const _request = async (url, method, data, config = {}) => {
     }).then((res) => {
         if (res.status === 200 || res.status === 201 || res.status === 204) return res.data;
         else throw (res.data);
-    }).catch(errorResponse => {
+    }).catch(async errorResponse => {
         // JWT expired: logout
         if (!config.noAuth && errorResponse.response?.status === 403) {
-            AsyncStorage.removeItem('token');
+            await AsyncStorage.removeItem(`token-${AsyncStorage.getItem('selected-user')}`);
+            await AsyncStorage.removeItem('selected-user');
         }
         else throw (errorResponse.response || {status: 500})
     })
@@ -33,9 +34,9 @@ export const patch = (url, body, config = {}) => _request(url, "PATCH", body, co
 export const deleteRequest = (url, body, config = {}) => _request(url, "DELETE", body, config);
 
 export const isAuthenticated = async () => {
-    return await AsyncStorage.getItem('token') !== null;
+    return await AsyncStorage.getItem(`token-${AsyncStorage.getItem('selected-user')}`) !== null;
 }
 
 export const getToken = async () => {
-    return await AsyncStorage.getItem('token');
+    return await AsyncStorage.getItem(`token-${AsyncStorage.getItem('selected-user')}`);
 }

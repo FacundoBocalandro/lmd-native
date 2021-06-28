@@ -11,6 +11,7 @@ const HomeScreen = ({user, getUserData}) => {
 
     useEffect(() => {
         if (!user)getUserData();
+        console.log(user)
     })
 
     return user ? (

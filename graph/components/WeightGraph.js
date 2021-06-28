@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import {ActivityIndicator, StyleSheet, View} from "react-native";
 
 import GenericGraph from "./GenericGraph";
-import DelayedRendering from "../../common/components/delayed-rendering/DelayedRendering";
 import {mainStyles, windowHeight} from "../../mainStyles";
 
 

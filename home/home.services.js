@@ -1,5 +1,5 @@
 import {get} from "../utils/http";
 
 export const services = {
-    getUserData: () => get('users/current')
+    getUserData: (token) => get('users/current', {token})
 }

@@ -1,15 +1,26 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import SideMenu from 'react-native-side-menu-updated'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
-import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome, faUser} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
 import {useHistory} from "react-router-dom";
+import {connect} from "react-redux";
+import actions from "../../../actions";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalDropdown from 'react-native-modal-dropdown';
 
-const AppFrame = ({children}) => {
+const AppFrame = ({children, getUserInfoFromToken, allUsersInfo, logout}) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const history = useHistory();
+
+    useEffect(() => {
+        const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+        tokens.forEach(key => {
+            getUserInfoFromToken(AsyncStorage.getItem(key));
+        })
+    }, [])
 
     const menuOptions = [
         {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
@@ -19,8 +30,51 @@ const AppFrame = ({children}) => {
         {text: "Notas", icon: faEdit, id:'notes' },
     ]
 
-    const menu = (
+    const logoutAction = () => {
+        logout();
+
+        //rearrange tokens to be in order
+        const selectedUser = AsyncStorage.getItem('selected-user');
+        const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+        let lastToken = selectedUser;
+        //get last token, which will be moved to the localstorage key where the removed token was.
+        tokens.forEach(tokenString => {
+            const tokenNumber = tokenString.split('-')[1]
+            if (tokenNumber > lastToken) lastToken = parseFloat(tokenNumber);
+        })
+
+        AsyncStorage.removeItem(`token-${selectedUser}`);
+        if (lastToken !== selectedUser) {
+            AsyncStorage.setItem(`token-${selectedUser}`, AsyncStorage.getItem(`token-${lastToken}`))
+            AsyncStorage.removeItem(`token-${lastToken}`)
+        }
+
+        AsyncStorage.removeItem('selected-user');
+
+        history.replace('/');
+    }
+
+    const addAccount = () => {
+        logout();
+        history.push('/');
+    }
+
+    const setSelectedToken = (token) => {
+        const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+        tokens.forEach(tokenKey => {
+            if (AsyncStorage.getItem(tokenKey) === token) {
+                const tokenNumber = tokenKey.split('-')[1];
+                if (tokenNumber !== AsyncStorage.getItem('selected-user')) {
+                    logout();
+                    AsyncStorage.setItem('selected-user', tokenNumber)
+                }
+            }
+        })
+    }
+
+    const menu =
         <View style={styles.menu}>
+            <View>
             {menuOptions.map(option => (
                 <View key={option.id} style={styles.menuOption} >
                     <TouchableHighlight style={styles.menuIconContainer} onPress={() => history.replace(option.url)}>
@@ -29,8 +83,19 @@ const AppFrame = ({children}) => {
                     <Text style={styles.menuText} onPress={() => history.replace(option.url)}>{option.text}</Text>
                 </View>
             ))}
+            </View>
+            <View>
+                <TouchableOpacity style={[styles.menuOption, styles.profileOption]}>
+                    <TouchableHighlight style={styles.menuIconContainer}>
+                        <FontAwesomeIcon icon={faUser} style={styles.menuIcon} size={20}/>
+                    </TouchableHighlight>
+                    {/*<Text style={styles.menuText}>{user.firstName} {user.lastName}</Text>*/}
+                </TouchableOpacity>
+                {/*<ModalDropdown options={allUsersInfo}>*/}
+                {/*    <Text></Text>*/}
+                {/*</ModalDropdown>*/}
+            </View>
         </View>
-    );
 
     return (
         <SideMenu menu={menu} isOpen={menuOpen} onChange={value => setMenuOpen(value)}>
@@ -55,13 +120,17 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: mainStyles.darkBlue,
         paddingLeft: 10,
-        paddingTop: 10
+        paddingTop: 10,
+        justifyContent: 'space-between'
     },
     menuOption: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
+    },
+    profileOption: {
+      marginBottom: 25
     },
     menuIconContainer: {
         padding: 10,
@@ -96,4 +165,15 @@ const styles = StyleSheet.create({
 });
 
 
-export default AppFrame
+const mapStateToProps = state => ({
+    allUsersInfo: state.session.allUsersInfo
+})
+
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(actions.home.logout()),
+    getUserInfoFromToken: (token) => dispatch(actions.home.getUserData.request(token))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppFrame);
+
+
