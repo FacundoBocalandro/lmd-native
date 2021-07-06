@@ -107,7 +107,6 @@ const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
                     style={{flex: 1}}
                     behavior={(Platform.OS === 'ios') ? "padding" : null} enabled
                     keyboardVerticalOffset={Platform.select({ios: 80, android: 500})}>
-
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Peso</Text>

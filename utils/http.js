@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;
 
-const baseUrl = "http://localhost:8090/"
+const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
     const headers = await isAuthenticated() ? {...config.headers, Authorization: `Bearer ${await getToken()}`} : config.headers;

@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {StyleSheet, View} from "react-native";
 import GenericGraph from "./GenericGraph";
 import {ActivityIndicator} from "react-native";
-import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
+import {mainStyles, windowHeight} from "../../mainStyles";
 
 const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHistory, userHeightHistory}) => {
 
