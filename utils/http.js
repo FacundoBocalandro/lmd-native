@@ -1,5 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {removeCurrentToken} from "./tokens";
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;
@@ -7,7 +8,7 @@ httpClient.defaults.timeout = 1200000;
 const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
-    const headers = await isAuthenticated() ? {...config.headers, Authorization: `Bearer ${await getToken()}`} : config.headers;
+    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${config.token ?? getToken()}`} : config.headers;
 
     return httpClient({
         url: baseUrl + url,
@@ -20,8 +21,8 @@ const _request = async (url, method, data, config = {}) => {
     }).catch(async errorResponse => {
         // JWT expired: logout
         if (!config.noAuth && errorResponse.response?.status === 403) {
-            await AsyncStorage.removeItem(`token-${AsyncStorage.getItem('selected-user')}`);
-            await AsyncStorage.removeItem('selected-user');
+            removeCurrentToken();
+            window.location.href = window.location.origin
         }
         else throw (errorResponse.response || {status: 500})
     })
@@ -33,10 +34,10 @@ export const put = (url, body, config = {}) => _request(url, "PUT", body, config
 export const patch = (url, body, config = {}) => _request(url, "PATCH", body, config);
 export const deleteRequest = (url, body, config = {}) => _request(url, "DELETE", body, config);
 
-export const isAuthenticated = async () => {
-    return await AsyncStorage.getItem(`token-${AsyncStorage.getItem('selected-user')}`) !== null;
+export const isAuthenticated = () => {
+    return getToken() !== null;
 }
 
-export const getToken = async () => {
-    return await AsyncStorage.getItem(`token-${AsyncStorage.getItem('selected-user')}`);
+export const getToken = () => {
+    return AsyncStorage.getItem(`token-${AsyncStorage.getItem('selected-user')}`);
 }

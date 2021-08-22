@@ -6,21 +6,29 @@ import {TouchableOpacity} from "react-native-gesture-handler";
 import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome, faUser} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
 import {useHistory} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import actions from "../../../actions";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalDropdown from 'react-native-modal-dropdown';
+import {clearSelectedUser, getAllStoredTokens, removeCurrentToken} from "../../../utils/tokens";
+import {getToken} from "../../../utils/http";
 
 const AppFrame = ({children, getUserInfoFromToken, allUsersInfo, logout}) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const history = useHistory();
 
     useEffect(() => {
-        const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
-        tokens.forEach(key => {
-            getUserInfoFromToken(AsyncStorage.getItem(key));
+        const tokens = getAllStoredTokens();
+        let user;
+        tokens.forEach(token => {
+            console.log(token);
+            // if (token === getToken()) user = getUserInfoFromToken(token)
+            console.log(getUserInfoFromToken(token));
         })
     }, [])
+
+    const history = useHistory();
+    const location = useLocation();
 
     const menuOptions = [
         {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
@@ -32,44 +40,14 @@ const AppFrame = ({children, getUserInfoFromToken, allUsersInfo, logout}) => {
 
     const logoutAction = () => {
         logout();
-
-        //rearrange tokens to be in order
-        const selectedUser = AsyncStorage.getItem('selected-user');
-        const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
-        let lastToken = selectedUser;
-        //get last token, which will be moved to the localstorage key where the removed token was.
-        tokens.forEach(tokenString => {
-            const tokenNumber = tokenString.split('-')[1]
-            if (tokenNumber > lastToken) lastToken = parseFloat(tokenNumber);
-        })
-
-        AsyncStorage.removeItem(`token-${selectedUser}`);
-        if (lastToken !== selectedUser) {
-            AsyncStorage.setItem(`token-${selectedUser}`, AsyncStorage.getItem(`token-${lastToken}`))
-            AsyncStorage.removeItem(`token-${lastToken}`)
-        }
-
-        AsyncStorage.removeItem('selected-user');
-
+        removeCurrentToken();
         history.replace('/');
     }
 
     const addAccount = () => {
         logout();
+        clearSelectedUser();
         history.push('/');
-    }
-
-    const setSelectedToken = (token) => {
-        const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
-        tokens.forEach(tokenKey => {
-            if (AsyncStorage.getItem(tokenKey) === token) {
-                const tokenNumber = tokenKey.split('-')[1];
-                if (tokenNumber !== AsyncStorage.getItem('selected-user')) {
-                    logout();
-                    AsyncStorage.setItem('selected-user', tokenNumber)
-                }
-            }
-        })
     }
 
     const menu =

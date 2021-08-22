@@ -16,7 +16,6 @@ const LoginScreen = ({login, loginPending}) => {
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = async (token) => {
-        console.log("primero " + await AsyncStorage.getAllKeys());
         const tokens = Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
         let lastToken = 0;
         tokens.forEach(tokenString => {
