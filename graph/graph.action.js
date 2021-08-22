@@ -25,6 +25,12 @@ export const ADD_HEIGHT_DATA_ERROR = "ADD_HEIGHT_DATA_ERROR";
 export const ADD_HEAD_DATA_REQUEST = "ADD_HEAD_DATA_REQUEST";
 export const ADD_HEAD_DATA_RESPONSE = "ADD_HEAD_DATA_RESPONSE";
 export const ADD_HEAD_DATA_ERROR = "ADD_HEAD_DATA_ERROR";
+export const GET_AVERAGE_BMI_DATA_REQUEST = "GET_AVERAGE_BMI_DATA_REQUEST";
+export const GET_AVERAGE_BMI_DATA_RESPONSE = "GET_AVERAGE_BMI_DATA_RESPONSE";
+export const GET_AVERAGE_BMI_DATA_ERROR = "GET_AVERAGE_BMI_DATA_ERROR";
+export const GET_USER_BMI_HISTORY_REQUEST = "GET_USER_BMI_HISTORY_REQUEST";
+export const GET_USER_BMI_HISTORY_RESPONSE = "GET_USER_BMI_HISTORY_RESPONSE";
+export const GET_USER_BMI_HISTORY_ERROR = "GET_USER_BMI_HISTORY_ERROR";
 
 const graphActions = {
     /**
@@ -50,6 +56,14 @@ const graphActions = {
         request: () => ({type: GET_AVERAGE_HEIGHT_DATA_REQUEST}),
         response: (heights) => ({type: GET_AVERAGE_HEIGHT_DATA_RESPONSE, heights}),
         error: (err) => ({type: GET_AVERAGE_HEIGHT_DATA_ERROR, err}),
+    },
+    /**
+     * Get BMI percentile values to display in home screen chart
+     */
+    getAverageBmiData: {
+        request: () => ({type: GET_AVERAGE_BMI_DATA_REQUEST}),
+        response: (bmiList) => ({type: GET_AVERAGE_BMI_DATA_RESPONSE, bmiList}),
+        error: (err) => ({type: GET_AVERAGE_BMI_DATA_ERROR, err}),
     },
     /**
      * Get user's weight history to display in home screen chart,
