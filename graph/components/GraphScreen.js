@@ -5,6 +5,7 @@ import {Text, Modal} from "react-native";
 import WeightGraph from "../containers/WeightGraph";
 import PerimeterGraph from "../containers/PerimeterGraph";
 import HeightGraph from "../containers/HeightGraph";
+import BmiChart from "../containers/BmiGraph";
 
 const initialFormState = {
     weight: "",
@@ -87,11 +88,17 @@ const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
                                   onPress={() => setSelectedTab(3)}>
                     <Text style={styles.homeScreenTabText}>Perímetro Cefálico</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 4 ? styles.selected : '']}
+                                  onPress={() => setSelectedTab(4)}>
+                    <Text style={styles.homeScreenTabText}>IMC</Text>
+                </TouchableOpacity>
             </View>
             <View stle={styles.graphContainer}>
                 {selectedTab === 1 && <WeightGraph key={'weightGraph'} />}
                 {selectedTab === 2 && <HeightGraph key={'heightGraph'} />}
                 {selectedTab === 3 && <PerimeterGraph key={'perimeterGraph'} />}
+                {selectedTab === 4 && <BmiChart key={'bmiChart'} />}
+
             </View>
             <TouchableOpacity style={isLandscape() ? styles.newDataButtonLandscape : styles.newDataButtonPortrait}
                               onPress={() => setModalVisible(!modalVisible)}>

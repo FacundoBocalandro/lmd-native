@@ -12,7 +12,7 @@ const BmiChart = ({getAverageBmiData, averageBmiData, getUserBmiHistory, userBmi
     return (
         <View style={averageBmiData ? '' : styles.activityMonitor}>
             {averageBmiData && userBmiHistory ?
-                <GenericChart percentileData={averageBmiData}
+                <GenericGraph percentileData={averageBmiData}
                               maxY={32}
                               minY={10}
                               yStep={2}

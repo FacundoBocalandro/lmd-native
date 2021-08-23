@@ -92,6 +92,15 @@ const graphActions = {
         response: (history) => ({type: GET_USER_HEIGHT_HISTORY_RESPONSE, history}),
         error: (err) => ({type: GET_USER_HEIGHT_HISTORY_ERROR, err}),
     },
+    /**
+     * Get user's bmi history to display in home screen chart,
+     * and show the difference with average values
+     */
+    getUserBmiHistory: {
+        request: () => ({type: GET_USER_BMI_HISTORY_REQUEST}),
+        response: (history) => ({type: GET_USER_BMI_HISTORY_RESPONSE, history}),
+        error: (err) => ({type: GET_USER_BMI_HISTORY_ERROR, err}),
+    },
     addWeightData: {
         request: (data) => ({type: ADD_WEIGHT_DATA_REQUEST, data}),
         response: (res) => ({type: ADD_WEIGHT_DATA_RESPONSE, res}),

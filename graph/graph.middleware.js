@@ -34,9 +34,9 @@ const graphMiddleware = ({dispatch, getState}) => next => action => {
                 .catch(err => dispatch(actions.graph.getAverageHeightData.error(err)))
             break;
         case GET_AVERAGE_BMI_DATA_REQUEST:
-            services.getAverageBmiData(getState().session.userInfo.gender === GENDERS.MALE)
-                .then(res => dispatch(actions.home.getAverageBmiData.response(adapt7PercentileData(res.bmiList))))
-                .catch(err => dispatch(actions.home.getAverageBmiData.error(err)))
+            services.getAverageBmiData(getState().home.user.gender  === GENDERS.MALE)
+                .then(res => dispatch(actions.graph.getAverageBmiData.response(adapt7PercentileData(res.bmiList))))
+                .catch(err => dispatch(actions.graph.getAverageBmiData.error(err)))
             break;
         case GET_USER_WEIGHT_HISTORY_REQUEST:
             services.getUserWeightHistory()
@@ -55,8 +55,8 @@ const graphMiddleware = ({dispatch, getState}) => next => action => {
             break;
         case GET_USER_BMI_HISTORY_REQUEST:
             services.getUserBmiHistory()
-                .then(res => dispatch(actions.home.getUserBmiHistory.response(adaptUserHistoryData(res, 'bmi', getState().session.userInfo.birthDate))))
-                .catch(err => dispatch(actions.home.getUserBmiHistory.error(err)));
+                .then(res => dispatch(actions.graph.getUserBmiHistory.response(adaptUserHistoryData(res, 'bmi',getState().home.user.birthDate))))
+                .catch(err => dispatch(actions.graph.getUserBmiHistory.error(err)));
             break;
         case ADD_WEIGHT_DATA_REQUEST:
             services.addWeightData(action.data)
