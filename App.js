@@ -11,6 +11,7 @@ import VaccineScreen from "./vaccines/containers/Vaccine";
 import VaccineInformation from "./vaccines/containers/VaccineInformation";
 import GraphScreen from "./graph/containers/Graph";
 import HomeScreen from "./home/containers/Home";
+import ReadingsScreen from "./readings/containers/ReadingsScreen";
 
 export default function App() {
     return (
@@ -27,6 +28,7 @@ export default function App() {
                                 <PrivateRoute key={'graphScreen'} exact path={`${url}/graphScreen`}
                                               component={GraphScreen}/>
                                 <PrivateRoute key={'vaccineScreen'} exact path={`${url}/vaccine`} component={VaccineScreen}/>
+                                <PrivateRoute key={'readingsScreen'} exact path={`${url}/readings`} component={ReadingsScreen}/>
                                 <PrivateRoute key={'specificVaccineDataScreen'} exact path={`${url}/vaccine/info`} component={VaccineInformation}/>
                             </Switch>
                         </AppFrame>
