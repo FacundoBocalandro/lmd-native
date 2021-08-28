@@ -7,6 +7,7 @@ import vaccinesMiddleware from "./vaccines/vaccinesMiddleware";
 import graphMiddleware from "./graph/graph.middleware";
 import homeMiddleware from "./home/home.middleware";
 import readingsMiddleware from "./readings/reasing.middleware";
+import vaccineInfoMiddleware from "./vaccines/vaccineInfo/vaccineInfo.middleware";
 
 const store = createStore(
     rootReducer,
@@ -16,7 +17,8 @@ const store = createStore(
         graphMiddleware,
         homeMiddleware,
         vaccinesMiddleware,
-        readingsMiddleware
+        vaccineInfoMiddleware,
+        readingsMiddleware,
     ))
 )
 

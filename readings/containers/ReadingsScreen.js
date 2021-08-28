@@ -9,7 +9,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getAllCategories: () =>  dispatch(actions.readings.getAllCategories.request()),
-    getAllReadingsForCategory: (category) => dispatch(actions.readings.getAllReadingsForCategory.request(category))
+    getAllReadingsForCategory: (category) => dispatch(actions.readings.getAllReadingsForCategory.request(category)),
+    setArticleId: (articleId) => dispatch(actions.article.setArticleId.request(articleId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReadingsScreen);

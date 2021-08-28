@@ -11,7 +11,7 @@ import {
 import {useHistory} from "react-router-dom";
 import {mainStyles} from "../../mainStyles";
 
-const ReadingsScreen = ({getAllCategories, getAllReadingsForCategory, allCategories, categoryReadings}) => {
+const ReadingsScreen = ({getAllCategories, getAllReadingsForCategory, allCategories, categoryReadings, setArticleId}) => {
 
     useEffect(() => {
         if (!allCategories) getAllCategories();
@@ -22,7 +22,8 @@ const ReadingsScreen = ({getAllCategories, getAllReadingsForCategory, allCategor
     const history = useHistory();
 
     const openArticle = (article)  => {
-        history.push(`/main/readings/${article.id}`, article)
+        setArticleId(article);
+        history.push(`/main/readings/article/${article.id}`);
     }
 
     const getReadings = (categoryName) => {
@@ -48,9 +49,9 @@ const ReadingsScreen = ({getAllCategories, getAllReadingsForCategory, allCategor
                                 <Text style={styles.categoryText}>{category.name}</Text>
                             </TouchableOpacity>
 
-                            {currentCategory === category.name ? categoryReadings?.map(reading => (
-                                <TouchableOpacity key={reading.id} style={styles.articleContainer} onPress={() => reading}>
-                                    <Text style={styles.articleText}> {reading.title}</Text>
+                            {currentCategory === category.name ? categoryReadings?.map(article => (
+                                <TouchableOpacity key={article.id} style={styles.articleContainer} onPress={() => openArticle(article)}>
+                                    <Text style={styles.articleText}> {article.title}</Text>
                                 </TouchableOpacity>)) : null}
                         </View>
                     ))}
