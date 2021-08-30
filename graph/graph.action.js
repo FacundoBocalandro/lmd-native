@@ -25,6 +25,12 @@ export const ADD_HEIGHT_DATA_ERROR = "ADD_HEIGHT_DATA_ERROR";
 export const ADD_HEAD_DATA_REQUEST = "ADD_HEAD_DATA_REQUEST";
 export const ADD_HEAD_DATA_RESPONSE = "ADD_HEAD_DATA_RESPONSE";
 export const ADD_HEAD_DATA_ERROR = "ADD_HEAD_DATA_ERROR";
+export const GET_AVERAGE_BMI_DATA_REQUEST = "GET_AVERAGE_BMI_DATA_REQUEST";
+export const GET_AVERAGE_BMI_DATA_RESPONSE = "GET_AVERAGE_BMI_DATA_RESPONSE";
+export const GET_AVERAGE_BMI_DATA_ERROR = "GET_AVERAGE_BMI_DATA_ERROR";
+export const GET_USER_BMI_HISTORY_REQUEST = "GET_USER_BMI_HISTORY_REQUEST";
+export const GET_USER_BMI_HISTORY_RESPONSE = "GET_USER_BMI_HISTORY_RESPONSE";
+export const GET_USER_BMI_HISTORY_ERROR = "GET_USER_BMI_HISTORY_ERROR";
 
 const graphActions = {
     /**
@@ -52,6 +58,14 @@ const graphActions = {
         error: (err) => ({type: GET_AVERAGE_HEIGHT_DATA_ERROR, err}),
     },
     /**
+     * Get BMI percentile values to display in home screen chart
+     */
+    getAverageBmiData: {
+        request: () => ({type: GET_AVERAGE_BMI_DATA_REQUEST}),
+        response: (bmiList) => ({type: GET_AVERAGE_BMI_DATA_RESPONSE, bmiList}),
+        error: (err) => ({type: GET_AVERAGE_BMI_DATA_ERROR, err}),
+    },
+    /**
      * Get user's weight history to display in home screen chart,
      * and show the difference with average values
      */
@@ -77,6 +91,15 @@ const graphActions = {
         request: () => ({type: GET_USER_HEIGHT_HISTORY_REQUEST}),
         response: (history) => ({type: GET_USER_HEIGHT_HISTORY_RESPONSE, history}),
         error: (err) => ({type: GET_USER_HEIGHT_HISTORY_ERROR, err}),
+    },
+    /**
+     * Get user's bmi history to display in home screen chart,
+     * and show the difference with average values
+     */
+    getUserBmiHistory: {
+        request: () => ({type: GET_USER_BMI_HISTORY_REQUEST}),
+        response: (history) => ({type: GET_USER_BMI_HISTORY_RESPONSE, history}),
+        error: (err) => ({type: GET_USER_BMI_HISTORY_ERROR, err}),
     },
     addWeightData: {
         request: (data) => ({type: ADD_WEIGHT_DATA_REQUEST, data}),
