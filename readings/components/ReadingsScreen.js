@@ -26,10 +26,10 @@ const ReadingsScreen = ({getAllCategories, getAllReadingsForCategory, allCategor
         history.push(`/main/readings/article/${article.id}`);
     }
 
-    const getReadings = (categoryName) => {
-        if (currentCategory !== categoryName) {
-            getAllReadingsForCategory(categoryName);
-            setCurrentCategory(categoryName);
+    const getReadings = (categoryId) => {
+        if (currentCategory !== categoryId) {
+            getAllReadingsForCategory(categoryId);
+            setCurrentCategory(categoryId);
         } else {
             setCurrentCategory(undefined);
         }
@@ -45,11 +45,11 @@ const ReadingsScreen = ({getAllCategories, getAllReadingsForCategory, allCategor
                     {allCategories?.map(category => (
                         <View key={`category-${category.id}`} style={styles.categoryAndArticleContainer}>
                             <TouchableOpacity style={styles.categoryContainer}
-                                              onPress={() => getReadings(category.name)}>
+                                              onPress={() => getReadings(category.id)}>
                                 <Text style={styles.categoryText}>{category.name}</Text>
                             </TouchableOpacity>
 
-                            {currentCategory === category.name ? categoryReadings?.map(article => (
+                            {currentCategory === category.id ? categoryReadings?.map(article => (
                                 <TouchableOpacity key={article.id} style={styles.articleContainer} onPress={() => openArticle(article)}>
                                     <Text style={styles.articleText}> {article.title}</Text>
                                 </TouchableOpacity>)) : null}
