@@ -77,15 +77,15 @@ const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
             <View style={styles.tabContainer}>
                 <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 1 ? styles.selected : '']}
                                   onPress={() => setSelectedTab(1)}>
-                    <Text style={styles.homeScreenTabText}>Peso</Text>
+                    <Text style={styles.homeScreenTabText} onPress={() => setSelectedTab(1)}>Peso</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 2 ? styles.selected : '']}
                                   onPress={() => setSelectedTab(2)}>
-                    <Text style={styles.homeScreenTabText}>Estatura</Text>
+                    <Text style={styles.homeScreenTabText} onPress={() => setSelectedTab(2)}>Estatura</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 3 ? styles.selected : '']}
                                   onPress={() => setSelectedTab(3)}>
-                    <Text style={styles.homeScreenTabText}>Perímetro Cefálico</Text>
+                    <Text style={styles.homeScreenTabText}  onPress={() => setSelectedTab(3)}>Perímetro Cefálico</Text>
                 </TouchableOpacity>
             </View>
             <View stle={styles.graphContainer}>

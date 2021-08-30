@@ -26,15 +26,16 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
             });
         }
         fetchMyTokens();
+        if (!userInfo) getUserInfo();
         console.log(allUsersInfo)
     }, [])
 
     const history = useHistory();
     const location = useLocation();
 
-    const logoutAction = () => {
+    const logoutAction = async () => {
         logout();
-        removeCurrentToken();
+        await removeCurrentToken();
         history.replace('/');
     }
 
@@ -46,9 +47,9 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
         {text: "Notas", icon: faEdit, id: 'notes'},
     ]
 
-    const addAccount = () => {
+    const addAccount = async () => {
         logout();
-        clearSelectedUser();
+        await clearSelectedUser();
         history.push('/');
     }
 
@@ -70,7 +71,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     <TouchableHighlight style={styles.menuIconContainer}>
                         <FontAwesomeIcon icon={faUser} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
-                    {/*<Text style={styles.menuText}>{user.firstName} {user.lastName}</Text>*/}
+                    <Text style={styles.menuText}>{userInfo?.firstName} {userInfo?.lastName}</Text>
                 </TouchableOpacity>
                 {
                     allUsersInfo ?

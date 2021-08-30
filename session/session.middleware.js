@@ -46,7 +46,7 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
                 })
             break;
         case GET_USER_INFO_REQUEST:
-            services.getUserInfo()
+            services.getCurrentUserData()
                 .then(res => dispatch(actions.session.getUserInfo.response(res)))
                 .catch(err => dispatch(actions.session.getUserInfo.error(err)));
             break;
