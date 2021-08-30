@@ -8,7 +8,7 @@ httpClient.defaults.timeout = 1200000;
 const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
-    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${config.token ?? getToken()}`} : config.headers;
+    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${config.token ?? await getToken()}`} : config.headers;
 
     return httpClient({
         url: baseUrl + url,
@@ -21,7 +21,7 @@ const _request = async (url, method, data, config = {}) => {
     }).catch(async errorResponse => {
         // JWT expired: logout
         if (!config.noAuth && errorResponse.response?.status === 403) {
-            removeCurrentToken();
+            await removeCurrentToken();
             window.location.href = window.location.origin
         }
         else throw (errorResponse.response || {status: 500})
@@ -38,6 +38,7 @@ export const isAuthenticated = () => {
     return getToken() !== null;
 }
 
-export const getToken = () => {
-    return AsyncStorage.getItem(`token-${AsyncStorage.getItem('selected-user')}`);
+export const getToken = async () => {
+    return await AsyncStorage.getItem(`token-${await AsyncStorage.getItem('selected-user')}`);
+
 }

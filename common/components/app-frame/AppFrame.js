@@ -9,40 +9,42 @@ import {useHistory} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import actions from "../../../actions";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {clearSelectedUser, getAllStoredTokens, removeCurrentToken} from "../../../utils/tokens";
 import {getToken} from "../../../utils/http";
 
-const AppFrame = ({children, getUserInfoFromToken, allUsersInfo, logout}) => {
+const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, userInfo, logout}) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [currentUser, setCurrentUser] = useState(undefined);
 
     useEffect(() => {
-        const tokens = getAllStoredTokens();
-        let user;
-        tokens.forEach(token => {
-            console.log(token);
-            // if (token === getToken()) user = getUserInfoFromToken(token)
-            console.log(getUserInfoFromToken(token));
-        })
+        async function fetchMyTokens() {
+            const tokens = await getAllStoredTokens();
+            tokens.forEach(token => {
+                console.log( " este es un token", token)
+                getUserInfoFromToken(token);
+            });
+        }
+        fetchMyTokens();
+        console.log(allUsersInfo)
     }, [])
 
     const history = useHistory();
     const location = useLocation();
-
-    const menuOptions = [
-        {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
-        {text: "Lecturas", icon: faBook, id:'readings'},
-        {text: "Inmunizaciones", icon: faHeartbeat, url:'/main/vaccine', id:'vaccine'},
-        {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
-        {text: "Notas", icon: faEdit, id:'notes' },
-    ]
 
     const logoutAction = () => {
         logout();
         removeCurrentToken();
         history.replace('/');
     }
+
+    const menuOptions = [
+        {text: "Inicio", icon: faHome, url: '/main/home', id: 'home'},
+        {text: "Lecturas", icon: faBook, id: 'readings'},
+        {text: "Inmunizaciones", icon: faHeartbeat, url: '/main/vaccine', id: 'vaccine'},
+        {text: "Crecimiento", icon: faChartBar, url: '/main/graphScreen', id: 'anthropometricData'},
+        {text: "Notas", icon: faEdit, id: 'notes'},
+    ]
 
     const addAccount = () => {
         logout();
@@ -53,14 +55,15 @@ const AppFrame = ({children, getUserInfoFromToken, allUsersInfo, logout}) => {
     const menu =
         <View style={styles.menu}>
             <View>
-            {menuOptions.map(option => (
-                <View key={option.id} style={styles.menuOption} >
-                    <TouchableHighlight style={styles.menuIconContainer} onPress={() => history.replace(option.url)}>
-                        <FontAwesomeIcon icon={option.icon} style={styles.menuIcon} size={20}/>
-                    </TouchableHighlight>
-                    <Text style={styles.menuText} onPress={() => history.replace(option.url)}>{option.text}</Text>
-                </View>
-            ))}
+                {menuOptions.map(option => (
+                    <View key={option.id} style={styles.menuOption}>
+                        <TouchableHighlight style={styles.menuIconContainer}
+                                            onPress={() => history.replace(option.url)}>
+                            <FontAwesomeIcon icon={option.icon} style={styles.menuIcon} size={20}/>
+                        </TouchableHighlight>
+                        <Text style={styles.menuText} onPress={() => history.replace(option.url)}>{option.text}</Text>
+                    </View>
+                ))}
             </View>
             <View>
                 <TouchableOpacity style={[styles.menuOption, styles.profileOption]}>
@@ -69,9 +72,11 @@ const AppFrame = ({children, getUserInfoFromToken, allUsersInfo, logout}) => {
                     </TouchableHighlight>
                     {/*<Text style={styles.menuText}>{user.firstName} {user.lastName}</Text>*/}
                 </TouchableOpacity>
-                {/*<ModalDropdown options={allUsersInfo}>*/}
-                {/*    <Text></Text>*/}
-                {/*</ModalDropdown>*/}
+                {
+                    allUsersInfo ?
+                        <ModalDropdown options={allUsersInfo}>
+                            <Text></Text>
+                        </ModalDropdown> : null}
             </View>
         </View>
 
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     profileOption: {
-      marginBottom: 25
+        marginBottom: 25
     },
     menuIconContainer: {
         padding: 10,
@@ -144,12 +149,14 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-    allUsersInfo: state.session.allUsersInfo
+    allUsersInfo: state.session.allUsersInfo,
+    userInfo: state.session.userInfo
 })
 
 const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(actions.home.logout()),
-    getUserInfoFromToken: (token) => dispatch(actions.home.getUserData.request(token))
+    logout: () => dispatch(actions.session.logout()),
+    getUserInfo: () => dispatch(actions.session.getUserInfo.request()),
+    getUserInfoFromToken: (token) => dispatch(actions.session.getUserInfoFromToken.request(token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppFrame);

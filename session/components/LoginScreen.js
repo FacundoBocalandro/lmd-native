@@ -4,28 +4,20 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {saveNewToken, setSelectedToken} from "../../utils/tokens";
 
 const initialForm = {
     username: "",
     password: ""
 }
 
-const LoginScreen = ({login, loginPending}) => {
+const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken}) => {
 
     const history = useHistory();
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = async (token) => {
-        const tokens = Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
-        let lastToken = 0;
-        tokens.forEach(tokenString => {
-            console.log("token string" + tokenString)
-            const tokenNumber = tokenString.split('-')[1]
-            if (tokenNumber > lastToken) lastToken = parseFloat(tokenNumber);
-        })
-        await AsyncStorage.setItem(`token-${lastToken + 1}`, token);
-        await AsyncStorage.setItem('selected-user', `${lastToken + 1}`)
-        console.log(await AsyncStorage.getAllKeys());
+        await saveNewToken(token)
         history.push("/main/home");
     }
 
@@ -42,9 +34,19 @@ const LoginScreen = ({login, loginPending}) => {
         return loginPending
     }
 
-    const submitLogin = () => {
+    const submitLogin = async () => {
         if (!isPending()) {
-            login(form, successCallback, errorCallback)
+            let alreadyLoggedInToken;
+            if (allUsersInfo) {
+                Object.entries(allUsersInfo).forEach(([token, info]) => {
+                    if (info.username === form.username) alreadyLoggedInToken = token;
+                })
+            }
+
+            if (alreadyLoggedInToken) {
+                await setSelectedToken(alreadyLoggedInToken, logout);
+                history.push('/inicio');
+            } else login(form, successCallback, errorCallback)
         }
     }
 

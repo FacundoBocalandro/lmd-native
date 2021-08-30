@@ -7,32 +7,32 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  * @param logout: Redux function to delete stored information
  */
 export const setSelectedToken = async (token, logout) => {
-    const tokens = Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
-    await tokens.forEach(tokenKey => {
-        if ( AsyncStorage.getItem(tokenKey) === token) {
-            const tokenNumber = tokenKey.split('-')[1];
-            if (tokenNumber !== AsyncStorage.getItem('selected-user')) {
-                logout();
-                AsyncStorage.getItem('selected-user', tokenNumber)
-                AsyncStorage.location.reload()
-            }
-        }
-    })
+    const tokens = Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+    // await tokens.forEach((tokenKey )=> {
+    //     if ( await AsyncStorage.getItem(tokenKey) === token) {
+    //         const tokenNumber = tokenKey.split('-')[1];
+    //         if (tokenNumber !== await AsyncStorage.getItem('selected-user')) {
+    //             logout();
+    //             await AsyncStorage.getItem('selected-user', tokenNumber)
+    //             await AsyncStorage.location.reload()
+    //         }
+    //     }
+    // })
 }
 
 /**
  * Clear selected user. Doesn't delete any stored token, but clears selected user
  */
-export const clearSelectedUser = () => {
-    AsyncStorage.removeItem('selected-user');
+export const clearSelectedUser = async () => {
+    await AsyncStorage.removeItem('selected-user');
 }
 
 /**
  * Get all tokens from users that are logged in
  * @returns {string[]}: Array of stored tokens
  */
-export const getAllStoredTokens = () => {
-    const keys = getAllTokenKeys();
+export const getAllStoredTokens = async () => {
+    const keys = await getAllTokenKeys();
     return keys.map(key => AsyncStorage.getItem(key));
 }
 
@@ -41,16 +41,17 @@ export const getAllStoredTokens = () => {
  * Token keys have the format token-x, where x is the unique number that identifies the token.
  * @returns {string[]}: Array of keys.
  */
-export const getAllTokenKeys = () => {
-    return Object.keys(AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+export const getAllTokenKeys = async () => {
+    return Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
 }
 
 /**
  * Save token in the last position and set as selected
  * @param token: JWT token
  */
-export const saveNewToken = (token) => {
-    const tokenKeys = getAllTokenKeys();
+export const saveNewToken = async (token) => {
+    const tokenKeys = await getAllTokenKeys();
+    console.log("save new token, getting all tokens already saved", tokenKeys)
     // Start as 0. If there is no stored token, will remain as 0
     let lastToken = 0;
     tokenKeys.forEach(tokenKey => {
@@ -61,19 +62,19 @@ export const saveNewToken = (token) => {
     })
 
     // store new token in last position
-    AsyncStorage.setItem(`token-${lastToken + 1}`, token);
+    await AsyncStorage.setItem(`token-${lastToken + 1}`, token);
 
     // set token as selected
-    AsyncStorage.setItem('selected-user', `${lastToken + 1}`);
+    await AsyncStorage.setItem('selected-user', `${lastToken + 1}`);
 }
 
 /**
  * Removes current token and rearrange other stored tokens to keep order
  */
-export const removeCurrentToken = () => {
+export const removeCurrentToken = async () => {
     //rearrange tokens to be in order
-    const selectedUser = AsyncStorage.getItem('selected-user');
-    const tokenKeys = getAllTokenKeys();
+    const selectedUser = await AsyncStorage.getItem('selected-user');
+    const tokenKeys = await getAllTokenKeys();
     let lastToken = selectedUser;
     //get last token, which will be moved to the localstorage key where the removed token was.
     tokenKeys.forEach(tokenKey => {
@@ -85,12 +86,12 @@ export const removeCurrentToken = () => {
     })
 
     // remove current token
-    AsyncStorage.removeItem(`token-${selectedUser}`);
+    await AsyncStorage.removeItem(`token-${selectedUser}`);
     if (lastToken !== selectedUser) {
         // in case the last token is different from the current one, move the last token to the current position
-        AsyncStorage.setItem(`token-${selectedUser}`, AsyncStorage.getItem(`token-${lastToken}`))
-        AsyncStorage.removeItem(`token-${lastToken}`)
+        await AsyncStorage.setItem(`token-${selectedUser}`, await AsyncStorage.getItem(`token-${lastToken}`))
+        await AsyncStorage.removeItem(`token-${lastToken}`)
     }
 
-    clearSelectedUser();
+    await clearSelectedUser();
 }
