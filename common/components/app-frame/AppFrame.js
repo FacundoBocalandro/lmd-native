@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, TouchableHighlight, View, Modal} from "react-native";
+import {StyleSheet, Text, TouchableHighlight, View, Modal, AsyncStorage} from "react-native";
 import SideMenu from 'react-native-side-menu-updated'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
@@ -9,7 +9,7 @@ import {useHistory} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import actions from "../../../actions";
-import {clearSelectedUser, getAllStoredTokens, removeCurrentToken} from "../../../utils/tokens";
+import {clearSelectedUser, getAllStoredTokens, removeCurrentToken, setSelectedToken} from "../../../utils/tokens";
 import {getToken} from "../../../utils/http";
 import {addWhitelistedInterpolationParam} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
 
@@ -32,13 +32,13 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
     const location = useLocation();
 
 
-    const changeModalVisibility = async (bool) => {
-        console.log("user info", allUsersInfo)
+    const changeModalVisibility = (bool) => {
         setModalVisible(bool)
     }
     const logoutAction = async () => {
         logout();
         await removeCurrentToken();
+        changeModalVisibility(false);
         history.replace('/');
     }
 
@@ -54,6 +54,12 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
         logout();
         await clearSelectedUser();
         history.push('/');
+    }
+
+    const changeAccount = (token) => {
+        console.log(token);
+        setSelectedToken(token, logout);
+        changeModalVisibility(false);
     }
 
     const menu =
@@ -84,12 +90,11 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     nRequestClose={() => changeModalVisibility(false)}
                 >
                     <View style={styles.modal}>
-                        {(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(key => allUsersInfo[key]).map(u => (
-                            <TouchableOpacity>
-                                <Text key={u.name}
-                                      style={[styles.menuText, styles.dropdownText]}>{u.name} {u.lastName}</Text>
+                        {(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(u =>
+                            <TouchableOpacity  key={u} onPress={() => changeAccount(u)}>
+                                <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u].firstName} {allUsersInfo[u].lastName}</Text>
                             </TouchableOpacity>
-                        )) : null}
+                        ) : null}
                         <TouchableOpacity onPress={addAccount}>
                             <Text style={[styles.menuText, styles.dropdownText]}>Agregar Cuenta</Text>
                         </TouchableOpacity>

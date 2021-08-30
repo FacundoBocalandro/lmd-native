@@ -8,9 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  */
 export const setSelectedToken = async (token, logout) => {
     const tokens = await getAllStoredTokens();
-    tokens.forEach(async (tokenKey ) => {
+    Promise.all(tokens).then(allTokens => allTokens.forEach(async (tokenKey ) => {
         const tokenFromKey = await AsyncStorage.getItem(tokenKey);
-        if ( tokenFromKey === token) {
+        if (tokenFromKey === token) {
             const tokenNumber = tokenKey.split('-')[1];
             if (tokenNumber !== await AsyncStorage.getItem('selected-user')) {
                 logout();
@@ -18,7 +18,7 @@ export const setSelectedToken = async (token, logout) => {
                 await AsyncStorage.location.reload()
             }
         }
-    })
+    }))
 }
 
 /**
@@ -53,7 +53,6 @@ export const getAllTokenKeys = async () => {
  */
 export const saveNewToken = async (token) => {
     const tokenKeys = await getAllTokenKeys();
-    console.log("save new token, getting all tokens already saved", tokenKeys)
     // Start as 0. If there is no stored token, will remain as 0
     let lastToken = 0;
     tokenKeys.forEach(tokenKey => {
