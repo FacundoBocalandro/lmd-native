@@ -10,7 +10,7 @@ const HomeScreen = ({user, getUserData}) => {
     const history = useHistory();
 
     useEffect(() => {
-        if (!user)getUserData();
+        if (!user) getUserData();
     })
 
     return user ? (

@@ -1,12 +1,11 @@
 import {
-    CHECK_USERNAME_USED_REQUEST,
+    CHECK_USERNAME_USED_REQUEST, GET_USER_INFO_FROM_TOKEN_REQUEST,
     GET_USER_INFO_REQUEST,
     LOGIN_REQUEST,
     REGISTER_USER_REQUEST
 } from "./session.actions";
 import {services} from "./session.services";
 import actions from "../actions";
-import {GET_USER_INFO_FROM_TOKEN_REQUEST} from "../home/home.action";
 
 const sessionMiddleware = ({dispatch, getState}) => next => action => {
     next(action);
@@ -51,7 +50,7 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
                 .catch(err => dispatch(actions.session.getUserInfo.error(err)));
             break;
         case GET_USER_INFO_FROM_TOKEN_REQUEST:
-            services.getUserInfo(action.token)
+            services.getUserDataFromToken(action.token)
                 .then(res => dispatch(actions.session.getUserInfoFromToken.response(action.token, res)))
                 .catch(err => dispatch(actions.session.getUserInfoFromToken.error(err)));
             break;

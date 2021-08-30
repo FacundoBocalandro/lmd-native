@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View, Alert} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {saveNewToken, setSelectedToken} from "../../utils/tokens";
+import {getCurrentUserToken, saveNewToken, setSelectedToken} from "../../utils/tokens";
 
 const initialForm = {
     username: "",

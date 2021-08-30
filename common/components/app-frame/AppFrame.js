@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {StyleSheet, Text, TouchableHighlight, View, Modal} from "react-native";
 import SideMenu from 'react-native-side-menu-updated'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
@@ -9,30 +9,33 @@ import {useHistory} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import actions from "../../../actions";
-import ModalDropdown from 'react-native-modal-dropdown';
 import {clearSelectedUser, getAllStoredTokens, removeCurrentToken} from "../../../utils/tokens";
 import {getToken} from "../../../utils/http";
+import {addWhitelistedInterpolationParam} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
 
 const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, userInfo, logout}) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [currentUser, setCurrentUser] = useState(undefined);
+    const [isModalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
-        async function fetchMyTokens() {
-            const tokens = await getAllStoredTokens();
-            tokens.forEach(token => {
-                console.log( " este es un token", token)
-                getUserInfoFromToken(token);
-            });
-        }
-        fetchMyTokens();
+        getAllStoredTokens().then(tokensPromise => {
+            Promise.all(tokensPromise).then(tokens => {
+                tokens.map(token => {
+                    getUserInfoFromToken(token);
+                });
+            })
+        })
         if (!userInfo) getUserInfo();
-        console.log(allUsersInfo)
     }, [])
 
     const history = useHistory();
     const location = useLocation();
 
+
+    const changeModalVisibility = async (bool) => {
+        console.log("user info", allUsersInfo)
+        setModalVisible(bool)
+    }
     const logoutAction = async () => {
         logout();
         await removeCurrentToken();
@@ -67,17 +70,34 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                 ))}
             </View>
             <View>
-                <TouchableOpacity style={[styles.menuOption, styles.profileOption]}>
+                <TouchableOpacity style={[styles.menuOption, styles.profileOption]}
+                                  onPress={() => changeModalVisibility(!isModalVisible)}>
                     <TouchableHighlight style={styles.menuIconContainer}>
                         <FontAwesomeIcon icon={faUser} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
                     <Text style={styles.menuText}>{userInfo?.firstName} {userInfo?.lastName}</Text>
                 </TouchableOpacity>
-                {
-                    allUsersInfo ?
-                        <ModalDropdown options={allUsersInfo}>
-                            <Text></Text>
-                        </ModalDropdown> : null}
+                <Modal
+                    transparent={true}
+                    animationType='fade'
+                    visible={isModalVisible}
+                    nRequestClose={() => changeModalVisibility(false)}
+                >
+                    <View style={styles.modal}>
+                        {(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(key => allUsersInfo[key]).map(u => (
+                            <TouchableOpacity>
+                                <Text key={u.name}
+                                      style={[styles.menuText, styles.dropdownText]}>{u.name} {u.lastName}</Text>
+                            </TouchableOpacity>
+                        )) : null}
+                        <TouchableOpacity onPress={addAccount}>
+                            <Text style={[styles.menuText, styles.dropdownText]}>Agregar Cuenta</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={logoutAction}>
+                            <Text style={[styles.menuText, styles.dropdownText]}>Cerrar sesion</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
             </View>
         </View>
 
@@ -145,7 +165,21 @@ const styles = StyleSheet.create({
     },
     barsIcon: {
         color: '#FFF'
+    },
+    modal: {
+        backgroundColor: mainStyles.primary,
+        position: "absolute",
+        bottom: 70,
+        left: 30,
+        alignItems: 'center',
+        borderRadius: 5,
+        padding: 5
+    },
+    dropdownText: {
+        padding: 5,
+        textAlign: 'left'
     }
+
 });
 
 

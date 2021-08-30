@@ -7,17 +7,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  * @param logout: Redux function to delete stored information
  */
 export const setSelectedToken = async (token, logout) => {
-    const tokens = Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
-    // await tokens.forEach((tokenKey )=> {
-    //     if ( await AsyncStorage.getItem(tokenKey) === token) {
-    //         const tokenNumber = tokenKey.split('-')[1];
-    //         if (tokenNumber !== await AsyncStorage.getItem('selected-user')) {
-    //             logout();
-    //             await AsyncStorage.getItem('selected-user', tokenNumber)
-    //             await AsyncStorage.location.reload()
-    //         }
-    //     }
-    // })
+    const tokens = await getAllStoredTokens();
+    tokens.forEach(async (tokenKey ) => {
+        const tokenFromKey = await AsyncStorage.getItem(tokenKey);
+        if ( tokenFromKey === token) {
+            const tokenNumber = tokenKey.split('-')[1];
+            if (tokenNumber !== await AsyncStorage.getItem('selected-user')) {
+                logout();
+                await AsyncStorage.getItem('selected-user', tokenNumber)
+                await AsyncStorage.location.reload()
+            }
+        }
+    })
 }
 
 /**
@@ -33,7 +34,7 @@ export const clearSelectedUser = async () => {
  */
 export const getAllStoredTokens = async () => {
     const keys = await getAllTokenKeys();
-    return keys.map(key => AsyncStorage.getItem(key));
+    return keys.map(async key => await AsyncStorage.getItem(key));
 }
 
 /**
@@ -42,7 +43,8 @@ export const getAllStoredTokens = async () => {
  * @returns {string[]}: Array of keys.
  */
 export const getAllTokenKeys = async () => {
-    return Object.keys(await AsyncStorage.getAllKeys()).filter(key => key.startsWith('token-'));
+    const keysToBeFiltered = await AsyncStorage.getAllKeys();
+    return  keysToBeFiltered.filter(key => key.startsWith('token-'));
 }
 
 /**
@@ -93,5 +95,11 @@ export const removeCurrentToken = async () => {
         await AsyncStorage.removeItem(`token-${lastToken}`)
     }
 
+
+
     await clearSelectedUser();
 }
+
+export const getCurrentUserToken = () => AsyncStorage.getItem('selected-user')
+    .then(tokenKey => AsyncStorage.getItem(tokenKey));
+
