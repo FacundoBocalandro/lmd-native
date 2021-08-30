@@ -1,4 +1,3 @@
-
 import sessionReducer from "../session/session.reducer";
 import {combineReducers} from "redux";
 import {LOGOUT} from "../session/session.actions";
@@ -8,12 +7,16 @@ import vaccinesReducer from "../vaccines/vaccinesReducer";
 import vaccineInfoReducer from "../vaccines/vaccineInfo/vaccineInfo.reducer";
 import readingsReducer from "../readings/readings.reducer";
 import articleReducer from "../readings/article/article.reducer";
+import notesReducer from "../notes/notes.reducer";
+import noteReducer from "../notes/note/note.reducer";
 
 const appReducer = combineReducers({
     session: sessionReducer,
     home: homeReducer,
     graph: graphReducer,
     vaccines: vaccinesReducer,
+    notes: notesReducer,
+    note: noteReducer,
     vaccineInfo: vaccineInfoReducer,
     readings: readingsReducer,
     articleInfo: articleReducer

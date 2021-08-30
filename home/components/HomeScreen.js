@@ -28,7 +28,7 @@ const HomeScreen = ({user, getUserData}) => {
                 <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/graphScreen')} >
                     <Text style={styles.buttonData}>Datos de crecimiento</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/readings')}>
+                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/notes')}>
                     <Text style={styles.buttonData}>Notas para la consulta</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/vaccine')}>

@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: mainStyles.background,
+        borderColor: mainStyles.grey,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,

@@ -5,12 +5,16 @@ import vaccinesActions from "../vaccines/vaccines.actions";
 import vaccineInfoActions from "../vaccines/vaccineInfo/vaccineInfo.actions";
 import readingsActions from "../readings/reading.actions";
 import articleActions from "../readings/article/article.actions";
+import notesActions from "../notes/notes.actions";
+import noteActions from "../notes/note/note.actions";
 
 const actions = {
     session: sessionActions,
     graph: graphActions,
     home: homeActions,
     vaccines: vaccinesActions,
+    notes: notesActions,
+    note: noteActions,
     vaccineInfo:  vaccineInfoActions,
     readings: readingsActions,
     article: articleActions

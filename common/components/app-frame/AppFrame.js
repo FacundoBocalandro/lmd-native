@@ -47,7 +47,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
         {text: "Lecturas", icon: faBook, url: '/main/readings', id:'readings'},
         {text: "Inmunizaciones", icon: faHeartbeat, url:'/main/vaccine', id:'vaccine'},
         {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
-        {text: "Notas", icon: faEdit, id:'notes' },
+        {text: "Notas", icon: faEdit, url:'/main/notes', id:'notes' },
     ]
 
     const addAccount = async () => {
