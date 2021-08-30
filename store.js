@@ -6,6 +6,8 @@ import sessionMiddleware from "./session/session.middleware";
 import vaccinesMiddleware from "./vaccines/vaccinesMiddleware";
 import graphMiddleware from "./graph/graph.middleware";
 import homeMiddleware from "./home/home.middleware";
+import notesMiddleware from "./notes/notes.middleware";
+import noteMiddleware from "./notes/note/note.middleware";
 
 const store = createStore(
     rootReducer,
@@ -14,7 +16,9 @@ const store = createStore(
         sessionMiddleware,
         graphMiddleware,
         homeMiddleware,
-        vaccinesMiddleware
+        vaccinesMiddleware,
+        notesMiddleware,
+        noteMiddleware
     ))
 )
 
