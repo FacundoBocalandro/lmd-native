@@ -43,11 +43,11 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
     }
 
     const menuOptions = [
-        {text: "Inicio", icon: faHome, url: '/main/home', id: 'home'},
-        {text: "Lecturas", icon: faBook, id: 'readings'},
-        {text: "Inmunizaciones", icon: faHeartbeat, url: '/main/vaccine', id: 'vaccine'},
-        {text: "Crecimiento", icon: faChartBar, url: '/main/graphScreen', id: 'anthropometricData'},
-        {text: "Notas", icon: faEdit, id: 'notes'},
+        {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
+        {text: "Lecturas", icon: faBook, url: '/main/readings', id:'readings'},
+        {text: "Inmunizaciones", icon: faHeartbeat, url:'/main/vaccine', id:'vaccine'},
+        {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
+        {text: "Notas", icon: faEdit, id:'notes' },
     ]
 
     const addAccount = async () => {

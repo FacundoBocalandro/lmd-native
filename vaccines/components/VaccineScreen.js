@@ -24,7 +24,7 @@ const initialErrorState = {
 }
 
 
-const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccines, addAppliedVaccine, loading}) => {
+const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccines, setVaccineId, addAppliedVaccine, loading}) => {
     const history = useHistory();
 
     useEffect(() => {
@@ -103,7 +103,8 @@ const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccin
     }
 
     const openVaccineInfo = (vaccine)  => {
-        history.push('/main/vaccine/info', vaccine)
+        setVaccineId(vaccine.id);
+        history.push('/main/vaccine/info');
     }
 
     return userVaccines ? (
@@ -115,7 +116,7 @@ const VaccineScreen = ({allVaccines, userVaccines, getUserVaccines, getAllVaccin
                     <DataTable style={styles.tableContainer}>
                         <ScrollView>
                             <View style={styles.scrollableTable}>
-                                {allVaccines?.map(vaccine => (
+                                {allVaccines.vaccines?.map(vaccine => (
                                     <DataTable.Row style={styles.vaccineContainer} key={vaccine.id}>
                                         <DataTable.Cell style={styles.vaccineNameContainer} onPress={() => openVaccineInfo(vaccine)}>
                                             <View style={styles.vaccineDataContainer}>
