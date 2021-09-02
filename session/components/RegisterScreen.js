@@ -6,9 +6,17 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {GENDERS} from "../../constants/PersonalData";
+import {Picker} from 'react-native-picker-dropdown'
 
+const RegisterScreen = ({
+                            registerUser,
+                            checkUsernameUsed,
+                            checkUsernameUsedPending,
+                            checkUsernameUsedError,
+                            registerPending
+                        }) => {
 
-const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError, registerPending}) => {
     const history = useHistory();
     const [form, setForm] = useState({
         firstName: "",
@@ -18,8 +26,8 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         email: "",
         username: "",
         password: "",
-        gender: "FEMALE",
-        confirmPassword: ""
+        confirmPassword: "",
+        gender: ""
     })
 
     const [errors, setErrors] = useState({
@@ -30,7 +38,8 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         email: false,
         username: false,
         password: false,
-        confirmPassword: false
+        confirmPassword: false,
+        gender: false
     })
 
     const setField = (fieldName, value) => {
@@ -50,6 +59,10 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
 
     const validateDni = (values) => {
         return !!values.dni && `${Number.parseInt(values.dni)}` === values.dni
+    }
+
+    const validateGender = (values) => {
+        return [GENDERS.MALE, GENDERS.FEMALE].includes(values.gender)
     }
 
     const validateBirthDate = (values) => {
@@ -83,7 +96,8 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         email: validateEmail,
         username: validateUsername,
         password: validatePassword,
-        confirmPassword: validateConfirmPassword
+        confirmPassword: validateConfirmPassword,
+        gender: validateGender
     };
 
     const submitForm = () => {
@@ -163,16 +177,28 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
                                    onChangeText={text => setField('email', text)}/>
                     </View>
                     <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Sexo</Text>
+                        <Picker selectedValue={form.gender}
+                                textStyle={{fontSize: 15}}
+                                style={errors.gender ? {...styles.input, ...styles.errorInput} : styles.input}
+                                onValueChange={(itemValue, itemIndex) => setField("gender", itemValue)}>
+                            <Picker.Item label={"Femenino"} value={GENDERS.FEMALE}/>
+                            <Picker.Item label={"Masculino"} value={GENDERS.MALE}/>
+                        </Picker>
+                    </View>
+                    <View style={styles.inputContainer}>
                         <Text style={styles.label}>Nombre de Usuario</Text>
                         <TextInput placeholder={"Nombre de Usuario..."}
                                    style={errors.username ? {...styles.input, ...styles.errorInput} : styles.input}
                                    value={form.username}
-                                   onBlur={() => checkUsernameUsed(form.username, res => setErrors({
-                                       ...errors,
-                                       username: !res
-                                   }), () => {
-                                       Alert.alert("Error", "¡Error verificando nombre de usuario!")
-                                   })}
+                                   onBlur={() =>
+                                       checkUsernameUsed(form.username, res => {
+                                           setErrors({...errors, username: !res})
+                                       }, () => {
+                                           setErrors({...errors, username: true})
+                                           Alert.alert("Error", "¡Error verificando nombre de usuario!")
+                                       })
+                                   }
                                    onChangeText={text => setField('username', text)}/>
                     </View>
                     <View style={styles.inputContainer}>
@@ -227,11 +253,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     input: {
-        backgroundColor: mainStyles.grey,
+        backgroundColor: mainStyles.lightGrey,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,
-        height: .06*windowHeight
+        height: .06 * windowHeight,
+        fontSize: 15,
     },
     submitButton: {
         backgroundColor: mainStyles.darkBlue,

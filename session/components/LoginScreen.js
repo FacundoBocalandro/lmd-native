@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     input: {
-        backgroundColor: mainStyles.grey,
+        backgroundColor: mainStyles.lightGrey,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,

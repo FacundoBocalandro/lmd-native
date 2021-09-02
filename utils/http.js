@@ -8,7 +8,7 @@ httpClient.defaults.timeout = 1200000;
 const baseUrl = "http://localhost:8080/"
 
 const _request = async (url, method, data, config = {}) => {
-    const headers = isAuthenticated() ? {...config.headers, Authorization: `Bearer ${config.token ?? await getToken()}`} : config.headers;
+    const headers = isAuthenticated() || config.token ? {...config.headers, Authorization: `Bearer ${config.token ?? await getToken()}`} : config.headers;
 
     return httpClient({
         url: baseUrl + url,

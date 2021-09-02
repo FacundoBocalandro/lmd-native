@@ -19,29 +19,25 @@ const Note = ({
                   note,
                   updateNoteTitle,
                   updateNoteBody,
-                  updateNoteStatus,
               }) => {
 
     const history = useHistory();
 
     useEffect(() => {
-        console.log("primer note del use effect", note)
     }, [])
 
     const debouncedTitleChange = useCallback(debounce((id, value) => {
         updateNoteTitle(id, value, true);
-    }, 500), [note])
+    }, 50), [note])
 
     const handleNoteTitleChange = (value) => {
-        console.log(value);
-        console.log(note);
         updateNoteTitle(note.id, value);
         debouncedTitleChange(note.id, value);
     }
 
     const debouncedBodyChange = useCallback(debounce((id, value) => {
         updateNoteBody(id, value, true);
-    }, 500), [note])
+    }, 50), [note])
 
     const handleNoteBodyChange = (id, value) => {
         updateNoteBody(id, value);
@@ -59,16 +55,17 @@ const Note = ({
                         <TextInput style={styles.title}
                                    placeholder={"Escriba aquí el título..."}
                                    onChangeText={event => handleNoteTitleChange(event)}
-                        >
-                            {note.title}
-                        </TextInput>
+                                   value={note.title}
+                        />
                     </View>
                     <View style={styles.bodyContainer}>
-                        <TextInput placeholder={"Escriba aquí su consulta..."}
-                                   onChangeText={event => handleNoteBodyChange(note.id, event)}
-                        >
-                            {note.body}
-                        </TextInput>
+                        <TextInput
+                            multiline
+                            placeholder={"Escriba aquí su consulta..."}
+                            onChangeText={event => handleNoteBodyChange(note.id, event)}
+                            value={note.body}
+                            style={styles.bodyText}
+                        />
                     </View>
                 </View>
             </View> :
@@ -86,7 +83,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     titleContainer: {
-        backgroundColor: mainStyles.grey,
+        backgroundColor: mainStyles.lightGrey,
         width: '90%',
         padding: 10,
         marginBottom: 10,
@@ -94,14 +91,20 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
+        fontWeight: "bold"
     },
     bodyContainer: {
-        backgroundColor: mainStyles.grey,
+        backgroundColor: mainStyles.lightGrey,
         width: '90%',
         padding: 10,
         marginBottom: 10,
         borderRadius: 5,
-        height: '85%'
+        height: '85%',
+    },
+    bodyText: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        fontSize: 18,
     }
 })
 
