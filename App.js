@@ -13,11 +13,11 @@ import GraphScreen from "./graph/containers/Graph";
 import HomeScreen from "./home/containers/Home";
 import ReadingsScreen from "./readings/containers/ReadingsScreen";
 import ArticleScreen from "./readings/containers/ArticleScreen";
-import Notes from "./notes/containers/NotesScreen";
 import NotesScreen from "./notes/containers/NotesScreen";
 import Note from "./notes/containers/Note";
 
 export default function App() {
+    console.disableYellowBox = true;
     return (
         <Provider store={store}>
             <MyStatusBar/>

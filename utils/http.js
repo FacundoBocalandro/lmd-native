@@ -1,6 +1,5 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {removeCurrentToken} from "./tokens";
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;

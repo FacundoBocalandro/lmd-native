@@ -35,9 +35,9 @@ const HomeScreen = ({user, getUserData}) => {
                     <Text style={styles.buttonData}>Mis vacunas</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.readingView}>
+            <TouchableOpacity style={styles.readingView} onPress={() => history.replace('/main/readings')}>
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     ) : null;
 }
