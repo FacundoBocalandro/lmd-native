@@ -1,5 +1,4 @@
 import {
-    ADD_HEAD_DATA_REQUEST, ADD_HEIGHT_DATA_REQUEST, ADD_WEIGHT_DATA_REQUEST,
     GET_AVERAGE_HEIGHT_DATA_RESPONSE,
     GET_AVERAGE_PERIMETER_DATA_RESPONSE,
     GET_AVERAGE_WEIGHT_DATA_RESPONSE,
@@ -62,10 +61,6 @@ const graphReducer = (state = initialState, action) => {
                 ...state,
                 userBmiHistory: action.history
             }
-        case ADD_HEAD_DATA_REQUEST:
-        case ADD_HEIGHT_DATA_REQUEST:
-        case ADD_WEIGHT_DATA_REQUEST:
-
         default:
             return state
     }

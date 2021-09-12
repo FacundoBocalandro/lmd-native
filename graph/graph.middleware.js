@@ -1,6 +1,5 @@
 import {
-    ADD_HEAD_DATA_REQUEST, ADD_HEIGHT_DATA_REQUEST,
-    ADD_WEIGHT_DATA_REQUEST, GET_AVERAGE_BMI_DATA_REQUEST,
+    GET_AVERAGE_BMI_DATA_REQUEST,
     GET_AVERAGE_HEIGHT_DATA_REQUEST,
     GET_AVERAGE_PERIMETER_DATA_REQUEST,
     GET_AVERAGE_WEIGHT_DATA_REQUEST, GET_USER_BMI_HISTORY_REQUEST,
@@ -57,21 +56,6 @@ const graphMiddleware = ({dispatch, getState}) => next => action => {
             services.getUserBmiHistory()
                 .then(res => dispatch(actions.graph.getUserBmiHistory.response(adaptUserHistoryData(res, 'bmi',getState().home.user.birthDate))))
                 .catch(err => dispatch(actions.graph.getUserBmiHistory.error(err)));
-            break;
-        case ADD_WEIGHT_DATA_REQUEST:
-            services.addWeightData(action.data)
-                .then(res => dispatch(actions.graph.addWeightData.response(res)))
-                .catch(err => dispatch(actions.graph.addWeightData.error(err)));
-            break;
-        case ADD_HEIGHT_DATA_REQUEST:
-            services.addHeightData(action.data)
-                .then(res => dispatch(actions.graph.addHeightData.response(res)))
-                .catch(err => dispatch(actions.graph.addHeightData.error(err)));
-            break;
-        case ADD_HEAD_DATA_REQUEST:
-            services.addHeadData(action.data)
-                .then(res => dispatch(actions.graph.addHeadData.response(res)))
-                .catch(err => dispatch(actions.graph.addHeadData.error(err)));
             break;
         default:
             break;

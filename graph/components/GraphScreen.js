@@ -18,60 +18,8 @@ const initialErrorState = {
     head: false,
 }
 
-const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
+const GraphScreen = () => {
     const [selectedTab, setSelectedTab] = useState(1)
-    const [modalVisible, setModalVisible] = useState(false);
-    const [form, setForm] = useState(initialFormState)
-    const [errors, setErrors] = useState(initialErrorState)
-
-    const setField = (fieldName, value) => {
-        if (errors[fieldName]) {
-            setErrors({...errors, [fieldName]: false})
-        }
-        setForm({...form, [fieldName]: value})
-    }
-
-    const cancelForm = () => {
-        setForm(initialFormState);
-        setErrors(initialErrorState)
-        setModalVisible(!modalVisible);
-    }
-
-    const validateWeight = (values) => {
-        return values.weight > 0 || "";
-    }
-
-    const validateHeight = (values) => {
-        return values.height > 0 || "";
-    }
-
-    const validateHead = (values) => {
-        return values.head > 0 || "";
-    }
-
-    const rules = {
-        weight: validateWeight,
-        height: validateHeight,
-        head: validateHead,
-    }
-
-    const submitForm = () => {
-        let newErrors = {...errors};
-        Object.entries(rules).forEach(([field, isValid]) => {
-            newErrors = {...newErrors, [field]: !isValid(form)}
-        })
-
-        if (!Object.values(newErrors).some(error => error)) {
-            if (form.weight !== "") addWeightData({weight: form.weight})
-            if (form.head !== "") addHeadData({perimeter: form.head})
-            if (form.height !== "") addHeightData({height: form.height})
-            setModalVisible(!modalVisible)
-            setErrors(initialErrorState);
-            setForm(initialFormState);
-        } else {
-            setErrors(newErrors)
-        }
-    }
 
     return (
         <View style={styles.container}>
@@ -98,61 +46,7 @@ const GraphScreen = ({addWeightData, addHeadData, addHeightData}) => {
                 {selectedTab === 2 && <HeightGraph key={'heightGraph'} />}
                 {selectedTab === 3 && <PerimeterGraph key={'perimeterGraph'} />}
                 {selectedTab === 4 && <BmiChart key={'bmiChart'} />}
-
             </View>
-            <TouchableOpacity style={isLandscape() ? styles.newDataButtonLandscape : styles.newDataButtonPortrait}
-                              onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.newDataButtonText}>+</Text>
-            </TouchableOpacity>
-            <Modal animationType="slide"
-                   transparent={true}
-                   visible={modalVisible}
-                   onRequestClose={() => {
-                       setModalVisible(!modalVisible);
-                   }}>
-                <KeyboardAvoidingView
-                    style={{flex: 1}}
-                    behavior={(Platform.OS === 'ios') ? "padding" : null} enabled
-                    keyboardVerticalOffset={Platform.select({ios: 80, android: 500})}>
-
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Peso</Text>
-                            <TextInput placeholder={"kg"}
-                                       style={errors.weight ? {...styles.input, ...styles.errorInput} : styles.input}
-                                       value={form.weight}
-                                       type="number"
-                                       onChangeText={text => setField('weight', text)}/>
-                            <Text style={styles.modalText}>Estatura</Text>
-                            <TextInput placeholder={"cm"}
-                                       style={errors.height ? {...styles.input, ...styles.errorInput} : styles.input}
-                                       value={form.height}
-                                       type="number"
-                                       onChangeText={text => setField('height', text)}/>
-                            <Text style={styles.modalText}>Perímetro Cefálico</Text>
-                            <TextInput placeholder={"cm2"}
-                                       style={errors.head ? {...styles.input, ...styles.errorInput} : styles.input}
-                                       value={form.head}
-                                       type="number"
-                                       onChangeText={text => setField('head', text)}/>
-                            <View style={styles.modalButtonContainer}>
-                                <TouchableOpacity
-                                    style={[styles.button, styles.submitButton]}
-                                    onPress={() => submitForm()}
-                                >
-                                    <Text style={styles.textStyle}>Cargar datos</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={[styles.button, styles.cancelButton]}
-                                    onPress={() => cancelForm()}
-                                >
-                                    <Text style={styles.textStyle}>Cancelar</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </KeyboardAvoidingView>
-            </Modal>
         </View>
     )
 }
