@@ -12,7 +12,6 @@ const noteMiddleware = ({dispatch, getState}) => next => action => {
         case UPDATE_NOTE_TITLE_REQUEST:
             if (action.sendToServer) {
                 const note = getState().note.note;
-                console.log("note del middleware", note)
                 services.updateNote(note)
                     .then(res => dispatch(actions.note.updateNoteTitle.response(res)))
                     .catch(err => dispatch(actions.note.updateNoteTitle.error(err)));

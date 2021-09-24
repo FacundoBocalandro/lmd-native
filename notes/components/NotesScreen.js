@@ -5,9 +5,7 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    TextInput,
-    ActivityIndicator,
-    Alert,
+    Modal,
 } from "react-native"
 
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -32,13 +30,26 @@ const NotesScreen = ({
         getAllNotes();
     }, [])
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentNoteId, setCurrentNoteId] = useState(undefined);
+
+    const openModal = (noteId) => {
+        console.log("abriendo modal")
+        setCurrentNoteId(noteId);
+        setModalVisible(true);
+    }
+
+    const closeModal = () => {
+        setCurrentNoteId(undefined);
+        setModalVisible(false);
+    }
+
     const handleDeleteNote = (id) => {
-        console.log("deleting note", id)
+        closeModal();
         deleteNote(id);
     }
 
     const createNewNote = () => {
-        console.log("creating note")
         createNote(note => openNote(note))
     }
 
@@ -69,13 +80,40 @@ const NotesScreen = ({
                                         <Text style={styles.notesText}>{note.title}</Text>
                                     </TouchableOpacity>
                                     <FontAwesomeIcon icon={faTimesCircle} style={styles.deleteNoteIcon}
-                                                     onPress={() => handleDeleteNote(note.id)} size={25}/>
+                                                     onPress={() => openModal(note.id)} size={25}/>
                                 </View>
                             ))}
 
                     </ScrollView>
                 </View>
+                <Modal animationType="slide"
+                       transparent={true}
+                       visible={modalVisible}
+                       onRequestClose={() => {
+                           closeModal();
+                       }}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalTitle}>¿Esta seguro que desea eliminar la nota?</Text>
+                            <View style={styles.modalButtonContainer}>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.cancelButton]}
+                                    onPress={() => closeModal()}
+                                >
+                                    <Text style={styles.textStyle}>Cancelar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.cancelButton]}
+                                    onPress={() => handleDeleteNote(currentNoteId)}
+                                >
+                                    <Text style={styles.textStyle}>Borrar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
+
         </View>
     )
 }
@@ -128,5 +166,44 @@ const styles = StyleSheet.create({
     deleteNoteIcon: {
         fontSize: 30,
         color: 'red'
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 25,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+    },
+    modalTitle: {
+        textAlign: 'center',
+        fontSize: 18,
+    },
+    modalButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    cancelButton: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginTop: 25,
+        backgroundColor: mainStyles.primary,
+        width: 160
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
 })
