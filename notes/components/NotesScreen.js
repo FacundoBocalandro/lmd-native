@@ -34,7 +34,6 @@ const NotesScreen = ({
     const [currentNoteId, setCurrentNoteId] = useState(undefined);
 
     const openModal = (noteId) => {
-        console.log("abriendo modal")
         setCurrentNoteId(noteId);
         setModalVisible(true);
     }
