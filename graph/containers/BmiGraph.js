@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import BmiChart from "../components/BmiChart";
+import BmiGraph from "../components/BmiGraph";
 import actions from "../../actions";
 
 const mapStateToProps = state => ({
@@ -13,4 +13,4 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(BmiChart);
+export default connect(mapStateToProps, mapDispatchToProps)(BmiGraph);
