@@ -40,7 +40,7 @@ const GraphScreen = () => {
             </View>
             <TouchableOpacity style={[styles.homeScreenTab, styles.newDataButtonPortrait,  tableView ? styles.selected : '']}
                               onPress={() => setTableView(!tableView)}>
-                <Text style={styles.homeScreenTabText}>Ver la tabla</Text>
+                <Text style={styles.homeScreenTabText}>Ver tabla</Text>
             </TouchableOpacity>
         </View>
     )

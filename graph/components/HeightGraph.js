@@ -24,6 +24,7 @@ const HeightGraph = ({getAverageHeightData, averageHeightData, getUserHeightHist
                       yStep={10}
                       yLabel={"Estatura (cm)"}
                       data={userHeightHistory}
+                      zoomOptions={[{min: 0, max: 2}, {min: 0, max: 6},{min: 0, max: 19}]}
                       colors={{grid: gender === GENDERS.MALE ? '#6686CC' : 'pink', stroke: 'red'}}
         /> : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
         }
