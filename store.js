@@ -10,6 +10,7 @@ import notesMiddleware from "./notes/notes.middleware";
 import noteMiddleware from "./notes/note/note.middleware";
 import readingsMiddleware from "./readings/reasing.middleware";
 import vaccineInfoMiddleware from "./vaccines/vaccineInfo/vaccineInfo.middleware";
+import relationshipsMiddleware from "./relation/relationship.middleware";
 
 const store = createStore(
     rootReducer,
@@ -23,7 +24,8 @@ const store = createStore(
         readingsMiddleware,
         vaccinesMiddleware,
         notesMiddleware,
-        noteMiddleware
+        noteMiddleware,
+        relationshipsMiddleware
     ))
 )
 

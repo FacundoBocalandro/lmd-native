@@ -9,6 +9,7 @@ import readingsReducer from "../readings/readings.reducer";
 import articleReducer from "../readings/article/article.reducer";
 import notesReducer from "../notes/notes.reducer";
 import noteReducer from "../notes/note/note.reducer";
+import relationshipsReducer from "../relation/relationship.reducer";
 
 const appReducer = combineReducers({
     session: sessionReducer,
@@ -19,7 +20,8 @@ const appReducer = combineReducers({
     note: noteReducer,
     vaccineInfo: vaccineInfoReducer,
     readings: readingsReducer,
-    articleInfo: articleReducer
+    articleInfo: articleReducer,
+    relationships: relationshipsReducer
 })
 
 const rootReducer = (state, action) => {

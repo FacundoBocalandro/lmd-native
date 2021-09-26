@@ -7,6 +7,7 @@ import readingsActions from "../readings/reading.actions";
 import articleActions from "../readings/article/article.actions";
 import notesActions from "../notes/notes.actions";
 import noteActions from "../notes/note/note.actions";
+import relationshipsActions from "../relation/relationship.actions";
 
 const actions = {
     session: sessionActions,
@@ -17,7 +18,8 @@ const actions = {
     note: noteActions,
     vaccineInfo:  vaccineInfoActions,
     readings: readingsActions,
-    article: articleActions
+    article: articleActions,
+    relationships: relationshipsActions
 }
 
 export default actions;
