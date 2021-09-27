@@ -24,7 +24,7 @@ const GraphScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 3 ? styles.selected : '']}
                                   onPress={() => setSelectedTab(3)}>
-                    <Text style={styles.homeScreenTabText}  onPress={() => setSelectedTab(3)}>Perímetro Cefálico</Text>
+                    <Text style={styles.homeScreenTabText} onPress={() => setSelectedTab(3)}>Perímetro Cefálico</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.homeScreenTab, selectedTab === 4 ? styles.selected : '']}
                                   onPress={() => setSelectedTab(4)}>
@@ -32,16 +32,23 @@ const GraphScreen = () => {
                 </TouchableOpacity>
             </View>
             <View stle={styles.graphContainer}>
-                {selectedTab === 1 && <WeightGraph tableTabSelected={tableView} key={'weightGraph'} />}
-                {selectedTab === 2 && <HeightGraph tableTabSelected={tableView} key={'heightGraph'} />}
-                {selectedTab === 3 && <PerimeterGraph tableTabSelected={tableView} key={'perimeterGraph'} />}
-                {selectedTab === 4 && <BmiChart tableTabSelected={tableView} key={'bmiChart'} />}
+                {selectedTab === 1 && <WeightGraph tableTabSelected={tableView} key={'weightGraph'}/>}
+                {selectedTab === 2 && <HeightGraph tableTabSelected={tableView} key={'heightGraph'}/>}
+                {selectedTab === 3 && <PerimeterGraph tableTabSelected={tableView} key={'perimeterGraph'}/>}
+                {selectedTab === 4 && <BmiChart tableTabSelected={tableView} key={'bmiChart'}/>}
 
             </View>
-            <TouchableOpacity style={[styles.homeScreenTab, styles.newDataButtonPortrait,  tableView ? styles.selected : '']}
-                              onPress={() => setTableView(!tableView)}>
-                <Text style={styles.homeScreenTabText}>Ver tabla</Text>
-            </TouchableOpacity>
+            {!tableView ?
+                <TouchableOpacity
+                    style={[styles.homeScreenTab, styles.newDataButtonPortrait, tableView ? styles.selected : '']}
+                    onPress={() => setTableView(true)}>
+                    <Text style={styles.homeScreenTabText}>Ver tabla</Text>
+                </TouchableOpacity> :
+                <TouchableOpacity
+                    style={[styles.homeScreenTab, styles.newDataButtonPortrait, !tableView ? styles.selected : '']}
+                    onPress={() => setTableView(false)}>
+                    <Text style={styles.homeScreenTabText}>Ver gráfico</Text>
+                </TouchableOpacity>}
         </View>
     )
 }
@@ -57,6 +64,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         marginBottom: -30,
         marginTop: 5
+    },
+    bottomTabContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
     },
     homeScreenTab: {
         textAlign: 'center',

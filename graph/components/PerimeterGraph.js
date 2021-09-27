@@ -5,6 +5,7 @@ import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {mainStyles, windowHeight} from "../../mainStyles";
 import {GENDERS} from "../../constants/PersonalData";
 import {Table} from "react-native-table-component";
+import TableData from "./table/TableData";
 
 const PerimeterGraph =  ({getAveragePerimeterData, averagePerimeterData, getUserPerimeterHistory, userPerimeterHistory, gender, tableTabSelected})=> {
 
@@ -14,9 +15,8 @@ const PerimeterGraph =  ({getAveragePerimeterData, averagePerimeterData, getUser
     }, [])
     return (
         <View style={(averagePerimeterData && userPerimeterHistory) ? '' : styles.activityMonitor}>
-            {averagePerimeterData && userPerimeterHistory && tableTabSelected &&
-            <Table data={userPerimeterHistory} title={"Peso"} accessor={"weight"}/>}
-            {averagePerimeterData && userPerimeterHistory && !tableTabSelected?
+            {userPerimeterHistory && averagePerimeterData &&  tableTabSelected && <TableData data={userPerimeterHistory} title={"Perímetro Céfalico"} accessor={"perimeter"} noZScore/>}
+            {averagePerimeterData && userPerimeterHistory && !tableTabSelected &&
                 <GenericGraph percentileData={averagePerimeterData}
                               maxY={60}
                               minY={28}
@@ -25,8 +25,8 @@ const PerimeterGraph =  ({getAveragePerimeterData, averagePerimeterData, getUser
                               data={userPerimeterHistory}
                               zoomOptions={[{min: 0, max: 2}, {min: 0, max: 6}]} selectedXRange={{min: 0, max: 6}}
                               colors={{grid: gender === GENDERS.MALE ? '#6686CC' : 'pink', stroke: 'red'}}
-                              />
-                : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
+                              />}
+            {!averagePerimeterData && !userPerimeterHistory && <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
             }
         </View>
     )

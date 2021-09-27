@@ -36,7 +36,8 @@ const GenericGraph = ({percentileData, maxY, minY = 0, yStep, yLabel, data, colo
                 {zoomOptions.map(zoomOption =>
                     <TouchableOpacity
                         style={[styles.homeScreenTab, xRange.min === zoomOption.min && xRange.max === zoomOption.max ? styles.selected : '']}
-                        onPress={() => setXRange(zoomOption)}>
+                        onPress={() => setXRange(zoomOption)}
+                    key={zoomOption.max}>
                         <Text  style={styles.homeScreenTabText}>{zoomOption.min} - {zoomOption.max}</Text>
                     </TouchableOpacity>)}
             </View>}
