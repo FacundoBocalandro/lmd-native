@@ -99,13 +99,13 @@ const NotesScreen = ({
                             <Text style={styles.modalTitle}>¿Esta seguro que desea eliminar la nota?</Text>
                             <View style={styles.modalButtonContainer}>
                                 <TouchableOpacity
-                                    style={[styles.button, styles.cancelButton]}
+                                    style={[styles.modalButton, styles.cancelButton]}
                                     onPress={() => closeModal()}
                                 >
                                     <Text style={styles.textStyle}>Cancelar</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    style={[styles.button, styles.cancelButton]}
+                                    style={[styles.modalButton, styles.deleteButton]}
                                     onPress={() => handleDeleteNote(currentNoteId)}
                                 >
                                     <Text style={styles.textStyle}>Borrar</Text>
@@ -196,13 +196,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-    cancelButton: {
+    modalButton: {
         borderRadius: 20,
         padding: 10,
         elevation: 2,
         marginTop: 25,
-        backgroundColor: mainStyles.primary,
         width: 160
+    },
+    cancelButton: {
+        backgroundColor: mainStyles.primary,
+    },
+    deleteButton: {
+        backgroundColor: 'red'
     },
     textStyle: {
         color: "white",

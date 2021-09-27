@@ -84,7 +84,7 @@ const VaccineScreen = ({
                                         </TouchableOpacity>
                                         <DataTable.Row style={styles.headersContainer}>
                                             {vaccine.dosages?.map(dosage => (
-                                                <DataTable.Cell style={styles.vaccineDosagesContainer} key={dosage.id}>
+                                                <View style={styles.vaccineDosagesContainer} key={dosage.id}>
                                                     <TouchableOpacity style={styles.iconContainer}
                                                                       onPress={() => openModal(vaccine, dosage)}>
                                                         <FontAwesomeIcon
@@ -93,7 +93,7 @@ const VaccineScreen = ({
                                                             size={30}
                                                         />
                                                     </TouchableOpacity>
-                                                </DataTable.Cell>
+                                                </View>
                                             ))}
                                         </DataTable.Row>
                                     </View>
@@ -160,7 +160,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
     },
     vaccineDosagesContainer: {
-        //TODO hacerlo row
+        marginRight: 10,
+        marginTop: 10,
+        marginBottom: 10
     },
     vaccineNameContainer: {
         backgroundColor: mainStyles.primary,
