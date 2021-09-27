@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableHighlight, View, Modal, AsyncStorage} from "r
 import SideMenu from 'react-native-side-menu-updated'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
-import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faBook, faChartBar, faEdit, faHeartbeat, faHome, faUser, faAddressBook} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
 import {useHistory} from "react-router-dom";
 import {useLocation} from "react-router-dom";
@@ -48,7 +48,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
         {text: "Inmunizaciones", icon: faHeartbeat, url:'/main/vaccine', id:'vaccine'},
         {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
         {text: "Notas", icon: faEdit, url:'/main/notes', id:'notes' },
-        {text: "Vincular pediatra", icon: faEdit, url:'/main/relationship', id:'peditrician' },
+        {text: "Vincular pediatra", icon: faAddressBook, url:'/main/relationship', id:'peditrician' },
 
     ]
 

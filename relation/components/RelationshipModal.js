@@ -38,7 +38,7 @@ const RelationshipModal = ({closeModal, modalInfo, setModalInfo, handleAddNewRel
                                 <Text style={styles.textStyle}>Agregar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={[styles.button, styles.cancelButton]}
-                                              onPress={handleSearchDoctors}>
+                                              onPress={closeModal}>
                                 <Text style={styles.textStyle}>
                                     Cancelar
                                 </Text>
@@ -57,7 +57,7 @@ const RelationshipModal = ({closeModal, modalInfo, setModalInfo, handleAddNewRel
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, styles.cancelButton]}
-                                                  onPress={handleSearchDoctors}>
+                                                  onPress={closeModal}>
                                     <Text style={styles.textStyle}>
                                         Cancelar
                                     </Text>
