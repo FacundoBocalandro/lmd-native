@@ -66,12 +66,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: 'white',
         fontSize: 23,
-        textAlign: 'center',
+        fontWeight: 'bold',
     },
     titleContainer: {
         alignSelf: 'center',
         width: '80%',
-        textAlign: 'center',
         marginBottom: 20,
         marginTop: 10,
         backgroundColor: mainStyles.darkBlue,

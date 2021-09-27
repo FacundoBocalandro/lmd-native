@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 23,
         textAlign: 'center',
+        fontWeight: 'bold',
     },
     titleContainer: {
         alignSelf: 'center',

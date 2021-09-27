@@ -70,9 +70,12 @@ const RelationshipScreen = ({
         <View>
             {modalInfo.open && <RelationshipModal closeModal={closeModal} modalInfo={modalInfo}
                                                   setModalInfo={setModalInfo}
-                                                  handleAddNewRelationship={handleAddNewRelationship} searchDoctors={searchDoctors}/>}
+                                                  handleAddNewRelationship={handleAddNewRelationship}
+                                                  searchDoctors={searchDoctors}/>}
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Pediatras vinculados</Text>
+                <View style={styles.containerTextContainer}>
+                    <Text style={styles.title}>Pediatras vinculados</Text>
+                </View>
                 <FontAwesomeIcon icon={faPlusCircle}
                                  size={25}
                                  color={'white'}
@@ -83,7 +86,8 @@ const RelationshipScreen = ({
                     {relationships?.map(relationship => (
                         <View key={`relationship-${relationship.id}`} style={styles.relationshipContainer}>
                             <TouchableOpacity style={styles.titleTextContainer}>
-                                <Text style={styles.doctorNameText}>{relationship.firstName} {relationship.lastName}</Text>
+                                <Text
+                                    style={styles.doctorNameText}>{relationship.firstName} {relationship.lastName}</Text>
                             </TouchableOpacity>
                             <FontAwesomeIcon icon={faTimesCircle} style={styles.deleteRelationIcon}
                                              onPress={() => openDeleteRelationshipModal(relationship)} size={25}/>
@@ -99,17 +103,21 @@ const RelationshipScreen = ({
                    }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalTitle}>¿Esta seguro que desea eliminar la vinculacion con {currentRelationship?.firstName} {currentRelationship?.lastName}?</Text>
+                        <Text style={styles.modalTitle}>¿Esta seguro que desea eliminar la vinculacion
+                            con {currentRelationship?.firstName} {currentRelationship?.lastName}?</Text>
                         <View style={styles.modalButtonContainer}>
                             <TouchableOpacity
-                                style={[styles.button, styles.cancelButton]}
+                                style={[styles.modalButton, styles.cancelButton]}
                                 onPress={() => closeDeleteRelationshipModal()}
                             >
                                 <Text style={styles.textStyle}>Cancelar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={[styles.button, styles.cancelButton]}
-                                onPress={() => handleDeleteRelationship({patientId: userInfo.id, doctorId: currentRelationship.id})}
+                                style={[styles.modalButton, styles.deleteButton]}
+                                onPress={() => handleDeleteRelationship({
+                                    patientId: userInfo.id,
+                                    doctorId: currentRelationship.id
+                                })}
                             >
                                 <Text style={styles.textStyle}>Borrar</Text>
                             </TouchableOpacity>
@@ -127,7 +135,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 23,
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+    },
+    containerTextContainer: {
+        width: '90%'
     },
     titleContainer: {
         alignSelf: 'center',
@@ -192,13 +203,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-    cancelButton: {
+    modalButton: {
         borderRadius: 20,
         padding: 10,
         elevation: 2,
         marginTop: 25,
-        backgroundColor: mainStyles.primary,
         width: 160
+    },
+    cancelButton: {
+        backgroundColor: mainStyles.primary,
+    },
+    deleteButton: {
+        backgroundColor: 'red'
     },
     textStyle: {
         color: "white",

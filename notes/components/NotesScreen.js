@@ -62,7 +62,9 @@ const NotesScreen = ({
             {/*<SearchInput onChange={value => setSearchFilter(value)} value={searchFilter}/>*/}
             <View>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Notas de consulta</Text>
+                    <View style={styles.containerTextContainer}>
+                        <Text style={styles.title}>Notas de consulta</Text>
+                    </View>
                     <FontAwesomeIcon icon={faPlusCircle}
                                      size={25}
                                      color={'white'}
@@ -75,7 +77,8 @@ const NotesScreen = ({
                             .filter(note => note.title.toLowerCase().includes(searchFilter.toLowerCase()))
                             .map(note => (
                                 <View style={styles.noteContainer} key={note.id}>
-                                    <TouchableOpacity style={styles.titleTextContainer} onPress={() => openNote(note)}>
+                                    <TouchableOpacity style={styles.containerTextContainer}
+                                                      onPress={() => openNote(note)}>
                                         <Text style={styles.notesText}>{note.title}</Text>
                                     </TouchableOpacity>
                                     <FontAwesomeIcon icon={faTimesCircle} style={styles.deleteNoteIcon}
@@ -125,8 +128,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 23,
         textAlign: 'center',
+        fontWeight: 'bold',
     },
-    titleTextContainer: {
+    containerTextContainer: {
         width: '90%'
     },
     titleContainer: {

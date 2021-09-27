@@ -33,33 +33,34 @@ const RelationshipModal = ({closeModal, modalInfo, setModalInfo, handleAddNewRel
                                 <Text style={styles.modalTitle}>{doctor.dni}</Text>
                             </View>
                         <View style={styles.modalButtonContainer}>
-                            <TouchableOpacity style={[styles.button, styles.cancelButton]}
-                                              onPress={handleAddNewRelationship}>
-                                <Text style={styles.textStyle}>Agregar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button, styles.cancelButton]}
+                            <TouchableOpacity style={[styles.modalButton, styles.cancelButton]}
                                               onPress={closeModal}>
                                 <Text style={styles.textStyle}>
                                     Cancelar
                                 </Text>
                             </TouchableOpacity>
+                            <TouchableOpacity style={[styles.modalButton, styles.submitButton]}
+                                              onPress={handleAddNewRelationship}>
+                                <Text style={styles.textStyle}>Agregar</Text>
+                            </TouchableOpacity>
                         </View>
                         </>
                         : <>
                             <TextInput value={modalInfo.doctorId}
+                                       style={styles.input}
                                        onChangeText={text => setDoctorDni(text)}
                                        placeholder={"DNI del doctor"} error={modalInfo.error}/>
                             <View style={styles.modalButtonContainer}>
-                                <TouchableOpacity style={[styles.button, styles.cancelButton]}
-                                                  onPress={handleSearchDoctors}>
-                                    <Text style={styles.textStyle}>
-                                        Buscar
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.button, styles.cancelButton]}
+                                <TouchableOpacity style={[styles.modalButton, styles.cancelButton]}
                                                   onPress={closeModal}>
                                     <Text style={styles.textStyle}>
                                         Cancelar
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.modalButton, styles.submitButton]}
+                                                  onPress={handleSearchDoctors}>
+                                    <Text style={styles.textStyle}>
+                                        Buscar
                                     </Text>
                                 </TouchableOpacity>
                             </View>
@@ -99,17 +100,28 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-    cancelButton: {
+    modalButton: {
         borderRadius: 20,
         padding: 10,
         elevation: 2,
         marginTop: 25,
-        backgroundColor: mainStyles.primary,
         width: 160
+    },
+    cancelButton: {
+        backgroundColor: mainStyles.primary,
+    },
+    submitButton: {
+        backgroundColor: mainStyles.darkBlue,
     },
     textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
     },
+    input: {
+        backgroundColor: mainStyles.lightGrey,
+        borderRadius: 10,
+        padding: 14,
+        color: '#000',
+    }
 })

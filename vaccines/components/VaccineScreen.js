@@ -22,7 +22,8 @@ const VaccineScreen = ({
     }, [])
 
     const appliedVaccineDosageIds = userVaccines?.filter(vaccine => vaccine.hasBeenApplied).map(vaccine => {
-        return vaccine.dosageDto.id});
+        return vaccine.dosageDto.id
+    });
 
     const [appliedModalVisible, setAppliedModalVisible] = useState(false);
     const [currentVaccine, setCurrentVaccine] = useState()
@@ -56,7 +57,7 @@ const VaccineScreen = ({
     }
 
     const getDate = (date) => {
-        if(date) {
+        if (date) {
             const split = date.split('-');
             return split[2] + "/" + split[1] + "/" + split[0];
 
@@ -81,19 +82,20 @@ const VaccineScreen = ({
                                                 <Text style={styles.vaccineName}>{vaccine.name}</Text>
                                             </View>
                                         </TouchableOpacity>
-                                        {vaccine.dosages?.map(dosage => (
-                                            <View style={styles.vaccineDosagesContainer} key={dosage.id}>
-                                                <TouchableOpacity style={styles.iconContainer}
-                                                                  onPress={() => openModal(vaccine, dosage)}>
-                                                    <FontAwesomeIcon
-                                                        icon={faCheckCircle}
-                                                        style={userHasVaccineDosage(dosage.id) ? styles.iconGreen : styles.iconRed}
-                                                        size={30}
-                                                    />
-                                                </TouchableOpacity>
-                                            </View>
-                                        ))}
-
+                                        <DataTable.Row style={styles.headersContainer}>
+                                            {vaccine.dosages?.map(dosage => (
+                                                <DataTable.Cell style={styles.vaccineDosagesContainer} key={dosage.id}>
+                                                    <TouchableOpacity style={styles.iconContainer}
+                                                                      onPress={() => openModal(vaccine, dosage)}>
+                                                        <FontAwesomeIcon
+                                                            icon={faCheckCircle}
+                                                            style={userHasVaccineDosage(dosage.id) ? styles.iconGreen : styles.iconRed}
+                                                            size={30}
+                                                        />
+                                                    </TouchableOpacity>
+                                                </DataTable.Cell>
+                                            ))}
+                                        </DataTable.Row>
                                     </View>
                                 ))}
                             </View>
