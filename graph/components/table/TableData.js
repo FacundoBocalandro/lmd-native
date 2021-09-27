@@ -31,14 +31,14 @@ const TableData = ({title, accessor, data, noZScore}) => {
                                 {headers.map(header => (
                                     <DataTable.Cell style={styles.headerContainer} key={header}>
                                         <View style={styles.dataContainer}>
-                                            <Text style={styles.tableText}>{header}</Text>
+                                            <Text style={styles.tableHeader}>{header}</Text>
                                         </View>
                                     </DataTable.Cell>
 
                                 ))}
                             </DataTable.Row>
                             {sortedData.map(row =>
-                                <DataTable.Row>
+                                <DataTable.Row style={styles.row}>
                                     <DataTable.Cell style={styles.rowContainer}>
                                         <View style={styles.dataContainer}>
                                             <Text
@@ -60,7 +60,7 @@ const TableData = ({title, accessor, data, noZScore}) => {
                     </ScrollView>
                 </DataTable>
                 :
-                        <Text style={styles.noDataText}> No hay datos </Text>
+                <Text style={styles.noDataText}> No hay datos </Text>
             }
         </View>
     )
@@ -90,16 +90,24 @@ const styles = StyleSheet.create({
     dataContainer: {
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center'
     },
-    tableText: {
+    tableHeader: {
         fontSize: 20,
         fontWeight: 'bold',
         color: 'white',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        margin: 'auto',
+        marginLeft: 15
     },
-
+    tableText: {
+        fontSize: 20,
+        color: 'white',
+        textAlign: 'center',
+        marginLeft: 15
+    },
     noDataText: {
-        marginTop: windowHeight*0.3,
+        marginTop: windowHeight * 0.3,
         textAlign: 'center',
         fontSize: 20,
     }

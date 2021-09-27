@@ -55,6 +55,14 @@ const VaccineScreen = ({
         history.push('/main/vaccine/info');
     }
 
+    const getDate = (date) => {
+        if(date) {
+            const split = date.split('-');
+            return split[2] + "/" + split[1] + "/" + split[0];
+
+        }
+    }
+
     return (
         <View>
             <View style={styles.pageContainer}>
@@ -102,7 +110,7 @@ const VaccineScreen = ({
                         <View style={styles.modalView}>
                             <Text style={styles.modalTitle}>{currentVaccine?.vaccineDto.name}</Text>
                             <Text style={styles.modalText}>Fecha de aplicacion:</Text>
-                            <Text style={styles.input}>{currentVaccine?.appliedDate} </Text>
+                            <Text style={styles.input}>{getDate(currentVaccine?.appliedDate)} </Text>
                             <Text style={styles.modalText}>Aplicado por:</Text>
                             <Text
                                 style={styles.input}>{currentVaccine?.responsibleDoctor.firstName} {currentVaccine?.responsibleDoctor.lastName}</Text>
