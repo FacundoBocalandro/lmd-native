@@ -167,6 +167,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    titleTextContainer: {
+      width: '90%'
+    },
     doctorNameText: {
         alignSelf: 'center',
         color: 'white',
