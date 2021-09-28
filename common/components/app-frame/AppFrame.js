@@ -18,14 +18,14 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
     const [isModalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
-        getAllStoredTokens().then(tokensPromise => {
-            Promise.all(tokensPromise).then(tokens => {
-                tokens.map(token => {
-                    getUserInfoFromToken(token);
-                });
-            })
-        })
-        if (!userInfo) getUserInfo();
+        // getAllStoredTokens().then(tokensPromise => {
+        //     Promise.all(tokensPromise).then(tokens => {
+        //         tokens.map(token => {
+        //             getUserInfoFromToken(token);
+        //         });
+        //     })
+        // })
+        // if (!userInfo) getUserInfo();
     }, [])
 
     const history = useHistory();
@@ -83,7 +83,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     <TouchableHighlight style={styles.menuIconContainer}>
                         <FontAwesomeIcon icon={faUser} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
-                    <Text style={styles.menuText}>{userInfo?.firstName} {userInfo?.lastName}</Text>
+                    {/*<Text style={styles.menuText}>{userInfo?.firstName} {userInfo?.lastName}</Text>*/}
                 </TouchableOpacity>
                 <Modal
                     transparent={true}
@@ -92,11 +92,11 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     nRequestClose={() => changeModalVisibility(false)}
                 >
                     <View style={styles.modal}>
-                        {(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(u =>
-                            <TouchableOpacity  key={u} onPress={() => changeAccount(u)}>
-                                <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u].firstName} {allUsersInfo[u].lastName}</Text>
-                            </TouchableOpacity>
-                        ) : null}
+                        {/*{(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(u =>*/}
+                        {/*    <TouchableOpacity  key={u} onPress={() => changeAccount(u)}>*/}
+                        {/*        <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u].firstName} {allUsersInfo[u].lastName}</Text>*/}
+                        {/*    </TouchableOpacity>*/}
+                        {/*) : null}*/}
                         <TouchableOpacity onPress={addAccount}>
                             <Text style={[styles.menuText, styles.dropdownText]}>Agregar Cuenta</Text>
                         </TouchableOpacity>

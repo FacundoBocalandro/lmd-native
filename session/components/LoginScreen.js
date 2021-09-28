@@ -17,7 +17,9 @@ const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken}) 
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = async (token) => {
-        await saveNewToken(token)
+        // await saveNewToken(token)
+        // history.push("/main/home");
+        AsyncStorage.setItem('token', token);
         history.push("/main/home");
     }
 
@@ -35,18 +37,21 @@ const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken}) 
     }
 
     const submitLogin = async () => {
+        // if (!isPending()) {
+        //     let alreadyLoggedInToken;
+        //     if (allUsersInfo) {
+        //         Object.entries(allUsersInfo).forEach(([token, info]) => {
+        //             if (info.username === form.username) alreadyLoggedInToken = token;
+        //         })
+        //     }
+        //
+        //     if (alreadyLoggedInToken) {
+        //         await setSelectedToken(alreadyLoggedInToken, logout);
+        //         history.push('/inicio');
+        //     } else login(form, successCallback, errorCallback)
+        // }
         if (!isPending()) {
-            let alreadyLoggedInToken;
-            if (allUsersInfo) {
-                Object.entries(allUsersInfo).forEach(([token, info]) => {
-                    if (info.username === form.username) alreadyLoggedInToken = token;
-                })
-            }
-
-            if (alreadyLoggedInToken) {
-                await setSelectedToken(alreadyLoggedInToken, logout);
-                history.push('/inicio');
-            } else login(form, successCallback, errorCallback)
+            login(form, successCallback, errorCallback)
         }
     }
 
