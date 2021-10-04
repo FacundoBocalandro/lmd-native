@@ -40,7 +40,8 @@
     "@babel/core": "^7.9.0",
     "lodash.debounce": "^4.0.8",
     "react-native-modal-dropdown": "^1.0.0",
-    "react-native-picker-box": "^1.0.5"
+    "react-native-picker-box": "^1.0.5",
+    "react-native-switch": "^2.0.0"
   },
   "private": true
 }
