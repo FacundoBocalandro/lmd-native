@@ -1,11 +1,9 @@
-import {useHistory} from "react-router-dom";
 import React, {useState} from "react";
 import {Switch} from 'react-native-switch';
 import {Alert, StyleSheet, Text, View} from "react-native";
 import {mainStyles} from "../../mainStyles";
 
 const NotificationCenterScreen = ({saveGlobalNotifications, saveVaccineNotifications}) => {
-    const history = useHistory();
 
     const [isGlobalNotificationEnabled, setIsGlobalNotificationEnabled] = useState(false);
     const [isVaccineNotificationEnabled, setIsVaccineNotificationEnabled] = useState(false);
