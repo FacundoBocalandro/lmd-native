@@ -8,6 +8,7 @@ import articleActions from "../readings/article/article.actions";
 import notesActions from "../notes/notes.actions";
 import noteActions from "../notes/note/note.actions";
 import relationshipsActions from "../relation/relationship.actions";
+import settingsActions from "../settings/settings.actions";
 
 const actions = {
     session: sessionActions,
@@ -19,7 +20,8 @@ const actions = {
     vaccineInfo:  vaccineInfoActions,
     readings: readingsActions,
     article: articleActions,
-    relationships: relationshipsActions
+    relationships: relationshipsActions,
+    settings: settingsActions
 }
 
 export default actions;
