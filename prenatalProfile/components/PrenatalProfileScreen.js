@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'center',
         padding: 8,
-        margin: 20,
+        margin: 10,
         borderRadius: 10,
     },
     mainAccordionText: {
