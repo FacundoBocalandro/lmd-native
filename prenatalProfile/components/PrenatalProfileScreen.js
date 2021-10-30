@@ -73,7 +73,7 @@ const PrenatalProfileScreen = ({
                         <ScrollView>
                             <TouchableOpacity style={styles.mainAccordionExpand}
                                               onPress={() => setPerinatalVisible(!perinatalVisible)}>
-                                <Text style={styles.accordionText}>Antecedentes perinatales</Text>
+                                <Text style={styles.mainAccordionText}>Antecedentes perinatales</Text>
                             </TouchableOpacity>
                             {perinatalVisible && <View style={styles.accordionContainer}>
 
@@ -180,7 +180,7 @@ const PrenatalProfileScreen = ({
                             </View>}
                             <TouchableOpacity style={styles.mainAccordionExpand}
                                               onPress={() => setBornVisible(!bornVisible)}>
-                                <Text style={styles.accordionText}>Recién nacido</Text>
+                                <Text style={styles.mainAccordionText}>Recién nacido</Text>
                             </TouchableOpacity>
                             {bornVisible && <View style={styles.accordionContainer}>
                                 <TouchableOpacity style={styles.accordionExpand}
@@ -302,23 +302,29 @@ const styles = StyleSheet.create({
         backgroundColor: mainStyles.darkBlue,
         width: '100%',
         textAlign: 'center',
-        padding: 10,
-        height: 45,
-        margin: 20
+        padding: 12,
+        margin: 20,
+        borderRadius: 10
     },
     accordionExpand: {
         alignSelf: 'center',
         backgroundColor: mainStyles.primary,
         width: '100%',
         textAlign: 'center',
-        padding: 10,
-        height: 45,
-        margin: 20
+        padding: 8,
+        margin: 20,
+        borderRadius: 10,
     },
+    mainAccordionText: {
+    textAlign: 'center',
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#fff',
+        margin: 'auto'
+},
     accordionText: {
         textAlign: 'center',
         fontSize: 25,
-        fontWeight: 'bold',
         color: '#fff',
         margin: 'auto'
     },
