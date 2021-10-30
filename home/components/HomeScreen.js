@@ -18,7 +18,8 @@ const HomeScreen = ({user, getUserData}) => {
             <View style={styles.userProfile}>
                 <View style={styles.userData}>
                     <Text style={styles.userName}> {user.firstName} {user.lastName}</Text>
-                    <Text style={styles.userInfo}> {user.age} - {user.dni} </Text>
+                    <Text style={styles.userInfo}> {user.age} </Text>
+                    <Text style={styles.userInfo}> {user.dni} </Text>
                 </View>
                 <View style={styles.userImage}>
                     <FontAwesomeIcon icon={getAvatar(user.avatar)} style={styles.avatar} size={80}/>

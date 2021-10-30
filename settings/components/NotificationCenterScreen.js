@@ -21,13 +21,11 @@ const NotificationCenterScreen = ({saveGlobalNotifications, saveVaccineNotificat
 
     const successCallback = async () => {
         Alert.alert("¡Actualizado correctamente!")
-
     }
 
     const errorCallback = (err) => {
         Alert.alert("¡Hubo un error actualizando!")
     }
-
 
     return (
         <View style={styles.pageContainer}>
