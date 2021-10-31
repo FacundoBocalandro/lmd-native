@@ -1,4 +1,5 @@
 import {
+    GET_NOTIFICATIONS_REQUEST,
     SAVE_GLOBAL_NOTIFICATION_REQUEST, SAVE_VACCINE_NOTIFICATION_REQUEST,
 } from "./settings.actions";
 import {services} from "./settings.services";
@@ -29,6 +30,11 @@ const settingsMiddleware = ({dispatch, getState}) => next => action => {
                     if (action.errorCallback) action.errorCallback(err);
                     dispatch(actions.settings.saveVaccineNotifications.error(err));
                 })
+            break;
+        case GET_NOTIFICATIONS_REQUEST:
+            services.getNotificationSettings()
+                .then(res => dispatch(actions.settings.getNotificationSettings.response(res)))
+                .catch(err => dispatch(actions.settings.getNotificationSettings.error(err)));
             break;
         default:
             break;
