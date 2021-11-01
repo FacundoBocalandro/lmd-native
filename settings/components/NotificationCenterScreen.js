@@ -12,35 +12,20 @@ const NotificationCenterScreen = ({
 
     useEffect(() => {
         getNotificationSettings();
-        if (notificationSetting) {
-            setIsVaccineNotificationEnabled(notificationSetting.globalNotifications);
-            setIsVaccineNotificationEnabled(notificationSetting.mainAccordionText);
-        } else {
-            getNotificationSettings();
-            if (notificationSetting) {
-                setIsVaccineNotificationEnabled(notificationSetting.globalNotifications);
-                setIsVaccineNotificationEnabled(notificationSetting.mainAccordionText);
-            }
-        }
-    }, [])
-
-    const [isGlobalNotificationEnabled, setIsGlobalNotificationEnabled] = useState(false);
-    const [isVaccineNotificationEnabled, setIsVaccineNotificationEnabled] = useState(false);
+        }, [notificationSetting])
 
     const toggleGlobalSwitch = () => {
-        saveGlobalNotifications(!isGlobalNotificationEnabled, successGlobalNotificationCallback, errorCallback)
+        saveGlobalNotifications(!notificationSetting.globalNotifications, successGlobalNotificationCallback, errorCallback)
 
     }
     const toggleVaccineSwitch = () => {
-        saveVaccineNotifications(!isVaccineNotificationEnabled, successVaccineNotificationCallback, errorCallback)
+        saveVaccineNotifications(!notificationSetting.vaccineNotifications, successVaccineNotificationCallback, errorCallback)
     }
 
-    const successGlobalNotificationCallback = async () => {
-        setIsGlobalNotificationEnabled(previousState => !previousState);
+    const successGlobalNotificationCallback = () => {
     }
 
-    const successVaccineNotificationCallback = async () => {
-        setIsVaccineNotificationEnabled(previousState => !previousState);
+    const successVaccineNotificationCallback = () => {
     }
 
     const errorCallback = (err) => {
@@ -57,7 +42,7 @@ const NotificationCenterScreen = ({
                             <Text style={styles.notificationTitle}>Globales</Text>
                             <Switch
                                 onValueChange={toggleGlobalSwitch}
-                                value={isGlobalNotificationEnabled}
+                                value={notificationSetting.globalNotifications}
                                 activeText={'Si'}
                                 inActiveText={'No'}
                                 backgroundActive={mainStyles.primary}
@@ -65,20 +50,20 @@ const NotificationCenterScreen = ({
                                 switchBorderRadius={10}
                                 innerCircleStyle={{
                                     borderRadius: 10,
-                                    borderColor: isGlobalNotificationEnabled ? mainStyles.primary : mainStyles.darkGrey,
+                                    borderColor: notificationSetting.globalNotifications ? mainStyles.primary : mainStyles.darkGrey,
                                     margin: 0
                                 }}
                             />
 
                         </View>
-                        <Text>Desea recibir todas las notificaciones con respecto a la edad del paciente</Text>
+                        <Text>Deseo recibir todas las notificaciones que envien los medicos</Text>
                     </View>
                     <View style={styles.notificationInfoContainer}>
                         <View style={styles.notificationContainer}>
                             <Text style={styles.notificationTitle}>Vacunación</Text>
                             <Switch
                                 onValueChange={toggleVaccineSwitch}
-                                value={isVaccineNotificationEnabled}
+                                value={notificationSetting.vaccineNotifications}
                                 activeText={'Si'}
                                 inActiveText={'No'}
                                 backgroundActive={mainStyles.primary}
@@ -86,15 +71,12 @@ const NotificationCenterScreen = ({
                                 switchBorderRadius={10}
                                 innerCircleStyle={{
                                     borderRadius: 10,
-                                    borderColor: isVaccineNotificationEnabled ? mainStyles.primary : mainStyles.darkGrey,
+                                    borderColor: notificationSetting.vaccineNotifications ? mainStyles.primary : mainStyles.darkGrey,
                                     margin: 0
                                 }}
                             />
                         </View>
-                        <Text style={styles.notificationInfoText}>Desea recibir todas las notificaciones con respecto a
-                            la
-                            edad
-                            del paciente</Text>
+                        <Text style={styles.notificationInfoText}>Deseo recibir todas las notificaciones con respecto a mis proximas vacunaciones</Text>
                     </View>
                 </View> : <ActivityIndicator/>
             }
