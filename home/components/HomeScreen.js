@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {getAvatar} from "../../utils/avatars";
 import {useHistory} from "react-router-dom";
 
-const HomeScreen = ({user, getUserData}) => {
+const HomeScreen = ({user, getUserData, getHitos, hitos}) => {
     const history = useHistory();
 
     useEffect(() => {
@@ -35,9 +35,12 @@ const HomeScreen = ({user, getUserData}) => {
                 <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/vaccine')}>
                     <Text style={styles.buttonData}>Mis vacunas</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/readings')}>
+                    <Text style={styles.buttonData}>Accesso rápido a lecturas</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.readingView} onPress={() => history.replace('/main/readings')}>
-                <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
+            <TouchableOpacity style={styles.readingView} onPress={() => history.replace('/main/hitos')}>
+                <Text style={styles.buttonData}>{hitos?.body}</Text>
             </TouchableOpacity>
         </View>
     ) : null;

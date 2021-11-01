@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 20,
     },
     profileOption: {
         marginBottom: 25
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     menuText: {
         marginLeft: 10,
         fontSize: 20,
-        color: '#FFF'
+        color: '#FFF',
     },
     barsIconContainer: {
         paddingRight: 10,

@@ -13,6 +13,7 @@ import vaccineInfoMiddleware from "./vaccines/vaccineInfo/vaccineInfo.middleware
 import relationshipsMiddleware from "./relation/relationship.middleware";
 import settingsMiddleware from "./settings/settings.middleware";
 import prenatalProfileMiddleware from "./prenatalProfile/prenatalProfile.middleware";
+import hitosMiddleware from "./hitos/hitos.middleware";
 
 const store = createStore(
     rootReducer,
@@ -29,7 +30,8 @@ const store = createStore(
         noteMiddleware,
         relationshipsMiddleware,
         settingsMiddleware,
-        prenatalProfileMiddleware
+        prenatalProfileMiddleware,
+        hitosMiddleware
     ))
 )
 
