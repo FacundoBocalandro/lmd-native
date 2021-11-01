@@ -9,6 +9,7 @@ import notesActions from "../notes/notes.actions";
 import noteActions from "../notes/note/note.actions";
 import relationshipsActions from "../relation/relationship.actions";
 import settingsActions from "../settings/settings.actions";
+import prenatalProfileActions from "../prenatalProfile/prenatalProfile.actions";
 
 const actions = {
     session: sessionActions,
@@ -21,7 +22,8 @@ const actions = {
     readings: readingsActions,
     article: articleActions,
     relationships: relationshipsActions,
-    settings: settingsActions
+    settings: settingsActions,
+    prenatalProfile: prenatalProfileActions
 }
 
 export default actions;

@@ -17,6 +17,7 @@ import NotesScreen from "./notes/containers/NotesScreen";
 import Note from "./notes/containers/Note";
 import RelationshipScreen from "./relation/containers/RelationshipScreen";
 import NotificationCenterScreen from "./settings/containers/NotificationCenter";
+import PrenatalProfileScreen from "./prenatalProfile/containers/PrenatalProfile";
 
 export default function App() {
     // console.disableYellowBox = true;
@@ -41,6 +42,7 @@ export default function App() {
                                 <PrivateRoute key={'article'} path={`${url}/readings/article/`} component={ArticleScreen} />
                                 <PrivateRoute key={'relationship'} path={`${url}/relationship`} component={RelationshipScreen} />
                                 <PrivateRoute key={'notificationCenter'} path={`${url}/notifications`} component={NotificationCenterScreen} />
+                                <PrivateRoute key={'prenatalProfile'} path={`${url}/prenatalProfile`} component={PrenatalProfileScreen} />
                             </Switch>
                         </AppFrame>
                     ])}/>

@@ -11,6 +11,7 @@ import notesReducer from "../notes/notes.reducer";
 import noteReducer from "../notes/note/note.reducer";
 import relationshipsReducer from "../relation/relationship.reducer";
 import settingsReducer from "../settings/settings.reducer";
+import prenatalProfileReducer from "../prenatalProfile/prenatalProfile.reducer";
 
 const appReducer = combineReducers({
     session: sessionReducer,
@@ -23,7 +24,9 @@ const appReducer = combineReducers({
     readings: readingsReducer,
     articleInfo: articleReducer,
     relationships: relationshipsReducer,
-    settings: settingsReducer
+    settings: settingsReducer,
+    prenatalProfile: prenatalProfileReducer
+
 })
 
 const rootReducer = (state, action) => {

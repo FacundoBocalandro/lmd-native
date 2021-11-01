@@ -60,6 +60,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
         {text: "Notas", icon: faEdit, url:'/main/notes', id:'notes' },
         {text: "Vincular pediatra", icon: faAddressBook, url:'/main/relationship', id:'peditrician' },
         {text: "Notificaciones", icon: faBell, url:'/main/notifications', id:'notification' },
+        {text: "Perfil", icon: faUser, url:'/main/prenatalProfile', id:'prenatalProfile' },
     ]
 
     const addAccount = async () => {
