@@ -7,6 +7,7 @@ export const CHECK_USERNAME_USED_ERROR = "CHECK_USERNAME_USED_ERROR";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_RESPONSE = "LOGIN_RESPONSE";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const REGISTER_FIREBASE_TOKEN = "REGISTER_FIREBASE_TOKEN";
 export const LOGOUT = "LOGOUT";
 
 
@@ -45,6 +46,7 @@ const sessionActions = {
          */
         error: (err) => ({type: LOGIN_ERROR, err}),
     },
+    registerFirebaseToken: (token) => ({type: REGISTER_FIREBASE_TOKEN, token}),
     /**
      * Restart redux store
      * @returns {{type: string}}
