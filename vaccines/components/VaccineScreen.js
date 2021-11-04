@@ -113,7 +113,7 @@ const VaccineScreen = ({
                             <Text style={styles.modalTitle}>{currentVaccine?.vaccineDto.name}</Text>
                             <Text style={styles.modalText}>Fecha de aplicacion:</Text>
                             <Text style={styles.input}>{getDate(currentVaccine?.appliedDate)} </Text>
-                            <Text style={styles.modalText}>Aplicado por:</Text>
+                            <Text style={styles.modalText}>Medico responsable:</Text>
                             <Text
                                 style={styles.input}>{currentVaccine?.responsibleDoctor.firstName} {currentVaccine?.responsibleDoctor.lastName}</Text>
                             <View style={styles.modalButtonContainer}>

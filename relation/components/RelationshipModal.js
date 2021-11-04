@@ -5,7 +5,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Modal,
-    TextInput
+    TextInput, Alert
 } from "react-native"
 import {mainStyles} from "../../mainStyles";
 
@@ -14,10 +14,20 @@ const RelationshipModal = ({closeModal, modalInfo, setModalInfo, handleAddNewRel
     const [doctorDni, setDoctorDni] = useState("");
 
     const handleSearchDoctors = () => {
-        searchDoctors(doctorDni, res => {
-            setDoctor(res);
-            setModalInfo({...modalInfo, doctorId: res.id});
-        })
+        searchDoctors(doctorDni, successCallback, errorCallback);
+    }
+
+    const successCallback = (res) => {
+        console.log("res")
+        console.log(res)
+        setDoctor(res);
+        setModalInfo({...modalInfo, doctorId: res.id});
+    }
+
+    const errorCallback = (err) => {
+        console.log("error")
+        console.log(err)
+        Alert.alert("No se encontró ningun pediatra con ese número de documento");
     }
 
     return (
@@ -46,6 +56,7 @@ const RelationshipModal = ({closeModal, modalInfo, setModalInfo, handleAddNewRel
                         </View>
                         </>
                         : <>
+
                             <TextInput value={modalInfo.doctorId}
                                        style={styles.input}
                                        onChangeText={text => setDoctorDni(text)}

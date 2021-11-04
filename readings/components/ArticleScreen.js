@@ -26,7 +26,6 @@ const ArticleScreen = ({article}) => {
             {
                 article ?
                     <ScrollView>
-
                         <View style={styles.titleContainer}>
                             <Text style={styles.title}>Lecturas recomendadas</Text>
                         </View>

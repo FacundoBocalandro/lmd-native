@@ -28,7 +28,7 @@ const relationshipsActions = {
         error: (err) => ({type: DELETE_RELATIONSHIP_ERROR, err}),
     },
     searchDoctors: {
-        request: (dni, callback) => ({type: SEARCH_DOCTORS_REQUEST, dni, callback}),
+        request: (dni, callback, errorCallback) => ({type: SEARCH_DOCTORS_REQUEST, dni, callback, errorCallback}),
         response: (res) => ({type: SEARCH_DOCTORS_RESPONSE, res}),
         error: (err) => ({type: SEARCH_DOCTORS_ERROR, err}),
     }

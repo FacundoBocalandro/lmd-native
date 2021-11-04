@@ -38,7 +38,10 @@ const relationshipsMiddleware = ({dispatch, getState}) => next => action => {
                     if (action.callback) action.callback(res)
                     dispatch(actions.relationships.searchDoctors.response(res));
                 })
-                .catch(err => dispatch(actions.relationships.searchDoctors.error(err)));
+                .catch(err => {
+                    if (action.errorCallback) action.errorCallback();
+                    dispatch(actions.relationships.searchDoctors.error(err));
+                });
             break;
         default:
             break;

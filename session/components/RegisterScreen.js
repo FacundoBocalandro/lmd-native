@@ -8,7 +8,6 @@ import {useHistory} from 'react-router-dom';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {GENDERS} from "../../constants/PersonalData";
 import {Picker} from 'react-native-picker-dropdown'
-import {Card} from "react-native-elements";
 
 const RegisterScreen = ({
                             registerUser,
