@@ -21,44 +21,48 @@ const TableData = ({title, accessor, data, noZScore}) => {
         timeRecorded: new Date(row.timeRecorded)
     })).sort((a, b) => a.timeRecorded - b.timeRecorded);
 
+    const itsPar = (index) => {
+        return index % 2
+    }
+
     return (
         <View>
             {sortedData.length > 0 ?
-                <DataTable style={styles.tableContainer}>
+                <View style={styles.tableContainer}>
                     <ScrollView>
                         <View style={styles.scrollableTable}>
-                            <DataTable.Row style={styles.headersContainer}>
+                            <View style={styles.headersContainer}>
                                 {headers.map(header => (
-                                    <DataTable.Cell style={styles.headerContainer} key={header}>
+                                    <View style={styles.headerContainer} key={header}>
                                         <View style={styles.dataContainer}>
                                             <Text style={styles.tableHeader}>{header}</Text>
                                         </View>
-                                    </DataTable.Cell>
+                                    </View>
 
                                 ))}
-                            </DataTable.Row>
-                            {sortedData.map(row =>
-                                <DataTable.Row style={styles.row}>
-                                    <DataTable.Cell style={styles.rowContainer}>
+                            </View>
+                            {sortedData.map((row, index) =>
+                                <View style={styles.row} key={'data-'+index}>
+                                    <View style={itsPar(index) ? styles.rowContainer : styles.rowImparContainer}>
                                         <View style={styles.dataContainer}>
                                             <Text
-                                                style={styles.tableText}>{row.timeRecorded.toLocaleDateString('en-GB')}</Text>
+                                                style={itsPar(index) ? styles.tableText : styles.tableTextImpar}>{row.timeRecorded.toLocaleDateString('en-GB')}</Text>
                                         </View>
-                                    </DataTable.Cell>
-                                    <DataTable.Cell style={styles.rowContainer}>
+                                    </View>
+                                    <View style={itsPar(index) ? styles.rowContainer : styles.rowImparContainer}>
                                         <View style={styles.dataContainer}>
-                                            <Text style={styles.tableText}>{row[accessor]}</Text>
+                                            <Text style={itsPar(index) ? styles.tableText : styles.tableTextImpar}>{row[accessor]}</Text>
                                         </View>
-                                    </DataTable.Cell>
-                                    {!noZScore && <DataTable.Cell style={styles.rowContainer}>
+                                    </View>
+                                    {!noZScore && <View style={itsPar(index) ? styles.rowContainer : styles.rowImparContainer}>
                                         <View style={styles.dataContainer}>
-                                            <Text style={styles.tableText}>{row.zscore}</Text>
+                                            <Text style={itsPar(index) ? styles.tableText : styles.tableTextImpar}>{row.zscore.toFixed(4)}</Text>
                                         </View>
-                                    </DataTable.Cell>}
-                                </DataTable.Row>)}
+                                    </View>}
+                                </View>)}
                         </View>
                     </ScrollView>
-                </DataTable>
+                </View>
                 :
                 <Text style={styles.noDataText}> No hay datos </Text>
             }
@@ -72,7 +76,12 @@ const styles = StyleSheet.create({
     tableContainer: {
         padding: 0,
         height: windowHeight * 0.75,
-        marginTop: 40
+        marginTop: 50,
+    },
+    row: {
+        flexDirection: 'row',
+        borderBottomColor: mainStyles.lightGrey,
+        borderBottomWidth: 1,
     },
     headerContainer: {
         backgroundColor: mainStyles.darkBlue,
@@ -84,10 +93,17 @@ const styles = StyleSheet.create({
         margin: 0,
         flex: 3
     },
+    rowImparContainer: {
+        backgroundColor: 'white',
+        margin: 0,
+        flex: 3,
+    },
     headersContainer: {
+        flexDirection: 'row',
         marginBottom:2
     },
     dataContainer: {
+        margin: 10,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center'
@@ -101,10 +117,16 @@ const styles = StyleSheet.create({
         marginLeft: 15
     },
     tableText: {
-        fontSize: 20,
+        fontSize: 18,
         color: 'white',
         textAlign: 'center',
-        marginLeft: 15
+        marginLeft: 5
+    },
+    tableTextImpar: {
+        fontSize: 18,
+        color: mainStyles.primary,
+        textAlign: 'center',
+        marginLeft: 5
     },
     noDataText: {
         marginTop: windowHeight * 0.3,

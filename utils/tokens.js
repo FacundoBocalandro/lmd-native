@@ -93,9 +93,6 @@ export const removeCurrentToken = async () => {
         await AsyncStorage.setItem(`token-${selectedUser}`, await AsyncStorage.getItem(`token-${lastToken}`))
         await AsyncStorage.removeItem(`token-${lastToken}`)
     }
-
-
-
     await clearSelectedUser();
 }
 

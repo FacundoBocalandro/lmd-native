@@ -10,7 +10,7 @@ import {
 
 import {mainStyles} from "../../mainStyles";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faPlusCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faPlusCircle, faTimesCircle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import RelationshipModal from "./RelationshipModal";
 
 const RelationshipScreen = ({
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     },
     deleteRelationIcon: {
         fontSize: 30,
-        color: 'red'
+        color: 'white',
     },
     centeredView: {
         flex: 1,

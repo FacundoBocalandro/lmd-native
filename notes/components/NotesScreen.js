@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     deleteNoteIcon: {
         fontSize: 30,
-        color: 'red'
+        color: 'white',
     },
     centeredView: {
         flex: 1,

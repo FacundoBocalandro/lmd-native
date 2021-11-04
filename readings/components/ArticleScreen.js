@@ -19,21 +19,26 @@ const ArticleScreen = ({article}) => {
     }, [article])
 
     return (
-        article ?
-            <ScrollView>
-                <TouchableOpacity onPress={() => history.goBack()} style={styles.backButton}>
-                    <FontAwesomeIcon icon={faArrowLeft} size={25} color={'grey'}/>
-                </TouchableOpacity>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Lecturas recomendadas</Text>
-                </View>
-                <View style={styles.categoryContainer}>
-                    <Text style={styles.categoryText}>{article.category} > {article.title}</Text>
-                </View>
-                <ScrollView>
-                    <Text style={styles.info}> {article.body} </Text>
-                </ScrollView>
-            </ScrollView> : <Text>{JSON.stringify(article)}</Text>
+        <View style={{marginBottom: 110}}>
+            <TouchableOpacity onPress={() => history.goBack()} style={styles.backButton}>
+                <FontAwesomeIcon icon={faArrowLeft} size={25} color={'grey'}/>
+            </TouchableOpacity>
+            {
+                article ?
+                    <ScrollView>
+
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>Lecturas recomendadas</Text>
+                        </View>
+                        <View style={styles.categoryContainer}>
+                            <Text style={styles.categoryText}>{article.category} > {article.title}</Text>
+                        </View>
+                        <ScrollView>
+                            <Text style={styles.info}> {article.body} {article.body} </Text>
+                        </ScrollView>
+                    </ScrollView> : <Text>{JSON.stringify(article)}</Text>
+            }
+        </View>
     )
 }
 

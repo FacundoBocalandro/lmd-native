@@ -14,6 +14,8 @@ import {
     Text,
     StyleSheet
 } from "react-native";
+import {Button, Card, Title, Paragraph} from 'react-native-paper';
+
 
 const GenericGraph = ({percentileData, maxY, minY = 0, yStep, yLabel, data, colors, zoomOptions, selectedXRange}) => {
     const [xRange, setXRange] = useState(selectedXRange ?? {min: 0, max: 19})
@@ -32,19 +34,11 @@ const GenericGraph = ({percentileData, maxY, minY = 0, yStep, yLabel, data, colo
 
     return (
         <View>
-            {zoomOptions && <View style={styles.tabContainer}>
-                {zoomOptions.map(zoomOption =>
-                    <TouchableOpacity
-                        style={[styles.homeScreenTab, xRange.min === zoomOption.min && xRange.max === zoomOption.max ? styles.selected : '']}
-                        onPress={() => setXRange(zoomOption)}
-                    key={zoomOption.max}>
-                        <Text  style={styles.homeScreenTabText}>{zoomOption.min} - {zoomOption.max}</Text>
-                    </TouchableOpacity>)}
-            </View>}
             <VictoryChart
-                containerComponent={<VictoryZoomContainer zoomDomain={{x: [xRange.min, xRange.max], y: [minYToDisplay, maxYToDisplay]}}/>}
-                width={isLandscape() ? (windowHeight * 0.9) : windowWidth}
-                height={isLandscape() ? (windowWidth * 0.8) : (windowHeight * 0.8)}
+                containerComponent={<VictoryZoomContainer
+                    zoomDomain={{x: [xRange.min, xRange.max], y: [minYToDisplay, maxYToDisplay]}}/>}
+                width={isLandscape() ? (windowHeight * 0.6) : windowWidth}
+                height={isLandscape() ? (windowWidth * 0.6) : (windowHeight * 0.6)}
                 minDomain={{x: xRange.min, y: minYToDisplay}} maxDomain={{x: xRange.max, y: maxYToDisplay}}>
                 <VictoryAxis crossAxis
                              minDomain={xRange.min}
@@ -94,6 +88,17 @@ const GenericGraph = ({percentileData, maxY, minY = 0, yStep, yLabel, data, colo
                 {data.length === 1 ? <VictoryScatter data={data} style={{data: {fill: colors.stroke}}}/> :
                     <VictoryLine data={data} style={{data: {stroke: colors.stroke}}}/>}
             </VictoryChart>
+            {zoomOptions &&
+            <View style={styles.tabContainer}>
+                {zoomOptions.map(zoomOption =>
+                    <TouchableOpacity
+                        style={[styles.homeScreenTab, xRange.min === zoomOption.min && xRange.max === zoomOption.max ? styles.selected : '']}
+                        onPress={() => setXRange(zoomOption)}
+                        key={zoomOption.max}>
+                        <Text style={styles.homeScreenTabText}>{zoomOption.min} - {zoomOption.max}</Text>
+                    </TouchableOpacity>)}
+            </View>
+            }
         </View>
     )
 }
@@ -120,13 +125,14 @@ const styles = StyleSheet.create({
     tabContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 25,
-        marginTop: -60,
-        marginLeft: 60
+        margin: 10
+    },
+    card: {
+        margin: 10
     },
     homeScreenTab: {
         textAlign: 'center',
-        borderRadius: 30,
+        borderRadius: 5,
         padding: 10,
         display: 'flex',
         justifyContent: 'center',
@@ -137,8 +143,8 @@ const styles = StyleSheet.create({
             width: 0,
             height: 4,
         },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
+        // shadowOpacity: 0.30,
+        // shadowRadius: 4.65,
         elevation: 8,
         margin: 0
     },

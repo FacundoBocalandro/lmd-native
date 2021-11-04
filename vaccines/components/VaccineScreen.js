@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
         backgroundColor: mainStyles.primary,
         margin: 0,
         padding: 10,
+        borderRadius: 20
     },
     vaccineDataContainer: {
         flexDirection: 'column',

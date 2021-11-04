@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View, Alert} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
-import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
+import {mainStyles, mainStylesheet, windowHeight, windowWidth} from "../../mainStyles";
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCurrentUserToken, saveNewToken, setSelectedToken} from "../../utils/tokens";
+import {Card, Title, Paragraph} from 'react-native-paper';
 
 const initialForm = {
     username: "",
@@ -60,45 +61,48 @@ const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken}) 
             <View style={styles.headerContainer}>
                 <Text style={styles.header}>Libreta Médica</Text>
             </View>
-            <View style={styles.logInContainer}>
-                <View>
-                    <Text style={styles.subHeader}>Iniciar sesión</Text>
-                </View>
-                <ScrollView>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Nombre de usuario</Text>
-                        <TextInput placeholder={"Usuario..."}
-                                   style={styles.input}
-                                   value={form.username}
-                                   onChangeText={text => setField('username', text)}/>
+            <Card style={styles.card}>
+                <View style={styles.logInContainer}>
+                    <View>
+                        <Text style={styles.subHeader}>Iniciar sesión</Text>
                     </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Contraseña</Text>
-                        <TextInput placeholder={"Contraseña..."}
-                                   style={styles.input}
-                                   value={form.password}
-                                   secureTextEntry={true}
-                                   onChangeText={text => setField('password', text)}
-                                   onKeyPress={(event) => {
-                                       if (event.key === "Enter") {
-                                           submitLogin();
-                                       }
-                                   }}
-                        />
-                    </View>
-                    <TouchableOpacity onPress={submitLogin}
-                                      style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton} disabled={isPending()}
-                    >
-                        <Text style={styles.submitButtonText}>Iniciar sesión</Text>
+                    <ScrollView>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>Nombre de usuario</Text>
+                            <TextInput placeholder={"Usuario..."}
+                                       style={styles.input}
+                                       value={form.username}
+                                       onChangeText={text => setField('username', text)}/>
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>Contraseña</Text>
+                            <TextInput placeholder={"Contraseña..."}
+                                       style={styles.input}
+                                       value={form.password}
+                                       secureTextEntry={true}
+                                       onChangeText={text => setField('password', text)}
+                                       onKeyPress={(event) => {
+                                           if (event.key === "Enter") {
+                                               submitLogin();
+                                           }
+                                       }}
+                            />
+                        </View>
+                        <TouchableOpacity onPress={submitLogin}
+                                          style={isPending() ? {...styles.submitButton, ...styles.buttonPending} : styles.submitButton}
+                                          disabled={isPending()}
+                        >
+                            <Text style={styles.submitButtonText}>Iniciar sesión</Text>
 
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => history.push('/register')}>
-                        <Text style={styles.registerText}>
-                            ¿Aún no tiene un usuario?
-                        </Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => history.push('/register')}>
+                            <Text style={styles.registerText}>
+                                ¿Aún no tiene un usuario?
+                            </Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                </View>
+            </Card>
         </View>
     )
 }
@@ -113,10 +117,14 @@ const styles = StyleSheet.create({
         display: 'flex'
     },
     header: {
-        color: mainStyles.primary,
-        fontSize: 40,
+        color: mainStyles.darkBlue,
+        fontSize: 45,
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    card: {
+        margin: 'auto',
+        padding: 30,
     },
     inputContainer: {
         marginTop: 10

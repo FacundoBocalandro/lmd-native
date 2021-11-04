@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {GENDERS} from "../../constants/PersonalData";
 import {Picker} from 'react-native-picker-dropdown'
+import {Card} from "react-native-elements";
 
 const RegisterScreen = ({
                             registerUser,
@@ -21,25 +22,25 @@ const RegisterScreen = ({
     const [form, setForm] = useState({
         firstName: "",
         lastName: "",
+        gender: null,
         dni: "",
         birthDate: "",
         email: "",
         username: "",
         password: "",
         confirmPassword: "",
-        gender: ""
     })
 
     const [errors, setErrors] = useState({
         firstName: false,
         lastName: false,
+        gender: false,
         dni: false,
         birthDate: false,
         email: false,
         username: false,
         password: false,
         confirmPassword: false,
-        gender: false
     })
 
     const setField = (fieldName, value) => {
@@ -109,14 +110,22 @@ const RegisterScreen = ({
         if (!Object.values(newErrors).some(error => error)) {
             const dateParts = form.birthDate.split("/");
             registerUser({
-                ...form,
-                birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0, 10)
-            }, () => history.push({pathname: '/', state: {registerSuccess: true}}), err => {
-                Alert.alert("Error", err.message)
-            })
+                    ...form,
+                    birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0, 10)
+                },
+                successCallBack, errorCallback)
         } else {
             setErrors(newErrors)
         }
+    }
+
+    const successCallBack = (res) => {
+        Alert.alert("¡Registrado correctamente!")
+        history.push({pathname: '/', state: {registerSuccess: true}})
+    }
+
+    const errorCallback = (err) => {
+        Alert.alert("Error", err.message)
     }
 
     const isPending = () => {
@@ -125,6 +134,7 @@ const RegisterScreen = ({
 
     return (
         <KeyboardAwareScrollView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{backgroundColor: '#fff'}}
             resetScrollToCoords={{x: 0, y: 0}}
             contentContainerStyle={styles.container}
@@ -234,7 +244,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        height: '100%'
+        // height: '100%'
+    },
+    card: {
+        margin: 10,
+        // padding: 50,
+        // width: windowWidth * 0.9
     },
     header: {
         alignSelf: 'center',
