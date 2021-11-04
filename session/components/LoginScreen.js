@@ -18,9 +18,7 @@ const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken}) 
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = async (token) => {
-        // await saveNewToken(token)
-        // history.push("/main/home");
-        AsyncStorage.setItem('token', token);
+        await saveNewToken(token)
         history.push("/main/home");
     }
 

@@ -9,7 +9,7 @@ import {
 
 const initialState = {
     userInfo: undefined,
-    allUsersInfo: undefined,
+    allUsersInfo: [],
     ui: {
         checkUsernameUsedPending: false,
         checkUsernameUsedError: false,
@@ -39,8 +39,13 @@ const sessionReducer = (state = initialState, action) => {
             return {...state, ui: {...state.ui, loginPending: false}}
         case GET_USER_INFO_RESPONSE:
             return {...state, userInfo: action.res}
-        case GET_USER_INFO_FROM_TOKEN_RESPONSE:
-            return {...state, allUsersInfo: {...state.allUsersInfo, [action.token]: action.res}}
+        case GET_USER_INFO_FROM_TOKEN_RESPONSE: {
+            if (state.allUsersInfo.filter(e => e.userInfo.id === action.res.id).length > 0) return state
+            return {
+                ...state,
+                allUsersInfo: [{token: action.token, userInfo: action.res}, ...state.allUsersInfo]
+            }
+        }
         default:
             return state
     }

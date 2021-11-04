@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, TouchableHighlight, View, Modal, AsyncStorage} from "react-native";
+import {StyleSheet, Text, TouchableHighlight, View, Modal} from "react-native";
 import SideMenu from 'react-native-side-menu-updated'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
@@ -16,30 +16,32 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
 import {useHistory} from "react-router-dom";
-import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import actions from "../../../actions";
-import {clearSelectedUser, getAllStoredTokens, removeCurrentToken, setSelectedToken} from "../../../utils/tokens";
-import {getToken} from "../../../utils/http";
-import {addWhitelistedInterpolationParam} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
+import {
+    clearSelectedUser,
+    deleteAll,
+    getAllStoredTokens,
+    removeCurrentToken,
+    setSelectedToken
+} from "../../../utils/tokens";
 
 const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, userInfo, logout}) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
-        // getAllStoredTokens().then(tokensPromise => {
-        //     Promise.all(tokensPromise).then(tokens => {
-        //         tokens.map(token => {
-        //             getUserInfoFromToken(token);
-        //         });
-        //     })
-        // })
-        // if (!userInfo) getUserInfo();
-    }, [])
+        getAllStoredTokens().then(tokensPromise => {
+            Promise.all(tokensPromise).then(tokens => {
+                tokens.map(token => {
+                    getUserInfoFromToken(token);
+                });
+            })
+        })
+        if (!userInfo) getUserInfo();
+    }, [userInfo])
 
     const history = useHistory();
-    const location = useLocation();
 
 
     const changeModalVisibility = (bool) => {
@@ -48,7 +50,9 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
     const logoutAction = async () => {
         logout();
         await removeCurrentToken();
+        await deleteAll();
         changeModalVisibility(false);
+        setMenuOpen(false)
         history.replace('/');
     }
 
@@ -69,10 +73,11 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
         history.push('/');
     }
 
-    const changeAccount = (token) => {
-        console.log(token);
-        setSelectedToken(token, logout);
+    const changeAccount = async (token) => {
+        await setSelectedToken(token, logout);
         changeModalVisibility(false);
+        setMenuOpen(false)
+        history.replace('/main/home');
     }
 
     const menu =
@@ -84,7 +89,9 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                                             onPress={() => history.replace(option.url)}>
                             <FontAwesomeIcon icon={option.icon} style={styles.menuIcon} size={20}/>
                         </TouchableHighlight>
-                        <Text style={styles.menuText} onPress={() => history.replace(option.url)}>{option.text}</Text>
+                        <Text style={styles.menuText} onPress={() => {
+                            history.replace(option.url);
+                            setMenuOpen(false)}}>{option.text}</Text>
                     </View>
                 ))}
             </View>
@@ -94,7 +101,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     <TouchableHighlight style={styles.menuIconContainer}>
                         <FontAwesomeIcon icon={faUser} style={styles.menuIcon} size={20}/>
                     </TouchableHighlight>
-                    {/*<Text style={styles.menuText}>{userInfo?.firstName} {userInfo?.lastName}</Text>*/}
+                    <Text style={styles.menuText}>{userInfo?.firstName} {userInfo?.lastName}</Text>
                 </TouchableOpacity>
                 <Modal
                     transparent={true}
@@ -103,11 +110,11 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     nRequestClose={() => changeModalVisibility(false)}
                 >
                     <View style={styles.modal}>
-                        {/*{(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(u =>*/}
-                        {/*    <TouchableOpacity  key={u} onPress={() => changeAccount(u)}>*/}
-                        {/*        <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u].firstName} {allUsersInfo[u].lastName}</Text>*/}
-                        {/*    </TouchableOpacity>*/}
-                        {/*) : null}*/}
+                        {(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(u =>
+                            <TouchableOpacity  key={u} onPress={() => changeAccount(allUsersInfo[u].token)}>
+                                <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u]?.userInfo.firstName} {allUsersInfo[u]?.userInfo.lastName}</Text>
+                            </TouchableOpacity>
+                        ) : null}
                         <TouchableOpacity onPress={addAccount}>
                             <Text style={[styles.menuText, styles.dropdownText]}>Agregar Cuenta</Text>
                         </TouchableOpacity>

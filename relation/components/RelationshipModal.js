@@ -18,15 +18,11 @@ const RelationshipModal = ({closeModal, modalInfo, setModalInfo, handleAddNewRel
     }
 
     const successCallback = (res) => {
-        console.log("res")
-        console.log(res)
         setDoctor(res);
         setModalInfo({...modalInfo, doctorId: res.id});
     }
 
     const errorCallback = (err) => {
-        console.log("error")
-        console.log(err)
         Alert.alert("No se encontró ningun pediatra con ese número de documento");
     }
 

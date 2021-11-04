@@ -6,19 +6,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  * @param token: JWT Token which will be selected to use (to fetch information from the backend)
  * @param logout: Redux function to delete stored information
  */
+
+// const history = useHistory();
+
 export const setSelectedToken = async (token, logout) => {
-    const tokens = await getAllStoredTokens();
-    Promise.all(tokens).then(allTokens => allTokens.forEach(async (tokenKey ) => {
-        const tokenFromKey = await AsyncStorage.getItem(tokenKey);
-        if (tokenFromKey === token) {
-            const tokenNumber = tokenKey.split('-')[1];
-            if (tokenNumber !== await AsyncStorage.getItem('selected-user')) {
-                logout();
-                await AsyncStorage.getItem('selected-user', tokenNumber)
-                await AsyncStorage.location.reload()
-            }
+    const tokens = await getAllTokenKeys();
+    Promise.all(tokens).then(allTokens => {
+            allTokens.forEach(async (tokenKey) => {
+                const tokenFromKey = await AsyncStorage.getItem(tokenKey);
+                if (tokenFromKey === token) {
+                    const tokenNumber = tokenKey.split('-')[1];
+                    if (tokenNumber !== await AsyncStorage.getItem('selected-user')) {
+                        logout();
+                        await AsyncStorage.setItem('selected-user', tokenNumber)
+                    }
+                }
+            })
         }
-    }))
+    )
+}
+
+export const deleteAll = async () => {
+    await AsyncStorage.clear()
 }
 
 /**
@@ -37,6 +46,7 @@ export const getAllStoredTokens = async () => {
     return keys.map(async key => await AsyncStorage.getItem(key));
 }
 
+
 /**
  * Get token keys from localstorage.
  * Token keys have the format token-x, where x is the unique number that identifies the token.
@@ -44,7 +54,7 @@ export const getAllStoredTokens = async () => {
  */
 export const getAllTokenKeys = async () => {
     const keysToBeFiltered = await AsyncStorage.getAllKeys();
-    return  keysToBeFiltered.filter(key => key.startsWith('token-'));
+    return keysToBeFiltered.filter(key => key.startsWith('token-'));
 }
 
 /**
@@ -52,7 +62,7 @@ export const getAllTokenKeys = async () => {
  * @param token: JWT token
  */
 export const saveNewToken = async (token) => {
-    const tokenKeys = await getAllTokenKeys();
+    const tokenKeys = await getAllTokenKeys()
     // Start as 0. If there is no stored token, will remain as 0
     let lastToken = 0;
     tokenKeys.forEach(tokenKey => {
@@ -75,8 +85,8 @@ export const saveNewToken = async (token) => {
 export const removeCurrentToken = async () => {
     //rearrange tokens to be in order
     const selectedUser = await AsyncStorage.getItem('selected-user');
-    const tokenKeys = await getAllTokenKeys();
     let lastToken = selectedUser;
+    const tokenKeys = await getAllTokenKeys();
     //get last token, which will be moved to the localstorage key where the removed token was.
     tokenKeys.forEach(tokenKey => {
         // token keys have the format token-x
@@ -85,7 +95,6 @@ export const removeCurrentToken = async () => {
         // get biggest token key, which will be moved to the key where the current token was
         if (tokenNumber > lastToken) lastToken = parseFloat(tokenNumber);
     })
-
     // remove current token
     await AsyncStorage.removeItem(`token-${selectedUser}`);
     if (lastToken !== selectedUser) {
@@ -94,8 +103,12 @@ export const removeCurrentToken = async () => {
         await AsyncStorage.removeItem(`token-${lastToken}`)
     }
     await clearSelectedUser();
+
 }
 
-export const getCurrentUserToken = () => AsyncStorage.getItem('selected-user')
-    .then(tokenKey => AsyncStorage.getItem(tokenKey));
+export const getCurrentUserToken = async () => {
+    const selectedUserTokenKey = await AsyncStorage.getItem('selected-user')
+    const token = await AsyncStorage.getItem(`token-${selectedUserTokenKey}`);
+    return token;
+}
 
