@@ -10,6 +10,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../mainStyles";
+import {Card} from "react-native-elements";
 
 const ArticleScreen = ({article}) => {
     const history = useHistory();
@@ -26,22 +27,26 @@ const ArticleScreen = ({article}) => {
             {
                 article ?
                     <ScrollView>
+                        <Card style={styles.card}>
+
                         <View style={styles.titleContainer}>
                             <Text style={styles.title}>Lecturas recomendadas</Text>
                         </View>
-                        <View style={styles.categoryContainer}>
-                            <Text style={styles.categoryText}>{article.category} > {article.title}</Text>
-                        </View>
-                        <ScrollView>
-                            <Text style={styles.info}> {article.body} {article.body} </Text>
-                        </ScrollView>
+                            <View style={styles.categoryContainer}>
+                                <Text style={styles.categoryText}>{article.category} > {article.title}</Text>
+                            </View>
+                            <ScrollView>
+                                <Text style={styles.info}> {article.body} {article.body} </Text>
+                            </ScrollView>
+                        </Card>
                     </ScrollView> : <Text>{JSON.stringify(article)}</Text>
             }
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(
+{
     title: {
         alignSelf: 'center',
         color: 'white',
@@ -58,6 +63,10 @@ const styles = StyleSheet.create({
         backgroundColor: mainStyles.darkBlue,
         padding: 14,
         borderRadius: 10
+    },
+    card: {
+        padding: 10,
+        margin: 15
     },
     categoryText: {
         alignSelf: 'center',
