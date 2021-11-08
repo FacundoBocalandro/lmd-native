@@ -61,11 +61,10 @@ const PrenatalProfileScreen = ({
 
     return (
         data ?
-            <KeyboardAwareScrollView
-                style={{backgroundColor: '#fff'}}
-                scrollEnabled={false}
+            <View
+                style={{backgroundColor: '#fff', marginBottom: 410}}
             >
-                <View style={{...styles.container}}>
+                <View>
                     <View>
                         <Text style={styles.header}>Información perinatal</Text>
                     </View>
@@ -275,7 +274,7 @@ const PrenatalProfileScreen = ({
                         </ScrollView>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
+            </View>
             : <ActivityIndicator size="large" color={mainStyles.darkBlue}/>
     )
 }
