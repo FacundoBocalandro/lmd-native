@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {NativeRouter, Route, Switch} from "react-router-native";
 import store from "./store";
 import {Provider} from "react-redux";
@@ -11,16 +11,8 @@ import VaccineScreen from "./vaccines/containers/Vaccine";
 import VaccineInformation from "./vaccines/containers/VaccineInformation";
 import GraphScreen from "./graph/containers/Graph";
 import HomeScreen from "./home/containers/Home";
-import {Alert} from 'react-native';
-import messaging from '@react-native-firebase/messaging';
 
 export default function App() {
-    useEffect(() => {
-        return messaging().onMessage(async remoteMessage => {
-            Alert.alert(remoteMessage.notification.title, remoteMessage.notification.body);
-        });
-    }, []);
-
     return (
         <Provider store={store}>
             <MyStatusBar/>

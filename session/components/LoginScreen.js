@@ -4,23 +4,19 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 import {mainStyles, mainStylesheet, windowHeight} from "../../mainStyles";
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import messaging from '@react-native-firebase/messaging';
-import {deleteRequest, put} from "../../utils/http";
 
 const initialForm = {
     username: "",
     password: ""
 }
 
-const LoginScreen = ({login, loginPending, registerFirebaseToken}) => {
+const LoginScreen = ({login, loginPending}) => {
 
     const history = useHistory();
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = (token) => {
         AsyncStorage.setItem('token', token);
-        messaging().subscribeToTopic("Global")
-        messaging().getToken().then(token => registerFirebaseToken(token));
         history.push("/main/home");
     }
 

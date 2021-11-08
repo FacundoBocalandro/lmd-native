@@ -1,6 +1,5 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import messaging from "@react-native-firebase/messaging";
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;
@@ -22,8 +21,6 @@ const _request = async (url, method, data, config = {}) => {
         // JWT expired: logout
         if (!config.noAuth && errorResponse.response?.status === 403) {
             AsyncStorage.removeItem('token');
-            messaging().unsubscribeFromTopic("Global");
-            messaging().getToken().then(token => deleteRequest('users/removetoken', {token}));
         }
         else throw (errorResponse.response || {status: 500})
     })

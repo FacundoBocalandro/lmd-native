@@ -7,8 +7,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    login: (form, callback, errorCallback) => dispatch(actions.session.login.request(form, callback, errorCallback)),
-    registerFirebaseToken: (token) => dispatch(actions.session.registerFirebaseToken(token))
+    login: (form, callback, errorCallback) => dispatch(actions.session.login.request(form, callback, errorCallback))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
