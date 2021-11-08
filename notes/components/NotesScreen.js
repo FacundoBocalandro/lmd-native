@@ -11,7 +11,6 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {mainStyles} from "../../mainStyles";
 import {faPlusCircle, faSpinner, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import SearchInput from "../../common/components/search/SearchInput";
 import {useHistory} from "react-router-dom";
 
 const NotesScreen = ({
