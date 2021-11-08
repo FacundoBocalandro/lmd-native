@@ -11,6 +11,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../mainStyles";
+import {Card} from "react-native-paper";
 
 const HitosScreen = ({getHitos, hitos}) => {
     const history = useHistory();
@@ -22,15 +23,18 @@ const HitosScreen = ({getHitos, hitos}) => {
     return (
         hitos ?
             <ScrollView>
-                <TouchableOpacity onPress={() => history.goBack()} style={styles.backButton}>
+                <TouchableOpacity onPress={() => history.replace('/main/home')} style={styles.backButton}>
                     <FontAwesomeIcon icon={faArrowLeft} size={25} color={'grey'}/>
                 </TouchableOpacity>
+                <Card style={styles.card}>
+
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>A los {hitos.month}</Text>
+                    <Text style={styles.title}>{hitos.age}</Text>
                 </View>
-                <ScrollView>
-                    <Text style={styles.info}> {hitos.body} </Text>
-                </ScrollView>
+                    <ScrollView>
+                        <Text style={styles.info}>{hitos.body} </Text>
+                    </ScrollView>
+                </Card>
             </ScrollView> : <ActivityIndicator/>
     )
 }
@@ -53,24 +57,9 @@ const styles = StyleSheet.create({
         padding: 14,
         borderRadius: 10
     },
-    categoryText: {
-        alignSelf: 'center',
-        color: 'white',
-        fontSize: 21,
-        textAlign: 'center',
-    },
-    categoriesContainer: {
-        width: '100%',
-        height: '80%'
-    },
-    categoryContainer: {
-        alignSelf: 'center',
-        width: '95%',
-        textAlign: 'center',
-        marginBottom: 10,
-        backgroundColor: mainStyles.primary,
-        padding: 12,
-        borderRadius: 10,
+    card: {
+      padding: 10,
+      margin: 15
     },
     info: {
         color: 'black',

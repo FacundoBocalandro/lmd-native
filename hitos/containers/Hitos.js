@@ -3,7 +3,7 @@ import actions from "../../actions";
 import HitosScreen from "../components/HitosScreen";
 
 const mapStateToProps = state => ({
-    hitos: state.hitos.hito,
+    hitos: state.hitos.hitos,
 })
 
 const mapDispatchToProps = dispatch => ({
