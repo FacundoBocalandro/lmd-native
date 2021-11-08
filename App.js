@@ -18,9 +18,10 @@ import Note from "./notes/containers/Note";
 import RelationshipScreen from "./relation/containers/RelationshipScreen";
 import NotificationCenterScreen from "./settings/containers/NotificationCenter";
 import PrenatalProfileScreen from "./prenatalProfile/containers/PrenatalProfile";
+import HitosScreen from "./hitos/containers/Hitos";
 
 export default function App() {
-    // console.disableYellowBox = true;
+    console.disableYellowBox = true;
     return (
         <Provider store={store}>
             <MyStatusBar/>
@@ -43,6 +44,7 @@ export default function App() {
                                 <PrivateRoute key={'relationship'} path={`${url}/relationship`} component={RelationshipScreen} />
                                 <PrivateRoute key={'notificationCenter'} path={`${url}/notifications`} component={NotificationCenterScreen} />
                                 <PrivateRoute key={'prenatalProfile'} path={`${url}/prenatalProfile`} component={PrenatalProfileScreen} />
+                                <PrivateRoute key={'hitos'} path={`${url}/hitos`} component={HitosScreen} />
                             </Switch>
                         </AppFrame>
                     ])}/>
