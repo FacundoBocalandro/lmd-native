@@ -54,7 +54,6 @@ const GraphScreen = () => {
                             />
                         </View>
                         <View style={styles.checkedContainer}>
-                            {/*<Text style={styles.homeScreenTabText}>IMC</Text>*/}
                             <CheckBox
                                 containerStyle ={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                                 textStyle={styles.homeScreenTabText}
@@ -68,7 +67,7 @@ const GraphScreen = () => {
                     </View>
                 </View>
             </Card>
-            <Card style={styles.card}>
+            <Card style={styles.graphCard}>
                 {!tableView ?
                     <TouchableOpacity
                         style={[styles.homeScreenTab, styles.newDataButtonPortrait, tableView ? styles.selected : '']}
@@ -97,9 +96,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: windowHeight
     },
+    graphCard: {
+        margin: 10,
+        padding: 10,
+        marginTop: 0,
+    },
     card: {
         margin: 10,
-        padding: 10
+        padding: 10,
     },
     tabContainer: {
         flexDirection: 'row',
@@ -135,7 +139,8 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     checkedContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        margin: -6
     },
     selected: {
         backgroundColor: mainStyles.primary

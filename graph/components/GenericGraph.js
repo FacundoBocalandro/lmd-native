@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     tabContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        margin: 10
+        marginBottom: 10
     },
     card: {
         margin: 10

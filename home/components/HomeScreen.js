@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from "react-native";
-import {mainStyles} from "../../mainStyles";
+import {mainStyles, windowHeight} from "../../mainStyles";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {getAvatar} from "../../utils/avatars";
@@ -37,7 +37,7 @@ const HomeScreen = ({user, getUserData, getHitos, hitos}) => {
                     <Text style={styles.buttonData}>Mis vacunas</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/readings')}>
-                    <Text style={styles.buttonData}>Accesso rápido a lecturas</Text>
+                    <Text style={styles.buttonData}>Accesso a lecturas</Text>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.readingView} onPress={() => history.replace('/main/hitos')}>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 
     },
     userProfile: {
-        marginTop: 80,
+        marginTop: 0.06 * windowHeight,
         color: 'black',
         display: 'flex',
         flexDirection: 'row',
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     readingView: {
-        height: 200,
+        height: 0.2 *  windowHeight,
         backgroundColor: mainStyles.darkBlue,
         marginHorizontal: 50,
         borderRadius: 20,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     buttonContainer: {
-        marginVertical: 40
+        marginVertical: 0.02 * windowHeight
     },
     avatar: {
         width: 100,
