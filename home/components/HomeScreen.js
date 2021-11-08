@@ -11,6 +11,7 @@ const HomeScreen = ({user, getUserData, getHitos, hitos}) => {
 
     useEffect(() => {
         if (!user) getUserData();
+        getHitos();
     })
 
     return user ? (
