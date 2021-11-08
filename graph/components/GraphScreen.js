@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     },
     homeScreenTab: {
         textAlign: 'center',
-        borderRadius: 30,
+        borderRadius: 10,
         padding: 10,
         display: 'flex',
         justifyContent: 'center',
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: -15,
         top: -2,
-        borderRadius: 50,
+        borderRadius: 20,
         backgroundColor: mainStyles.darkBlue,
         width: 50,
         height: 50,

@@ -110,9 +110,9 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                     nRequestClose={() => changeModalVisibility(false)}
                 >
                     <View style={styles.modal}>
-                        {(allUsersInfo !== undefined) ? Object.keys(allUsersInfo).map(u =>
+                        {(allUsersInfo !== undefined && allUsersInfo[0] !== undefined) ? Object.keys(allUsersInfo).map(u =>
                             <TouchableOpacity  key={u} onPress={() => changeAccount(allUsersInfo[u].token)}>
-                                <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u]?.userInfo.firstName} {allUsersInfo[u]?.userInfo.lastName}</Text>
+                                <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u]?.userInfo?.firstName} {allUsersInfo[u]?.userInfo?.lastName}</Text>
                             </TouchableOpacity>
                         ) : null}
                         <TouchableOpacity onPress={addAccount}>
