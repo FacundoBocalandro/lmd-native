@@ -6,6 +6,13 @@ import sessionMiddleware from "./session/session.middleware";
 import vaccinesMiddleware from "./vaccines/vaccinesMiddleware";
 import graphMiddleware from "./graph/graph.middleware";
 import homeMiddleware from "./home/home.middleware";
+import notesMiddleware from "./notes/notes.middleware";
+import noteMiddleware from "./notes/note/note.middleware";
+import readingsMiddleware from "./readings/reasing.middleware";
+import vaccineInfoMiddleware from "./vaccines/vaccineInfo/vaccineInfo.middleware";
+import relationshipsMiddleware from "./relation/relationship.middleware";
+import settingsMiddleware from "./settings/settings.middleware";
+import prenatalProfileMiddleware from "./prenatalProfile/prenatalProfile.middleware";
 
 const store = createStore(
     rootReducer,
@@ -14,7 +21,15 @@ const store = createStore(
         sessionMiddleware,
         graphMiddleware,
         homeMiddleware,
-        vaccinesMiddleware
+        vaccinesMiddleware,
+        vaccineInfoMiddleware,
+        readingsMiddleware,
+        vaccinesMiddleware,
+        notesMiddleware,
+        noteMiddleware,
+        relationshipsMiddleware,
+        settingsMiddleware,
+        prenatalProfileMiddleware
     ))
 )
 

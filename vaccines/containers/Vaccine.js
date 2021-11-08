@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getUserVaccines: () => dispatch(actions.vaccines.getUserVaccines.request()),
     getAllVaccines: () => dispatch(actions.vaccines.getAllVaccines.request()),
-    addAppliedVaccine: (vaccineData, callback, errorCallback) => dispatch(actions.vaccines.addAppliedVaccine.request(vaccineData, callback, errorCallback))
+    setVaccineId: (vaccineId) => dispatch(actions.vaccineInfo.setVaccineId.request(vaccineId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(VaccineScreen);

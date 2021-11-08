@@ -2,6 +2,7 @@ import {GET_USER_DATA_ERROR, GET_USER_DATA_REQUEST, GET_USER_DATA_RESPONSE} from
 
 
 const initialState = {
+    allUsersInfo: undefined,
     user: undefined
 }
 

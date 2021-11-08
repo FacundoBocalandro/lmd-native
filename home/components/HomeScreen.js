@@ -10,7 +10,7 @@ const HomeScreen = ({user, getUserData}) => {
     const history = useHistory();
 
     useEffect(() => {
-        if (!user)getUserData();
+        if (!user) getUserData();
     })
 
     return user ? (
@@ -18,7 +18,8 @@ const HomeScreen = ({user, getUserData}) => {
             <View style={styles.userProfile}>
                 <View style={styles.userData}>
                     <Text style={styles.userName}> {user.firstName} {user.lastName}</Text>
-                    <Text style={styles.userInfo}> {user.age} - {user.dni} </Text>
+                    <Text style={styles.userInfo}> {user.age} </Text>
+                    <Text style={styles.userInfo}> {user.dni} </Text>
                 </View>
                 <View style={styles.userImage}>
                     <FontAwesomeIcon icon={getAvatar(user.avatar)} style={styles.avatar} size={80}/>
@@ -28,16 +29,16 @@ const HomeScreen = ({user, getUserData}) => {
                 <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/graphScreen')} >
                     <Text style={styles.buttonData}>Datos de crecimiento</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/notes')}>
                     <Text style={styles.buttonData}>Notas para la consulta</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => history.replace('/main/vaccine')}>
                     <Text style={styles.buttonData}>Mis vacunas</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.readingView}>
+            <TouchableOpacity style={styles.readingView} onPress={() => history.replace('/main/readings')}>
                 <Text style={styles.buttonData}> Accesso rápido a lecturas</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     ) : null;
 }

@@ -4,7 +4,6 @@ import {
 } from "./vaccines.actions";
 import actions from "../actions";
 import {services} from "./vaccines.services";
-import {LOGIN_REQUEST} from "../session/session.actions";
 
 const vaccinesMiddleware = ({dispatch, getState}) => next => action => {
     next(action);
