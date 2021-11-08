@@ -11,7 +11,9 @@ export const mainStyles = {
     primary: '#649CCD',
     secondary: '#FAA645',
     darkBlue: '#133D8D',
-    background: '#EBEBEB'
+    lightGrey: '#EBEBEB',
+    grey: '#DDDDDD',
+    darkGrey: '#969696'
 }
 
 export const mainStylesheet = StyleSheet.create({

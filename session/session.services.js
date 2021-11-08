@@ -5,5 +5,8 @@ export const services = {
     checkUsernameUsed: (username) => get(`users/available/${username}`, {noAuth: true}),
     login: (form) => post('login', form, {noAuth: true}),
     getUserData: () => get('users/current'),
-    registerFirebaseToken: (token) => put('users/registertoken', {token})
+    registerFirebaseToken: (token) => put('users/registertoken', {token}),
+    getUserDataFromToken: (token) => get('users/current', {token}),
+    getCurrentUserData: () => get('users/current')
+
 }

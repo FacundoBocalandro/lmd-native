@@ -6,30 +6,40 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from 'react-router-dom';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {GENDERS} from "../../constants/PersonalData";
+import {Picker} from 'react-native-picker-dropdown'
 
+const RegisterScreen = ({
+                            registerUser,
+                            checkUsernameUsed,
+                            checkUsernameUsedPending,
+                            checkUsernameUsedError,
+                            registerPending
+                        }) => {
 
-const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPending, checkUsernameUsedError, registerPending}) => {
     const history = useHistory();
     const [form, setForm] = useState({
         firstName: "",
         lastName: "",
+        gender: null,
         dni: "",
         birthDate: "",
         email: "",
         username: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
     })
 
     const [errors, setErrors] = useState({
         firstName: false,
         lastName: false,
+        gender: false,
         dni: false,
         birthDate: false,
         email: false,
         username: false,
         password: false,
-        confirmPassword: false
+        confirmPassword: false,
     })
 
     const setField = (fieldName, value) => {
@@ -49,6 +59,10 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
 
     const validateDni = (values) => {
         return !!values.dni && `${Number.parseInt(values.dni)}` === values.dni
+    }
+
+    const validateGender = (values) => {
+        return [GENDERS.MALE, GENDERS.FEMALE].includes(values.gender)
     }
 
     const validateBirthDate = (values) => {
@@ -82,7 +96,8 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         email: validateEmail,
         username: validateUsername,
         password: validatePassword,
-        confirmPassword: validateConfirmPassword
+        confirmPassword: validateConfirmPassword,
+        gender: validateGender
     };
 
     const submitForm = () => {
@@ -94,14 +109,22 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
         if (!Object.values(newErrors).some(error => error)) {
             const dateParts = form.birthDate.split("/");
             registerUser({
-                ...form,
-                birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0, 10)
-            }, () => history.push({pathname: '/', state: {registerSuccess: true}}), err => {
-                Alert.alert("Error", err.message)
-            })
+                    ...form,
+                    birthDate: new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString().substring(0, 10)
+                },
+                successCallBack, errorCallback)
         } else {
             setErrors(newErrors)
         }
+    }
+
+    const successCallBack = (res) => {
+        Alert.alert("¡Registrado correctamente!")
+        history.push({pathname: '/', state: {registerSuccess: true}})
+    }
+
+    const errorCallback = (err) => {
+        Alert.alert("Error", err.message)
     }
 
     const isPending = () => {
@@ -110,6 +133,7 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
 
     return (
         <KeyboardAwareScrollView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{backgroundColor: '#fff'}}
             resetScrollToCoords={{x: 0, y: 0}}
             contentContainerStyle={styles.container}
@@ -162,16 +186,28 @@ const RegisterScreen = ({registerUser, checkUsernameUsed, checkUsernameUsedPendi
                                    onChangeText={text => setField('email', text)}/>
                     </View>
                     <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Sexo</Text>
+                        <Picker selectedValue={form.gender}
+                                textStyle={{fontSize: 15}}
+                                style={errors.gender ? {...styles.input, ...styles.errorInput} : styles.input}
+                                onValueChange={(itemValue, itemIndex) => setField("gender", itemValue)}>
+                            <Picker.Item label={"Femenino"} value={GENDERS.FEMALE}/>
+                            <Picker.Item label={"Masculino"} value={GENDERS.MALE}/>
+                        </Picker>
+                    </View>
+                    <View style={styles.inputContainer}>
                         <Text style={styles.label}>Nombre de Usuario</Text>
                         <TextInput placeholder={"Nombre de Usuario..."}
                                    style={errors.username ? {...styles.input, ...styles.errorInput} : styles.input}
                                    value={form.username}
-                                   onBlur={() => checkUsernameUsed(form.username, res => setErrors({
-                                       ...errors,
-                                       username: !res
-                                   }), () => {
-                                       Alert.alert("Error", "¡Error verificando nombre de usuario!")
-                                   })}
+                                   onBlur={() =>
+                                       checkUsernameUsed(form.username, res => {
+                                           setErrors({...errors, username: !res})
+                                       }, () => {
+                                           setErrors({...errors, username: true})
+                                           Alert.alert("Error", "¡Error verificando nombre de usuario!")
+                                       })
+                                   }
                                    onChangeText={text => setField('username', text)}/>
                     </View>
                     <View style={styles.inputContainer}>
@@ -207,7 +243,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        height: '100%'
+        // height: '100%'
+    },
+    card: {
+        margin: 10,
+        // padding: 50,
+        // width: windowWidth * 0.9
     },
     header: {
         alignSelf: 'center',
@@ -226,11 +267,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     input: {
-        backgroundColor: mainStyles.background,
+        backgroundColor: mainStyles.lightGrey,
         borderRadius: 10,
         color: '#000',
         paddingLeft: 10,
-        height: .06*windowHeight
+        height: .06 * windowHeight,
+        fontSize: 15,
     },
     submitButton: {
         backgroundColor: mainStyles.darkBlue,

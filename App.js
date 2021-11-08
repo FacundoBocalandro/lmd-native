@@ -13,8 +13,18 @@ import GraphScreen from "./graph/containers/Graph";
 import HomeScreen from "./home/containers/Home";
 import {Alert} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import ReadingsScreen from "./readings/containers/ReadingsScreen";
+import ArticleScreen from "./readings/containers/ArticleScreen";
+import NotesScreen from "./notes/containers/NotesScreen";
+import Note from "./notes/containers/Note";
+import RelationshipScreen from "./relation/containers/RelationshipScreen";
+import NotificationCenterScreen from "./settings/containers/NotificationCenter";
+import PrenatalProfileScreen from "./prenatalProfile/containers/PrenatalProfile";
+import HitosScreen from "./hitos/containers/Hitos";
 
 export default function App() {
+    console.disableYellowBox = true;
+
     useEffect(() => {
         return messaging().onMessage(async remoteMessage => {
             Alert.alert(remoteMessage.notification.title, remoteMessage.notification.body);
@@ -35,7 +45,15 @@ export default function App() {
                                 <PrivateRoute key={'graphScreen'} exact path={`${url}/graphScreen`}
                                               component={GraphScreen}/>
                                 <PrivateRoute key={'vaccineScreen'} exact path={`${url}/vaccine`} component={VaccineScreen}/>
+                                <PrivateRoute key={'readingsScreen'} exact path={`${url}/readings`} component={ReadingsScreen}/>
                                 <PrivateRoute key={'specificVaccineDataScreen'} exact path={`${url}/vaccine/info`} component={VaccineInformation}/>
+                                <PrivateRoute key={'notesScreen'} exact path={`${url}/notes`} component={NotesScreen}/>
+                                <PrivateRoute key={'noteScreen'} path={`${url}/notes/`} component={Note}/>
+                                <PrivateRoute key={'article'} path={`${url}/readings/article/`} component={ArticleScreen} />
+                                <PrivateRoute key={'relationship'} path={`${url}/relationship`} component={RelationshipScreen} />
+                                <PrivateRoute key={'notificationCenter'} path={`${url}/notifications`} component={NotificationCenterScreen} />
+                                <PrivateRoute key={'prenatalProfile'} path={`${url}/prenatalProfile`} component={PrenatalProfileScreen} />
+                                <PrivateRoute key={'hitos'} path={`${url}/hitos`} component={HitosScreen} />
                             </Switch>
                         </AppFrame>
                     ])}/>

@@ -1,8 +1,9 @@
 import {
-    CHECK_USERNAME_USED_REQUEST,
+    CHECK_USERNAME_USED_REQUEST, GET_USER_INFO_FROM_TOKEN_REQUEST,
+    GET_USER_INFO_REQUEST,
     LOGIN_REQUEST,
-    REGISTER_FIREBASE_TOKEN,
-    REGISTER_USER_REQUEST
+    REGISTER_USER_REQUEST,
+    REGISTER_FIREBASE_TOKEN
 } from "./session.actions";
 import {services} from "./session.services";
 import actions from "../actions";
@@ -43,6 +44,16 @@ const sessionMiddleware = ({dispatch, getState}) => next => action => {
                     if (action.errorCallback) action.errorCallback(err);
                     dispatch(actions.session.login.error(err));
                 })
+            break;
+        case GET_USER_INFO_REQUEST:
+            services.getCurrentUserData()
+                .then(res => dispatch(actions.session.getUserInfo.response(res)))
+                .catch(err => dispatch(actions.session.getUserInfo.error(err)));
+            break;
+        case GET_USER_INFO_FROM_TOKEN_REQUEST:
+            services.getUserDataFromToken(action.token)
+                .then(res => dispatch(actions.session.getUserInfoFromToken.response(action.token, res)))
+                .catch(err => dispatch(actions.session.getUserInfoFromToken.error(err)));
             break;
         case REGISTER_FIREBASE_TOKEN:
             services.registerFirebaseToken(action.token);

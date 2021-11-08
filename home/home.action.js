@@ -7,7 +7,7 @@ const homeActions = {
         request: () => ({type: GET_USER_DATA_REQUEST}),
         response: (res) => ({type: GET_USER_DATA_RESPONSE, res}),
         error: (err) => ({type: GET_USER_DATA_ERROR, err}),
-    },
+    }
 }
 
 export default homeActions;
