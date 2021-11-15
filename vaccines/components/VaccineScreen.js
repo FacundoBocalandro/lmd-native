@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {ActivityIndicator, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {DataTable} from "react-native-paper";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {mainStyles, windowHeight, windowWidth} from "../../mainStyles";
 
 const VaccineScreen = ({
@@ -88,7 +88,7 @@ const VaccineScreen = ({
                                                     <TouchableOpacity style={styles.iconContainer}
                                                                       onPress={() => openModal(vaccine, dosage)}>
                                                         <FontAwesomeIcon
-                                                            icon={faCheckCircle}
+                                                            icon={userHasVaccineDosage(dosage.id) ? faCheckCircle : faTimesCircle}
                                                             style={userHasVaccineDosage(dosage.id) ? styles.iconGreen : styles.iconRed}
                                                             size={30}
                                                         />
