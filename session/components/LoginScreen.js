@@ -20,9 +20,14 @@ const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken, r
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = async (token) => {
+        messaging().subscribeToTopic("Global")
+            .then(() => "subscribed")
+            .catch(() => "error")
+        messaging().getToken().then(token => {
+            console.log(token);
+            registerFirebaseToken(token)
+        });
         await saveNewToken(token);
-        messaging().subscribeToTopic("Global");
-        messaging().getToken().then(token => registerFirebaseToken(token));
         history.push("/main/home");
     }
 

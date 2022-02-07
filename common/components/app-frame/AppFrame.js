@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, TouchableHighlight, View, Modal} from "react-native";
+import {StyleSheet, Text, TouchableHighlight, View, Modal, Button} from "react-native";
 import SideMenu from 'react-native-side-menu-updated'
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {TouchableOpacity} from "react-native-gesture-handler";
@@ -49,7 +49,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
     }
     const logoutAction = async () => {
         logout();
-        await removeCurrentToken();
+        // await removeCurrentToken();
         await deleteAll();
         changeModalVisibility(false);
         setMenuOpen(false)
@@ -111,16 +111,18 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
                 >
                     <View style={styles.modal}>
                         {(allUsersInfo !== undefined && allUsersInfo[0] !== undefined) ? Object.keys(allUsersInfo).map(u =>
-                            <TouchableOpacity  key={u} onPress={() => changeAccount(allUsersInfo[u].token)}>
-                                <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u]?.userInfo?.firstName} {allUsersInfo[u]?.userInfo?.lastName}</Text>
-                            </TouchableOpacity>
+                                <Button key={u} color={mainStyles.primary} onPress={() => changeAccount(allUsersInfo[u].token)} title={`${allUsersInfo[u]?.userInfo?.firstName} ${allUsersInfo[u]?.userInfo?.lastName}`} style={[styles.button]}/>
+                            // <TouchableOpacity  key={u} onPress={() => changeAccount(allUsersInfo[u].token)}>
+                            //     <Text style={[styles.menuText, styles.dropdownText]}>{allUsersInfo[u]?.userInfo?.firstName} {allUsersInfo[u]?.userInfo?.lastName}</Text>
+                            // </TouchableOpacity>
                         ) : null}
-                        <TouchableOpacity onPress={addAccount}>
-                            <Text style={[styles.menuText, styles.dropdownText]}>Agregar Cuenta</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={logoutAction}>
-                            <Text style={[styles.menuText, styles.dropdownText]}>Cerrar sesion</Text>
-                        </TouchableOpacity>
+                        {/*<TouchableOpacity onPress={addAccount}>*/}
+                        {/*    <Text style={[styles.menuText, styles.dropdownText]}>Agregar Cuenta</Text>*/}
+                        {/*</TouchableOpacity>*/}
+                        <Button onPress={addAccount} color={mainStyles.primary} title={"Agregar cuenta"} style={[styles.button]}/>
+                        <Button onPress={logoutAction} color={mainStyles.primary} title={"Cerrar sesión"} style={[styles.button]}/>
+                            {/*<Text style={[styles.menuText, styles.dropdownText]}>Cerrar sesion</Text>*/}
+                        {/*</Button>*/}
                     </View>
                 </Modal>
             </View>
@@ -203,6 +205,9 @@ const styles = StyleSheet.create({
     dropdownText: {
         padding: 5,
         textAlign: 'left'
+    },
+    button: {
+        backgroundColor: mainStyles.primary
     }
 
 });
