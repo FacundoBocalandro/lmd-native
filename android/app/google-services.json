@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1041167753683",
+    "project_id": "libmed-39ffb",
+    "storage_bucket": "libmed-39ffb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041167753683:android:3fda10da20562612408f26",
+        "android_client_info": {
+          "package_name": "com.lmdnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041167753683-vafdo3dba1ttqk64g86409m1d9p94bsg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lmdnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1041167753683-43aa0v0nva18bhidmp7q0u54k22jmt2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpQ2q2rGT1x-gKlyyMMTDP_uC-tnA3Bj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041167753683-43aa0v0nva18bhidmp7q0u54k22jmt2d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1041167753683-nj1cqukbhv8atphl1hsjg2e8fum7m3mp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.name.lmdnative"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

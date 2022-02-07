@@ -1,11 +1,12 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCurrentUserToken} from "./tokens";
+import messaging from "@react-native-firebase/messaging";
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 1200000;
 
-const baseUrl = "http://localhost:8080/"
+const baseUrl = "http://10.0.2.2:8080/"
 
 const _request = async (url, method, data, config = {}) => {
     // const headers = isAuthenticated() || config.token ? {...config.headers, Authorization: `Bearer ${config.token ?? await getToken()}`} : config.headers;
@@ -26,6 +27,8 @@ const _request = async (url, method, data, config = {}) => {
             // await removeCurrentToken();
             // window.location.href = window.location.origin
             AsyncStorage.removeItem('token');
+            messaging().unsubscribeFromTopic("Global");
+            messaging().getToken().then(token => deleteRequest('users/removetoken', {token}));
         }
         else throw (errorResponse.response || {status: 500})
     })
