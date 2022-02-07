@@ -18,7 +18,7 @@ const HomeScreen = ({user, getUserData, getHitos, hitos}) => {
         <View style={{...styles.container, ...mainStyles.container}}>
             <View style={styles.userProfile}>
                 <View style={styles.userData}>
-                    <Text style={styles.userName}> {user.firstName} {user.lastName}</Text>
+                    <Text style={styles.userName}> {user.firstName} {"\n"} {user.lastName}</Text>
                     <Text style={styles.userInfo}> {user.age} </Text>
                     <Text style={styles.userInfo}> {user.dni} </Text>
                 </View>

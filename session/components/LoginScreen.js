@@ -6,19 +6,28 @@ import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getCurrentUserToken, saveNewToken, setSelectedToken} from "../../utils/tokens";
 import {Card, Title, Paragraph} from 'react-native-paper';
+import messaging from '@react-native-firebase/messaging';
+import {deleteRequest, put} from "../../utils/http";
 
 const initialForm = {
     username: "",
     password: ""
 }
 
-const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken}) => {
+const LoginScreen = ({login, loginPending, allUsersInfo, getUserInfoFromToken, registerFirebaseToken}) => {
 
     const history = useHistory();
     const [form, setForm] = useState({...initialForm})
 
     const successCallback = async (token) => {
-        await saveNewToken(token)
+        messaging().subscribeToTopic("Global")
+            .then(() => "subscribed")
+            .catch(() => "error")
+        messaging().getToken().then(token => {
+            console.log(token);
+            registerFirebaseToken(token)
+        });
+        await saveNewToken(token);
         history.push("/main/home");
     }
 
