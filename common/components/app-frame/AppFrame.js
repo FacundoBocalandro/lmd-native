@@ -8,11 +8,11 @@ import {
     faBook,
     faChartBar,
     faEdit,
-    faHeartbeat,
     faHome,
     faUser,
     faAddressBook,
-    faBell
+    faBell,
+    faSyringe
 } from "@fortawesome/free-solid-svg-icons";
 import {mainStyles} from "../../../mainStyles";
 import {useHistory} from "react-router-dom";
@@ -59,7 +59,7 @@ const AppFrame = ({children, getUserInfoFromToken, getUserInfo, allUsersInfo, us
     const menuOptions = [
         {text: "Inicio", icon: faHome, url:'/main/home', id: 'home'},
         {text: "Lecturas", icon: faBook, url: '/main/readings', id:'readings'},
-        {text: "Inmunizaciones", icon: faHeartbeat, url:'/main/vaccine', id:'vaccine'},
+        {text: "Vacunas", icon: faSyringe, url:'/main/vaccine', id:'vaccine'},
         {text: "Crecimiento", icon: faChartBar,url:'/main/graphScreen', id:'anthropometricData'},
         {text: "Notas", icon: faEdit, url:'/main/notes', id:'notes' },
         {text: "Vincular pediatra", icon: faAddressBook, url:'/main/relationship', id:'peditrician' },

@@ -95,31 +95,31 @@ const PrenatalProfileScreen = ({
                                         <View style={styles.row}>
                                             <View style={styles.inputContainer}>
                                                 <Text style={styles.type}>VDRL: </Text>
-                                                <Text style={styles.option}>{data.vdrl ? "Sí" : "No"}</Text>
+                                                <Text style={styles.option}>{data.vdrl ?"Positivo" : "Negativo"}</Text>
                                             </View>
                                             <View style={styles.inputContainer}>
-                                                <Text style={styles.type}>Chagas: </Text>
-                                                <Text style={styles.option}>{data.chagas ? "Sí" : "No"}</Text>
+                                                <Text style={styles.type}>Toxoplasmosis: </Text>
+                                                <Text style={styles.option}>{data.toxoplasmosis ? "Positivo" : "Negativo"}</Text>
                                             </View>
                                         </View>
                                         <View style={styles.row}>
                                             <View style={styles.inputContainer}>
-                                                <Text style={styles.type}>Toxoplasmosis: </Text>
-                                                <Text style={styles.option}>{data.toxoplasmosis ? "Sí" : "No"}</Text>
+                                                <Text style={styles.type}>Chagas: </Text>
+                                                <Text style={styles.option}>{data.chagas ?"Positivo" : "Negativo"}</Text>
                                             </View>
                                             <View style={styles.inputContainer}>
                                                 <Text style={styles.type}>Hepatitis: </Text>
-                                                <Text style={styles.option}>{data.hepatitis ? "Sí" : "No"}</Text>
+                                                <Text style={styles.option}>{data.hepatitis ?"Positivo" : "Negativo"}</Text>
                                             </View>
                                         </View>
                                         <View style={styles.row}>
                                             <View style={styles.inputContainer}>
                                                 <Text style={styles.type}>HIV: </Text>
-                                                <Text style={styles.option}>{data.hiv ? "Sí" : "No"}</Text>
+                                                <Text style={styles.option}>{data.hiv ? "Positivo" : "Negativo"}</Text>
                                             </View>
                                             <View style={styles.inputContainer}>
                                                 <Text style={styles.type}>Estreptococo B: </Text>
-                                                <Text style={styles.option}>{data.estreptococoB ? "Sí" : "No"}</Text>
+                                                <Text style={styles.option}>{data.estreptococoB ? "Positivo" : "Negativo"}</Text>
                                             </View>
                                         </View>
                                     </View>
@@ -221,30 +221,18 @@ const PrenatalProfileScreen = ({
                                         <Text style={styles.label}>Prematurez: </Text>
                                         <Text style={styles.option}>{data.premature ? "Sí" : "No"}</Text>
                                     </View>
+
                                     <View style={[styles.inputContainer, styles.labelContainer]}>
-                                        <Text style={styles.label}>Ecografía de caderas: </Text>
-                                        <Text style={styles.option}>{data.waistEcography ? "Sí" : "No"}</Text>
-                                    </View>
-                                    <View style={[styles.inputContainer, styles.labelContainer]}>
-                                        <Text style={styles.label}>Caïda del cordón: </Text>
-                                        <Text style={styles.option}>{data.umbilicalCordFell ? "Sí" : "No"}</Text>
+                                        <Text style={styles.label}>Caida tardía del cordón: </Text>
+                                        <Text style={styles.option}>{data.umbilicalCordLateFell ? "Sí" : "No"}</Text>
                                     </View>
                                     <View style={[styles.inputContainer, styles.labelContainer]}>
                                         <Text style={styles.label}>Patalogías: </Text>
                                         <Text style={styles.option}>{data.pathologies ? "Sí" : "No"}</Text>
                                     </View>
                                     <View style={[styles.inputContainer, styles.labelContainer]}>
-                                        <Text style={styles.label}>Neonatología: </Text>
-                                        <Text style={styles.option}>{data.neonatology ? "Sí" : "No"}</Text>
-                                    </View>
-                                    <View style={[styles.inputContainer, styles.labelContainer]}>
-                                        <Text style={styles.label}>Estudios realizados: </Text>
-                                        {data.noStudies ? <Text style={styles.option}>Ninguno</Text> :
-                                        <View>
-                                            <Text style={styles.option}>{data.brainEcography}</Text>
-                                            <Text style={styles.option}>{data.cardiology}</Text>
-                                            {data.otherStudies ? <Text style={styles.option}>{data.otherStudies}</Text> : null}
-                                        </View>}
+                                        <Text style={styles.label}>Internado en neonatología: </Text>
+                                        <Text style={styles.option}>{data.wentIntoNeonatology ? "Sí" : "No"}</Text>
                                     </View>
                                 </View>}
                                 <TouchableOpacity style={styles.accordionExpand}
@@ -261,13 +249,45 @@ const PrenatalProfileScreen = ({
                                         <Text style={styles.option}>{data.auditory ? "Sí" : "No"}</Text>
                                     </View>
                                     <View style={[styles.inputContainer, styles.labelContainer]}>
-                                        <Text style={styles.label}>Visual (reflejo rojo): </Text>
-                                        <Text style={styles.option}>{data.visualRedReflex ? "Sí" : "No"}</Text>
-                                    </View>
-                                    <View style={[styles.inputContainer, styles.labelContainer]}>
                                         <Text style={styles.label}>Otras pesquisas: </Text>
                                         <Text
                                             style={styles.option}>{data.otherSearches ? data.otherSearches : "-"}</Text>
+                                    </View>
+                                    <View style={[styles.inputContainer, styles.labelContainer]}>
+                                        <Text style={styles.label}>Estudios realizados: </Text>
+                                            {/*<View>*/}
+                                            {/*    <Text style={styles.option}>{data.waistEcography}</Text>*/}
+                                            {/*    <Text style={styles.option}>{data.brainEcography}</Text>*/}
+                                            {/*    <Text style={styles.option}>{data.cardiology}</Text>*/}
+                                            {/*    {data.otherStudies ? <Text style={styles.option}>{data.otherStudies}</Text> : null}*/}
+                                            {/*</View>*/}
+                                    </View>
+                                    <View style={styles.accordionContainer}>
+                                        <View style={[styles.inputContainer, styles.labelContainer]}>
+                                            <Text style={styles.type}>Ecografía de caderas: </Text>
+                                            <Text style={styles.option}>{data.waistEcography ? "Sí" : "No"}</Text>
+                                        </View>
+                                        <View style={[styles.inputContainer, styles.labelContainer]}>
+                                            <Text style={styles.type}>Visual (reflejo rojo): </Text>
+                                            <Text style={styles.option}>{data.visualRedReflex ? "Sí" : "No"}</Text>
+                                        </View>
+                                        <View style={[styles.inputContainer, styles.labelContainer]}>
+                                            <Text style={styles.type}>Otoemisiones acústicas: </Text>
+                                            <Text style={styles.option}>{data.otoacousticEmissions ? "Sí" : "No"}</Text>
+                                        </View>
+                                        <View style={[styles.inputContainer, styles.labelContainer]}>
+                                            <Text style={styles.type}>Errores del metabolismo: </Text>
+                                            <Text style={styles.option}>{data.metabolismErrors ? "Sí" : "No"}</Text>
+                                        </View>
+                                        <View style={[styles.inputContainer, styles.labelContainer]}>
+                                            <Text style={styles.type}>Saturometría: </Text>
+                                            <Text style={styles.option}>{data.saturometry ? "Sí" : "No"}</Text>
+                                        </View>
+                                        <View style={[styles.inputContainer, styles.labelContainer]}>
+                                            <Text style={styles.type}>Otros estudios: </Text>
+                                            <Text
+                                                style={styles.option}>{data.otherStudies ? data.otherStudies : "-"}</Text>
+                                        </View>
                                     </View>
                                 </View>}
                             </View>}
@@ -348,7 +368,7 @@ const styles = StyleSheet.create({
         color: mainStyles.darkGrey
     },
     option: {
-        fontSize: 20,
+        fontSize: 18,
     },
     label: {
         color: mainStyles.primary,
