@@ -5,17 +5,11 @@ import {
     Text,
     View,
     StyleSheet,
-    TouchableOpacity,
-    Modal,
-    TextInput,
-    ActivityIndicator,
-    Alert
 } from "react-native"
-import {DataTable} from 'react-native-paper'
-import {mainStyles, windowHeight, windowWidth} from "../../../mainStyles";
+import {mainStyles, windowHeight} from "../../../mainStyles";
 
 const TableData = ({title, accessor, data, noZScore}) => {
-    const headers = noZScore ? ["Fecha", title] : ["Fecha", title, "Z-Score"];
+    const headers = noZScore ? ["Fecha", title] : ["Fecha", title, "Percentilo"];
     const sortedData = data.map(row => ({
         ...row,
         timeRecorded: new Date(row.timeRecorded)
@@ -56,7 +50,7 @@ const TableData = ({title, accessor, data, noZScore}) => {
                                     </View>
                                     {!noZScore && <View style={itsPar(index) ? styles.rowContainer : styles.rowImparContainer}>
                                         <View style={styles.dataContainer}>
-                                            <Text style={itsPar(index) ? styles.tableText : styles.tableTextImpar}>{row.zscore.toFixed(4)}</Text>
+                                            <Text style={itsPar(index) ? styles.tableText : styles.tableTextImpar}>{row.percentile}</Text>
                                         </View>
                                     </View>}
                                 </View>)}
@@ -109,24 +103,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     tableHeader: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         color: 'white',
         flexWrap: 'wrap',
         margin: 'auto',
-        marginLeft: 15
+        marginLeft: 2
     },
     tableText: {
-        fontSize: 18,
+        fontSize: 16,
         color: 'white',
         textAlign: 'center',
-        marginLeft: 5
+        marginLeft: 2
     },
     tableTextImpar: {
-        fontSize: 18,
+        fontSize: 16,
         color: mainStyles.primary,
         textAlign: 'center',
-        marginLeft: 5
+        marginLeft: 2
     },
     noDataText: {
         marginTop: windowHeight * 0.3,

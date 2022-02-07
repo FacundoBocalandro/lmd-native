@@ -41,7 +41,7 @@ const HomeScreen = ({user, getUserData, getHitos, hitos}) => {
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.readingView} onPress={() => history.replace('/main/hitos')}>
-                <Text style={styles.buttonDataHitos} numberOfLines={5} ellipsizeMode='tail'>{hitos?.body}</Text>
+                <Text style={styles.buttonDataHitos} numberOfLines={5} ellipsizeMode='tail'>A esta edad debería llamar la atención...</Text>
             </TouchableOpacity>
         </View>
     ) : null;

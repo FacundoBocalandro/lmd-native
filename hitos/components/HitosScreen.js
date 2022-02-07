@@ -32,7 +32,8 @@ const HitosScreen = ({getHitos, hitos}) => {
                     <Text style={styles.title}>{hitos.age}</Text>
                 </View>
                     <ScrollView>
-                        <Text style={styles.info}>{hitos.body} </Text>
+                        <Text style={styles.info}> A esta edad debería llamar la atención...</Text>
+                        <Text style={styles.info}> {hitos.body} </Text>
                     </ScrollView>
                 </Card>
             </ScrollView> : <ActivityIndicator/>
